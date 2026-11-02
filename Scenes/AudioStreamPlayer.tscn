@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c5xeekxjpvcwg"]
+
+[ext_resource type="Script" uid="uid://ccjo2uw1g41cs" path="res://Scripts/MusicManager.gd" id="1_soqth"]
+
+[node name="MusicManager" type="Control" unique_id=480572094]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_soqth")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=540678855]

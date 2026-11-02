@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://8sxudoneuqcw"]
+
+[ext_resource type="Script" uid="uid://b23vdoc23nvmq" path="res://Scripts/Title.gd" id="1_r150o"]
+[ext_resource type="PackedScene" path="res://Scenes/AudioStreamPlayer.tscn" id="2_idj7w"]
+
+[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "scene_select_button", "settings_menu", "credits_menu")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r150o")
+continue_button = NodePath("")
+scene_select_button = NodePath("")
+settings_menu = NodePath("")
+credits_menu = NodePath("")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1505161334]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.045333326, 0.2, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=2088003735]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.0910494
+anchor_right = 1.0
+anchor_bottom = 0.271605
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 77
+text = "POEKR"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MusicManager" parent="." unique_id=625328423 instance=ExtResource("2_idj7w")]
+layout_mode = 0

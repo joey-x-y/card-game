@@ -1,0 +1,14 @@
+# Godot-specific
+.godot/
+.import/
+*.import
+.vscode/
+.editorconfig
+/android/
+Builds/
+
+# OS/Editor-specific
+*.tmp
+*.log
+.DS_Store
+Thumbs.db

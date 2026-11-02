@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://8sxudoneuqcw"]
 
 [ext_resource type="Script" uid="uid://b23vdoc23nvmq" path="res://Scripts/Title.gd" id="1_r150o"]
-[ext_resource type="PackedScene" path="res://Scenes/AudioStreamPlayer.tscn" id="2_idj7w"]
 
-[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "scene_select_button", "settings_menu", "credits_menu")]
+[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,10 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r150o")
-continue_button = NodePath("")
-scene_select_button = NodePath("")
-settings_menu = NodePath("")
-credits_menu = NodePath("")
+continue_button = NodePath("Button")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1505161334]
 layout_mode = 1
@@ -37,5 +33,10 @@ text = "POEKR"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="MusicManager" parent="." unique_id=625328423 instance=ExtResource("2_idj7w")]
+[node name="Button" type="Button" parent="." unique_id=875452009]
 layout_mode = 0
+offset_left = 477.0
+offset_top = 237.0
+offset_right = 697.0
+offset_bottom = 355.0
+text = "Play"

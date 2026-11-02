@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://k43qhs7syl5y"]
+
+[ext_resource type="Script" uid="uid://c425yegbhmvfq" path="res://Scripts/Character.gd" id="1_2evft"]
+[ext_resource type="Script" uid="uid://nf135lryid6b" path="res://Scripts/Hand.gd" id="2_n3ll4"]
+
+[node name="Character" type="Control" unique_id=963857516 node_paths=PackedStringArray("hand")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2evft")
+hand = NodePath("Hand")
+
+[node name="Hand" type="Control" parent="." unique_id=1646371731]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_n3ll4")

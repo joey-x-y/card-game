@@ -1,9 +1,37 @@
 [gd_scene format=3 uid="uid://1ehdybvj76q7"]
 
-[node name="Game" type="Control" unique_id=2074097226]
+[ext_resource type="Script" uid="uid://buhwf8ra8y12j" path="res://Scripts/GameManager.gd" id="1_j5yw3"]
+[ext_resource type="PackedScene" uid="uid://k43qhs7syl5y" path="res://Prefabs/Character.tscn" id="2_kldst"]
+[ext_resource type="Script" uid="uid://chnw2euv35ilk" path="res://Scripts/Deck.gd" id="3_b2bpf"]
+
+[node name="Game" type="Control" unique_id=2074097226 node_paths=PackedStringArray("player", "ally", "op1", "op2", "deck")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_j5yw3")
+player = NodePath("Character")
+ally = NodePath("Character2")
+op1 = NodePath("Character3")
+op2 = NodePath("Character4")
+deck = NodePath("Deck")
+
+[node name="Character" parent="." unique_id=963857516 instance=ExtResource("2_kldst")]
+layout_mode = 1
+
+[node name="Character2" parent="." unique_id=1054113446 instance=ExtResource("2_kldst")]
+layout_mode = 1
+
+[node name="Character3" parent="." unique_id=860046524 instance=ExtResource("2_kldst")]
+layout_mode = 1
+
+[node name="Character4" parent="." unique_id=1947121220 instance=ExtResource("2_kldst")]
+layout_mode = 1
+
+[node name="Deck" type="Control" parent="." unique_id=701518791]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_b2bpf")

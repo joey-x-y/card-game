@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://lpsx8olqlbvy" path="res://Scripts/CardSlot.gd" id="1_k67mw"]
 
-[node name="CardSlot" type="TextureRect" unique_id=1526643365]
-stretch_mode = 2
+[node name="CardSlot" type="TextureButton" unique_id=1824132326]
+disabled = true
+stretch_mode = 0
 script = ExtResource("1_k67mw")

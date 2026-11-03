@@ -14,16 +14,17 @@ grow_vertical = 2
 script = ExtResource("1_2evft")
 hand = NodePath("Hand")
 
-[node name="Hand" type="HBoxContainer" parent="." unique_id=1111614720 node_paths=PackedStringArray("cardSlots")]
+[node name="Hand" type="Container" parent="." unique_id=1362151626 node_paths=PackedStringArray("cardSlots")]
+propagate_maximum_size = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
 script = ExtResource("2_n3ll4")
 cardSlots = [NodePath("CardSlot"), NodePath("CardSlot2"), NodePath("CardSlot3"), NodePath("CardSlot4")]
+slot_width = 80.0
 
 [node name="CardSlot" parent="Hand" unique_id=1526643365 instance=ExtResource("3_n3ll4")]
 layout_mode = 2

@@ -1,10 +1,16 @@
-extends Node
+extends Container
 
 var hand: Array[Card] = []
-var activeCardSlots: Array[Node] = []
-@export var cardSlots: Array[Node]
+var activeCardSlots: Array[TextureButton] = []
+@export var cardSlots: Array[TextureButton]
+
+@export var slot_width: float = 48
+var slot_height: float
+var hand_width : float
+@export var card_gap: float = 5.0
 
 func _ready():
+	layout_slots()
 	clear()
 
 func add(card):
@@ -36,3 +42,36 @@ func show_cards():
 func hide_cards():
 	for slot in activeCardSlots:
 		slot.flip_back()
+
+func enable_hand(enable):
+	for slot in activeCardSlots:
+		slot.disabled = !enable
+
+func swap_card(old, new):
+	var index = hand.find(old)
+	hand[index] = new
+	activeCardSlots[index].replace_card(new)
+
+func swap_cards(old, new):
+	for i in range(old.count()):
+		swap_card(old[i], new[i])
+
+func layout_slots():
+	slot_height = slot_width * (4.0/3.0)
+	var count = cardSlots.size()
+	hand_width = count * slot_width + (card_gap * (count - 1))
+	var start_x = (size.x - hand_width) / 2.0
+	var y = (size.y - slot_height) / 2.0
+
+	for i in count:
+		var slot = cardSlots[i]
+		var slot_rect = Rect2(
+			start_x + i * (slot_width + card_gap),
+			y,
+			slot_width,
+			slot_height
+		)
+		fit_child_in_rect(slot, slot_rect)
+
+func get_cards():
+	return hand

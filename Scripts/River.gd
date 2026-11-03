@@ -1,9 +1,9 @@
 extends Container
 
-@export var card_slot: Array[TextureRect]
+@export var card_slot: Array[TextureButton]
 
-@export var slot_width: int = 48
-@export var slot_height: int = 64
+@export var slot_width: float = 48
+var slot_height: float = 64
 
 @export var slot_gap: float
 
@@ -15,6 +15,7 @@ func _ready():
 
 func layout_slots():
 	var count = get_river_size()
+	slot_height = slot_width * (4.0/3.0)
 
 	river_width = (slot_width * count) + (slot_gap * (count - 1))
 	var start_x = (size.x - river_width) / 2.0

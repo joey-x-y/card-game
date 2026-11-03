@@ -14,7 +14,7 @@ static func get_card_texture(rank: int, suit: int):
 	# Joker check
     if (rank == 0):
         texture.region = Rect2(
-			15 * CARD_WIDTH,
+			14 * CARD_WIDTH,
 			0,
 			CARD_WIDTH,
 			CARD_HEIGHT

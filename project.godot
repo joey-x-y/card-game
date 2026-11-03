@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 MusicManager="*uid://c5xeekxjpvcwg"
-CardData="*uid://p5pftb4pwiw"
 
 [physics]
 

@@ -1,10 +1,11 @@
+class_name CardData
 extends Resource
 
 enum Suit {
 	HEARTS = 0,
 	DIAMONDS = 1,
-	CLUBS = 2,
-	SPADES = 3,
+	SPADES = 2,
+	CLUBS = 3,
 	NONE = 4,
 }
 
@@ -29,7 +30,13 @@ var suit: Suit = Suit.SPADES
 var rank: int = 1
 var id: String = ""
 
+var front_texture
+var back_texture
+
 func _init(suit: Suit = Suit.SPADES, rank: int = 1):
 	self.suit = suit
 	self.rank = rank
 	id = Ranks[rank] + "_" + String(Suit.find_key(suit))
+
+	front_texture = DeckTextureSplitter.get_card_texture(rank, suit)
+	back_texture = DeckTextureSplitter.get_back_texture()

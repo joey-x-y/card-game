@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://buhwf8ra8y12j" path="res://Scripts/GameManager.gd" id="1_j5yw3"]
 [ext_resource type="PackedScene" uid="uid://k43qhs7syl5y" path="res://Prefabs/Character.tscn" id="2_kldst"]
 [ext_resource type="Script" uid="uid://chnw2euv35ilk" path="res://Scripts/Deck.gd" id="3_b2bpf"]
+[ext_resource type="Script" uid="uid://bw1meq4xitqif" path="res://Scripts/River.gd" id="4_kldst"]
+[ext_resource type="PackedScene" uid="uid://c3l44wwtneh0g" path="res://Prefabs/CardSlot.tscn" id="5_b2bpf"]
 
-[node name="Game" type="Control" unique_id=2074097226 node_paths=PackedStringArray("player", "ally", "op1", "op2", "deck")]
+[node name="Game" type="Control" unique_id=2074097226 node_paths=PackedStringArray("player", "ally", "op1", "op2", "deck", "river")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,26 +14,97 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_j5yw3")
-player = NodePath("Character")
-ally = NodePath("Character2")
-op1 = NodePath("Character3")
-op2 = NodePath("Character4")
-deck = NodePath("Deck")
+player = NodePath("UI/Character")
+ally = NodePath("UI/Character2")
+op1 = NodePath("UI/Character3")
+op2 = NodePath("UI/Character4")
+deck = NodePath("Data/Deck")
+river = NodePath("UI/River")
+handSize = 4
 
-[node name="Character" parent="." unique_id=963857516 instance=ExtResource("2_kldst")]
-layout_mode = 1
+[node name="Data" type="Control" parent="." unique_id=994294530]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="Character2" parent="." unique_id=1054113446 instance=ExtResource("2_kldst")]
-layout_mode = 1
-
-[node name="Character3" parent="." unique_id=860046524 instance=ExtResource("2_kldst")]
-layout_mode = 1
-
-[node name="Character4" parent="." unique_id=1947121220 instance=ExtResource("2_kldst")]
-layout_mode = 1
-
-[node name="Deck" type="Control" parent="." unique_id=701518791]
+[node name="Deck" type="Control" parent="Data" unique_id=701518791]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_b2bpf")
+
+[node name="UI" type="Control" parent="." unique_id=185423197]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="River" type="Container" parent="UI" unique_id=811713047 node_paths=PackedStringArray("card_slot")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_kldst")
+card_slot = [NodePath("CardSlot"), NodePath("CardSlot2")]
+slot_gap = 5.0
+
+[node name="CardSlot" parent="UI/River" unique_id=1526643365 instance=ExtResource("5_b2bpf")]
+layout_mode = 2
+
+[node name="CardSlot2" parent="UI/River" unique_id=1956895683 instance=ExtResource("5_b2bpf")]
+layout_mode = 2
+
+[node name="Character" parent="UI" unique_id=963857516 instance=ExtResource("2_kldst")]
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 402.0
+offset_top = 497.0
+offset_right = 762.0
+offset_bottom = 647.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Character2" parent="UI" unique_id=514162100 instance=ExtResource("2_kldst")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 786.0
+offset_top = 261.0
+offset_right = 1146.0
+offset_bottom = 411.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Character3" parent="UI" unique_id=1860372534 instance=ExtResource("2_kldst")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 8.0
+offset_top = 221.0
+offset_right = 368.0
+offset_bottom = 371.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Character4" parent="UI" unique_id=773766212 instance=ExtResource("2_kldst")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 402.0
+offset_top = 71.0
+offset_right = 762.0
+offset_bottom = 221.0
+grow_horizontal = 1
+grow_vertical = 1

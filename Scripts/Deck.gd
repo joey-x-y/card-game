@@ -1,66 +1,67 @@
+class_name Deck
 extends Node
 
-var cards: Array[CardData] = []
+var cards: Array[Card] = []
 
-func initialize():
-	cards.append(CardData.new(CardData.Suit.SPADES, 1))
-	cards.append(CardData.new(CardData.Suit.SPADES, 2))
-	cards.append(CardData.new(CardData.Suit.SPADES, 3))
-	cards.append(CardData.new(CardData.Suit.SPADES, 4))
-	cards.append(CardData.new(CardData.Suit.SPADES, 5))
-	cards.append(CardData.new(CardData.Suit.SPADES, 6))
-	cards.append(CardData.new(CardData.Suit.SPADES, 7))
-	cards.append(CardData.new(CardData.Suit.SPADES, 8))
-	cards.append(CardData.new(CardData.Suit.SPADES, 9))
-	cards.append(CardData.new(CardData.Suit.SPADES, 10))
-	cards.append(CardData.new(CardData.Suit.SPADES, 11))
-	cards.append(CardData.new(CardData.Suit.SPADES, 12))
-	cards.append(CardData.new(CardData.Suit.SPADES, 13))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 1))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 2))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 3))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 4))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 5))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 6))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 7))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 8))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 9))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 10))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 11))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 12))
-	cards.append(CardData.new(CardData.Suit.HEARTS, 13))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 1))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 2))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 3))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 4))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 5))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 6))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 7))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 8))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 9))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 10))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 11))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 12))
-	cards.append(CardData.new(CardData.Suit.DIAMONDS, 13))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 1))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 2))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 3))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 4))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 5))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 6))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 7))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 8))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 9))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 10))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 11))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 12))
-	cards.append(CardData.new(CardData.Suit.CLUBS, 13))
-	cards.append(CardData.new(CardData.Suit.NONE, 0))
+func _ready():
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 1)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 2)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 3)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 4)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 5)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 6)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 7)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 8)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 9)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 10)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 11)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 12)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 13)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 1)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 2)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 3)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 4)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 5)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 6)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 7)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 8)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 9)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 10)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 11)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 12)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 13)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 1)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 2)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 3)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 4)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 5)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 6)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 7)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 8)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 9)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 10)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 11)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 12)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 13)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 1)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 2)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 3)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 4)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 5)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 6)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 7)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 8)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 9)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 10)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 11)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 12)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 13)))
+	cards.append(Card.new(CardData.new(CardData.Suit.NONE, 0)))
 
 func shuffle():
 	cards.shuffle()
 
-func draw(index = 0):
+func draw_card(index = 0):
 	if (check_legal_index(index)):
 		return cards[index]
 	else:
@@ -69,7 +70,7 @@ func draw(index = 0):
 func find_index(suit, rank):
 	var i = 0
 	for card in cards:
-		if (card.suit == suit && card.rank == rank):
+		if (card.card.suit == suit && card.card.rank == rank):
 			return i
 		i+=1
 	return 0

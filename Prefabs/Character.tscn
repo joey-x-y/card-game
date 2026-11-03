@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c425yegbhmvfq" path="res://Scripts/Character.gd" id="1_2evft"]
 [ext_resource type="Script" uid="uid://nf135lryid6b" path="res://Scripts/Hand.gd" id="2_n3ll4"]
+[ext_resource type="PackedScene" uid="uid://c3l44wwtneh0g" path="res://Prefabs/CardSlot.tscn" id="3_n3ll4"]
 
 [node name="Character" type="Control" unique_id=963857516 node_paths=PackedStringArray("hand")]
 layout_mode = 3
@@ -13,8 +14,25 @@ grow_vertical = 2
 script = ExtResource("1_2evft")
 hand = NodePath("Hand")
 
-[node name="Hand" type="Control" parent="." unique_id=1646371731]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Hand" type="HBoxContainer" parent="." unique_id=1111614720 node_paths=PackedStringArray("cardSlots")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 script = ExtResource("2_n3ll4")
+cardSlots = [NodePath("CardSlot"), NodePath("CardSlot2"), NodePath("CardSlot3"), NodePath("CardSlot4")]
+
+[node name="CardSlot" parent="Hand" unique_id=1526643365 instance=ExtResource("3_n3ll4")]
+layout_mode = 2
+
+[node name="CardSlot2" parent="Hand" unique_id=330197802 instance=ExtResource("3_n3ll4")]
+layout_mode = 2
+
+[node name="CardSlot3" parent="Hand" unique_id=469674720 instance=ExtResource("3_n3ll4")]
+layout_mode = 2
+
+[node name="CardSlot4" parent="Hand" unique_id=1249891058 instance=ExtResource("3_n3ll4")]
+layout_mode = 2

@@ -1,3 +1,4 @@
+class_name Character
 extends Node
 
 var State = {
@@ -20,3 +21,4 @@ func set_opp():
 
 func give_card(card):
 	hand.add(card)
+	print(State[state], " ", CardData.Suit.find_key(card.card.suit), " ", card.card.Ranks[card.card.rank])

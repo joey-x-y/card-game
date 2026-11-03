@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c3l44wwtneh0g"]
+
+[ext_resource type="Script" uid="uid://lpsx8olqlbvy" path="res://Scripts/CardSlot.gd" id="1_k67mw"]
+
+[node name="CardSlot" type="TextureRect" unique_id=1526643365]
+stretch_mode = 2
+script = ExtResource("1_k67mw")

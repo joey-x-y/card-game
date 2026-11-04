@@ -1,7 +1,7 @@
 class_name CardSorter
 extends RefCounted
 
-static func sort_high_to_low(cards: Array):
+static func sort_high_to_low(cards: Array[Card]):
 	var remaining = cards.duplicate()
 	var sorted: Array = [remaining[0]]
 	remaining.remove_at(0)
@@ -18,7 +18,7 @@ static func sort_high_to_low(cards: Array):
 
 	return sorted
 
-static func sort_low_to_high(cards: Array):
+static func sort_low_to_high(cards: Array[Card]):
 	var remaining = cards.duplicate()
 	var sorted: Array = [remaining[0]]
 	remaining.remove_at(0)
@@ -35,7 +35,7 @@ static func sort_low_to_high(cards: Array):
 
 	return sorted
 
-static func extract_ranks(cards):
+static func extract_ranks(cards: Array[Card]):
 	var ranks = []
 
 	for card in cards:
@@ -43,9 +43,51 @@ static func extract_ranks(cards):
 
 	return ranks
 
-static func check_contain_rank(rank, cards):
+
+static func check_contain_rank(rank, cards: Array[Card]):
 	for card in cards:
 		if card.card.rank == rank:
 			return true
 
 	return false
+
+static func get_matching_rank(rank: int, cards: Array[Card]):
+	var matching = []
+	for card in cards:
+		if card.card.rank == rank:
+			matching.append(card)
+
+	return matching
+
+static func get_matching_suit(suit: int, cards: Array[Card]):
+	var matching = []
+	for card in cards:
+		if card.card.suit == suit:
+			matching.append(card)
+
+	return matching
+
+static func get_joker(cards: Array[Card]):
+	for card in cards:
+		if card.card.rank == 0:
+			return card
+
+	return ""
+
+static func count_jokers(cards: Array[Card]):
+	var c = 0
+	for card in cards:
+		if card.card.rank == 0:
+			c += 1
+	return c
+
+static func count_jokers_by_id(cards: Array[String]):
+	return cards.count("JOKER_NONE")
+
+static func remove_jokers(cards: Array[Card]):
+	for i in range(cards.size()):
+		if cards[i].card.rank == 0:
+			cards.remove_at(i)
+			i -= 1
+
+	return cards

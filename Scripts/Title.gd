@@ -6,7 +6,7 @@ var game_scene_path : String = "res://Scenes/Game.tscn"
 
 func _ready():
 
-	MusicManager.play_music("Maarten Schellekens - Autumn Leaves")
+	# MusicManager.play_music("Maarten Schellekens - Autumn Leaves")
 	
 	continue_button.pressed.connect(load_game)
 

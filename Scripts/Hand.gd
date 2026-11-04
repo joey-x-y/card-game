@@ -3,6 +3,7 @@ extends Container
 var hand: Array[Card] = []
 var activeCardSlots: Array[TextureButton] = []
 @export var cardSlots: Array[TextureButton]
+var selected_cards: Array[Card] = []
 
 @export var slot_width: float = 48
 var slot_height: float
@@ -10,6 +11,7 @@ var hand_width : float
 @export var card_gap: float = 5.0
 
 func _ready():
+	Events.card_pressed.connect(on_card_pressed)
 	layout_slots()
 	clear()
 
@@ -32,8 +34,13 @@ func clear():
 	for slot in cardSlots:
 		slot.visible = false
 
-func select(i):
-	return hand[i]
+func select(card):
+	if selected_cards.has(card):
+		selected_cards.erase(card)
+	else:
+		selected_cards.append(card)
+
+	print(selected_cards)
 
 func show_cards():
 	for slot in activeCardSlots:
@@ -75,3 +82,13 @@ func layout_slots():
 
 func get_cards():
 	return hand
+
+func use_selected_cards():
+	var c = selected_cards.duplicate()
+	selected_cards.clear()
+	return c
+
+func on_card_pressed(cardSlot: TextureButton):
+	if activeCardSlots.has(cardSlot):
+		var card = cardSlot.card
+		select(card)

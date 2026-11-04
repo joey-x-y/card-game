@@ -38,3 +38,7 @@ func enable_hand(enable: bool = true):
 
 func get_hand():
 	return hand.get_cards()
+
+func pick_discard():
+	#TODO: Implement discard picking
+	return [hand.hand[0], hand.hand[1]]

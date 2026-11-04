@@ -15,7 +15,17 @@ static func get_possible_hands(cards):
 
 	return [pairings, straight, flush]
 
+static func get_best_hand(hands, river_cards):
+	var best_hand = null
+	for hand in hands:
+		strongest_hand(get_possible_hands(hand.append_array(river_cards)))
 
+	return best_hand
+
+static func strongest_hand(possible_hands):
+	# if possible_hands[2].size() > 0:
+	# 	if possible_hands[1].size() > 0:
+	return null
 
 
 static func pair_check(cards):
@@ -48,6 +58,10 @@ static func pair_check(cards):
 			threes += 1
 		elif n == 4:
 			fours += 1
+
+	# if number_array.has(0):
+		# Joker Logic
+
 
 	if fours > 0:
 		indiv_number_arrays.insert(0, "Four of a kind")

@@ -4,5 +4,8 @@
 
 [node name="CardSlot" type="TextureButton" unique_id=1824132326]
 disabled = true
+toggle_mode = true
 stretch_mode = 0
 script = ExtResource("1_k67mw")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

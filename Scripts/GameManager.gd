@@ -19,6 +19,8 @@ var next_card_index: int = 0
 var draw: bool = false
 var trade: bool = false
 
+var last_winner = null
+
 func _ready():
 	player.set_player()
 	ally.set_ally()
@@ -78,6 +80,8 @@ func trade_round():
 	proceed_button.show()
 
 func do_trades():
+	player.enable_hand(false)
+	ally.enable_hand(false)
 	var p_cards = player.hand.use_selected_cards()
 	var a_cards = ally.hand.use_selected_cards()
 	trade_cards(p_cards, a_cards)
@@ -90,12 +94,22 @@ func do_trades():
 
 	river.flip_card(1)
 
-	find_best_hand()
-	
-	find_hands(player)
-	find_hands(ally)
-	find_hands(op1)
-	find_hands(op2)
+	var best_hand = find_best_hand()
+	var n = best_hand[0]
+
+	if ally.state == n:
+		last_winner = ally
+	elif op1.state == n:
+		last_winner = op1
+	elif op2.state == n:
+		last_winner = op2
+	else:
+		last_winner = player
+
+	print("Player ", n, ": wins!")
+	print(HandFinder.Hands[best_hand[1][0]])
+	for i in best_hand[1][1]:
+		print(i.card.id)
 
 func trade_cards(p_cards, a_cards):
 	for i in range(p_cards.size()):
@@ -105,12 +119,13 @@ func trade_cards(p_cards, a_cards):
 func find_best_hand():
 	var hands = [player.get_hand(), ally.get_hand(), op1.get_hand(), op2.get_hand()]
 	var best_hand = HandFinder.get_best_hand(hands, river_cards)
-	print(best_hand)
+	return best_hand
 
-func find_hands(p, rcards = river_cards):
+func find_hands(p, rcards: Array[Card] = river_cards):
 	print(p.get_state_name())
 	var cards = p.get_hand().duplicate()
 	cards.append_array(rcards)
+	# print(cards)
 	HandFinder.get_possible_hands(cards)
 
 

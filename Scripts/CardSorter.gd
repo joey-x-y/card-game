@@ -1,7 +1,7 @@
 class_name CardSorter
 extends RefCounted
 
-static func sort_high_to_low(cards: Array[Card]):
+static func sort_high_to_low(cards):
 	var remaining = cards.duplicate()
 	var sorted: Array = [remaining[0]]
 	remaining.remove_at(0)
@@ -18,7 +18,7 @@ static func sort_high_to_low(cards: Array[Card]):
 
 	return sorted
 
-static func sort_low_to_high(cards: Array[Card]):
+static func sort_low_to_high(cards):
 	var remaining = cards.duplicate()
 	var sorted: Array = [remaining[0]]
 	remaining.remove_at(0)
@@ -35,7 +35,7 @@ static func sort_low_to_high(cards: Array[Card]):
 
 	return sorted
 
-static func extract_ranks(cards: Array[Card]):
+static func extract_ranks(cards):
 	var ranks = []
 
 	for card in cards:
@@ -44,14 +44,14 @@ static func extract_ranks(cards: Array[Card]):
 	return ranks
 
 
-static func check_contain_rank(rank, cards: Array[Card]):
+static func check_contain_rank(rank, cards):
 	for card in cards:
 		if card.card.rank == rank:
 			return true
 
 	return false
 
-static func get_matching_rank(rank: int, cards: Array[Card]):
+static func get_matching_rank(rank: int, cards):
 	var matching = []
 	for card in cards:
 		if card.card.rank == rank:
@@ -59,7 +59,7 @@ static func get_matching_rank(rank: int, cards: Array[Card]):
 
 	return matching
 
-static func get_matching_suit(suit: int, cards: Array[Card]):
+static func get_matching_suit(suit: int, cards):
 	var matching = []
 	for card in cards:
 		if card.card.suit == suit:
@@ -67,14 +67,14 @@ static func get_matching_suit(suit: int, cards: Array[Card]):
 
 	return matching
 
-static func get_joker(cards: Array[Card]):
+static func get_joker(cards):
 	for card in cards:
 		if card.card.rank == 0:
 			return card
 
 	return ""
 
-static func count_jokers(cards: Array[Card]):
+static func count_jokers(cards):
 	var c = 0
 	for card in cards:
 		if card.card.rank == 0:
@@ -84,7 +84,7 @@ static func count_jokers(cards: Array[Card]):
 static func count_jokers_by_id(cards: Array[String]):
 	return cards.count("JOKER_NONE")
 
-static func remove_jokers(cards: Array[Card]):
+static func remove_jokers(cards):
 	for i in range(cards.size()):
 		if cards[i].card.rank == 0:
 			cards.remove_at(i)

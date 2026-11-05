@@ -1,7 +1,7 @@
 class_name HandFinder
 extends RefCounted
 
-var Hands = {
+static var Hands = {
 	0: "High Card",
 	1: "Pair",
 	2: "Two Pair",
@@ -33,7 +33,9 @@ static func get_best_hand(hands, river_cards):
 	var hands_dict = {}
 	for i in range(hands.size()):
 		var hand = hands[i]
-		hands_dict[i] = get_possible_hands(hand.append_array(river_cards))
+		hand.append_array(river_cards)
+		hands_dict[i] = get_possible_hands(hand)
+		print("Player ", i, ": ", hands_dict[i])
 
 	best_hand = strongest_hand_group(hands_dict)
 
@@ -48,13 +50,13 @@ static func strongest_hand_group(possible_hands):
 
 	best_hand = hand_values[0]
 	for h in hand_values:
-		if h[0] == best_hand[0]:
+		if h == best_hand:
 			continue
 		if h[1][0] > best_hand[1][0]:
-			v = h
+			best_hand = h
 		elif h[1][0] == best_hand[1][0]:
-			if h[1][1][0] > best_hand[1][1][0]:
-				v = h
+			if h[1][1][0].card.rank > best_hand[1][1][0].card.rank:
+				best_hand = h
 
 	return best_hand
 
@@ -118,10 +120,10 @@ static func get_hand_value(hands):
 					best_hand = h
 
 	# Pairing Checks
-	if cards[0].size() > 0:
+	if hands[0].size() > 0:
 		var pair_is_best = hand_value < 4
 
-		var h = cards[0][0]
+		var h = hands[0][0]
 		if h == 4:
 			if hand_value < 7:
 				hand_value = 7
@@ -143,13 +145,13 @@ static func get_hand_value(hands):
 
 		if pair_is_best:
 			var i = 1
-			var n = cards[0].size()
+			var n = hands[0].size()
 			var groups = []
 			var next_hand = []
 			if hand_value == 7:
 				while i < n:
-					if cards[0][i].size() == 4:
-						groups.append(cards[0][i])
+					if hands[0][i].size() == 4:
+						groups.append(hands[0][i])
 					i += 1
 				best_hand = groups[0]
 				if groups.size() > 1:
@@ -159,8 +161,8 @@ static func get_hand_value(hands):
 
 			elif hand_value == 6:
 				while i < n:
-					if cards[0][i].size() == 3:
-						groups.append(cards[0][i])
+					if hands[0][i].size() == 3:
+						groups.append(hands[0][i])
 					i += 1
 				best_hand = groups[0]
 				if groups.size() > 1:
@@ -171,8 +173,8 @@ static func get_hand_value(hands):
 				i = 1
 				groups.clear()
 				while i < n:
-					if cards[0][i].size() == 2:
-						groups.append(cards[0][i])
+					if hands[0][i].size() == 2:
+						groups.append(hands[0][i])
 					i += 1
 				next_hand = groups[0]
 				if groups.size() > 1:
@@ -184,8 +186,8 @@ static func get_hand_value(hands):
 
 			elif hand_value == 3:
 				while i < n:
-					if cards[0][i].size() == 3:
-						groups.append(cards[0][i])
+					if hands[0][i].size() == 3:
+						groups.append(hands[0][i])
 					i += 1
 				best_hand = groups[0]
 				if groups.size() > 1:
@@ -193,10 +195,10 @@ static func get_hand_value(hands):
 						if g[0] > best_hand[0]:
 							best_hand = g
 
-			elif hand_Value == 2:
+			elif hand_value == 2:
 				while i < n:
-					if cards[0][i].size() == 2:
-						groups.append(cards[0][i])
+					if hands[0][i].size() == 2:
+						groups.append(hands[0][i])
 					i += 1
 				best_hand = groups[0]
 				next_hand = groups[1]
@@ -210,14 +212,17 @@ static func get_hand_value(hands):
 
 			elif hand_value == 1:
 				while i < n:
-					if cards[0][i].size() == 2:
-						groups.append(cards[0][i])
+					if hands[0][i].size() == 2:
+						groups.append(hands[0][i])
 					i += 1
 				best_hand = groups[0]
 				if groups.size() > 1:
 					for g in groups:
 						if g[0] > best_hand[0]:
 							best_hand = g
+
+			elif hand_value == 0:
+				best_hand = hands[0][1]
 
 	return [hand_value, best_hand]
 							
@@ -236,7 +241,7 @@ static func pair_check(cards):
 	while i < number_array.size():
 		var current_num = number_array[i]
 		var arr = CardSorter.get_matching_rank(current_num, cards)
-		i += arr.size()
+		i += max(arr.size(), 1)
 
 		if arr.size() > 1:
 			indiv_number_arrays.append(arr)
@@ -257,14 +262,14 @@ static func pair_check(cards):
 			fours += 1
 
 	if jokers > 0:
-		for i in range(jokers):
-			var j = CardSorter.get_joker(cards)
+		var j = CardSorter.get_joker(cards)
+		for _i in range(jokers):
 			var groups = []
 			if threes > 0:
 				for g in indiv_number_arrays:
 					if g.size() == 3:
 						groups.append(g)
-				if groups[-1][0] == 1:
+				if groups[-1][0].card.rank == 1:
 					groups[-1].append(j)
 				else:
 					groups[0].append(j)
@@ -274,7 +279,7 @@ static func pair_check(cards):
 				for g in indiv_number_arrays:
 					if g.size() == 2:
 						groups.append(g)
-				if groups[-1][0] == 1:
+				if groups[-1][0].card.rank == 1:
 					groups[-1].append(j)
 				else:
 					groups[0].append(j)
@@ -284,10 +289,10 @@ static func pair_check(cards):
 				if number_array.has(1):
 					for c in cards:
 						if c.card.rank == 1:
-							indiv_number_arrays.append_array([c, j])
+							indiv_number_arrays.append([c, j])
 							break
 				else:
-					indiv_number_arrays.append_array([cards[0], j])
+					indiv_number_arrays.append([cards[0], j])
 				pairs += 1
 
 
@@ -303,12 +308,19 @@ static func pair_check(cards):
 			indiv_number_arrays.insert(0, 22)
 		else:
 			indiv_number_arrays.insert(0, 2)
+	else:
+		indiv_number_arrays = [1]
+		if CardSorter.check_contain_rank(1, cards):
+			indiv_number_arrays.append(CardSorter.get_matching_rank(1, cards))
+		else:
+			indiv_number_arrays.append([cards[0]])
+
 
 	return indiv_number_arrays
 	
 static func straight_check(cards):
 	var old_cards = cards.duplicate()
-	cards = CardSorter.remove_jokers(cards)
+	cards = CardSorter.remove_jokers(old_cards)
 	var jokers = old_cards.size() - cards.size()
 	var straight_length = 5 - jokers
 
@@ -317,7 +329,7 @@ static func straight_check(cards):
 	var count = cards.size() - 4
 
 	var i = 0
-	while i < range(count):
+	while i < count:
 		var n = cards[i].card.rank
 		var chain_ranks = [cards[i]]
 		var chain = true
@@ -337,9 +349,11 @@ static func straight_check(cards):
 				chain = false
 
 		if chain_ranks.size() >= straight_length:
-			for i in range(jokers):
-				chain_ranks.insert(0, CardSorter.get_joker())
+			for _i in range(jokers):
+				chain_ranks.insert(0, CardSorter.get_joker(cards))
+				i += 1
 			straight_hands.append(chain_ranks)
+		i += 1
 
 	return straight_hands
 	

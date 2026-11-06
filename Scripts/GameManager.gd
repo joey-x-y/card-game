@@ -187,11 +187,13 @@ func set_river():
 
 func _on_button_pressed():
 	if draw:
+		print("Discarding and Redrawing")
 		proceed_button.hide()
 		draw = false
 		discard_round()
 	elif trade:
 		if player.hand.selected_cards.size() == ally.hand.selected_cards.size():
+			print("Trading")
 			proceed_button.hide()
 			trade = false
 			do_trades()

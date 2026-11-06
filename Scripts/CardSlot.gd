@@ -17,4 +17,3 @@ func flip_back():
 
 func _on_pressed():
 	Events.card_pressed.emit(self)
-	print("Clicked ", card.card.id)

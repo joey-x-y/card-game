@@ -37,10 +37,10 @@ func clear():
 func select(card):
 	if selected_cards.has(card):
 		selected_cards.erase(card)
+		print("Deselected ", card.card.id)
 	else:
 		selected_cards.append(card)
-
-	print(selected_cards)
+		print("Selected ", card.card.id)
 
 func show_cards():
 	for slot in activeCardSlots:

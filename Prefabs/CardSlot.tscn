@@ -2,10 +2,20 @@
 
 [ext_resource type="Script" uid="uid://lpsx8olqlbvy" path="res://Scripts/CardSlot.gd" id="1_k67mw"]
 
-[node name="CardSlot" type="TextureButton" unique_id=1824132326]
+[node name="CardSlot" type="TextureRect" unique_id=1164414194]
+visible = false
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=837388882 node_paths=PackedStringArray("card_image")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 disabled = true
 toggle_mode = true
 stretch_mode = 0
 script = ExtResource("1_k67mw")
+card_image = NodePath("..")
 
-[connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="pressed" from="TextureButton" to="TextureButton" method="_on_pressed"]

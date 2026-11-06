@@ -2,7 +2,7 @@ extends Container
 
 var hand: Array[Card] = []
 var activeCardSlots: Array[TextureButton] = []
-@export var cardSlots: Array[TextureButton]
+@export var cardSlots: Array[TextureRect]
 var selected_cards: Array[Card] = []
 
 @export var slot_width: float = 48
@@ -17,8 +17,8 @@ func _ready():
 
 func add(card):
 	var current_slot = cardSlots[hand.size()]
-	activeCardSlots.append(current_slot)
-	current_slot.set_card(card)
+	activeCardSlots.append(current_slot.get_child(0))
+	current_slot.get_child(0).set_card(card)
 
 	hand.append(card)
 	current_slot.visible=true

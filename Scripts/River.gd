@@ -1,6 +1,6 @@
 extends Container
 
-@export var card_slot: Array[TextureButton]
+@export var card_slot: Array[TextureRect]
 
 @export var slot_width: float = 48
 var slot_height: float = 64
@@ -35,12 +35,12 @@ func get_river_size():
 	return card_slot.size()
 
 func set_card(index, card):
-	card_slot[index].set_card(card)
+	card_slot[index].get_child(0).set_card(card)
 	# print("River ", index, " ", CardData.Suit.find_key(card.card.suit), " ", card.card.Ranks[card.card.rank])
 
 func flip_card(index):
-	card_slot[index].flip_front()
+	card_slot[index].get_child(0).flip_front()
 
 func reset():
 	for slot in card_slot:
-		slot.flip_back()
+		slot.get_child(0).flip_back()

@@ -9,8 +9,7 @@ enum Suit {
 	NONE = 4,
 }
 
-var Ranks = { 
-	1: "ACE", 
+var Ranks = {  
 	2: "TWO", 
 	3: "THREE", 
 	4: "FOUR", 
@@ -23,6 +22,7 @@ var Ranks = {
 	11: "JACK", 
 	12: "QUEEN", 
 	13: "KING", 
+	14: "ACE",
 	0: "JOKER",
 }
 
@@ -33,7 +33,7 @@ var id: String = ""
 var front_texture
 var back_texture
 
-func _init(suit: Suit = Suit.SPADES, rank: int = 1):
+func _init(suit: Suit = Suit.SPADES, rank: int = 2):
 	self.suit = suit
 	self.rank = rank
 	id = Ranks[rank] + "_" + String(Suit.find_key(suit))

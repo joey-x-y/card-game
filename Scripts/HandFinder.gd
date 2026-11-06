@@ -22,14 +22,15 @@ static func get_possible_hands(cards):
 	var pairings = pair_check(new_cards.duplicate())
 	var flush = flush_check(new_cards.duplicate())
 
-	print("Possible straights: ", straight)
-	print("Possible pairings: ", pairings)
-	print("Possible flushes: ", flush)
+	# print("Possible straights: ", straight)
+	# print("Possible pairings: " pairings)
+	# print("Possible flushes: ", flush)
 
 	return [pairings, straight, flush]
 
 static func get_best_hand(hands, river_cards):
 	var best_hand = null
+	var best_hand_list = []
 	var hands_dict = {}
 	for i in range(hands.size()):
 		var hand = hands[i]
@@ -37,36 +38,43 @@ static func get_best_hand(hands, river_cards):
 		hands_dict[i] = get_possible_hands(hand)
 		print("Player ", i, ": ", hands_dict[i])
 
-	best_hand = strongest_hand_group(hands_dict)
+	best_hand_list = strongest_hand_group(hands_dict)
+	best_hand = best_hand_list[0]
+
+	for i in range(best_hand_list.size()):
+		print("Rank ", i, "! Player ", best_hand_list[i][0], ": ", best_hand_list[i][1])
 
 	return best_hand
 
 static func strongest_hand_group(possible_hands):
-	var best_hand = null
-	var hand_values = []
+	var hand_values = [[0, get_hand_value(possible_hands[0])]]
 
-	for hand in possible_hands:
-		hand_values.append([hand, get_hand_value(possible_hands[hand])])
-
-	best_hand = hand_values[0]
-	for h in hand_values:
-		if h == best_hand:
+	for i in possible_hands:
+		if i == 0:
 			continue
-		if h[1][0] > best_hand[1][0]:
-			best_hand = h
-		elif h[1][0] == best_hand[1][0]:
-			if h[1][1][0].card.rank > best_hand[1][1][0].card.rank:
-				best_hand = h
+		var next = get_hand_value(possible_hands[i])
+		var n = 0
+		while n < hand_values.size():
+			if next[0] > hand_values[n][1][0]:
+				hand_values.insert(n, [i, next])
+				break
+			elif next[0] == hand_values[n][1][0]:
+				var s = false
+				if next[0] == 4:
+					s = true
+				var better = CardSorter.get_best_hand(next[1], hand_values[n][1][1], s)
+				if better == next[1]:
+					hand_values.insert(n, [i, next])
+					break
+			n += 1
+		if n == hand_values.size():
+			hand_values.append([i, next])
 
-	return best_hand
+	return hand_values
 
 static func get_hand_value(hands):
 	var hand_value = 0
 	var best_hand = []
-
-	# High Card Check
-	if (hands[0].size() == 0 && hands[1].size() == 0 && hands[2].size() == 0):
-		return [hand_value, best_hand]
 
 	# Straight Flush Check
 	if hands[2].size() > 0:
@@ -86,38 +94,32 @@ static func get_hand_value(hands):
 							hand_value = 9
 							return [hand_value, h]
 						else:
-							if best_hand[0].card.rank < h[0].card.rank:
-								best_hand = h
+							best_hand = CardSorter.get_best_hand(h, best_hand, true)
 				hand_value = 8
 				return [hand_value, best_hand]
 
 	# Flush Check
-		else:
-			hand_value = 5
-			best_hand = hands[2][0]
-			if hands[2].size() > 1:
-				for h in hands[2]:
-					if CardSorter.check_contain_rank(1, h):
-						best_hand = h
-						break
-					if h == best_hand:
-						continue
-					if best_hand[0].card.rank < h[0].card.rank:
-						best_hand = h
+		hand_value = 5
+		best_hand = hands[2][0]
+		if hands[2].size() > 1:
+			for h in hands[2]:
+				if h == best_hand:
+					continue
+				best_hand = CardSorter.get_best_hand(h, best_hand)
 
 	# Straight Check
 	elif hands[1].size() > 0:
 		hand_value = 4
-		best_hand = hands[1][0]
-		if hands[1].size()> 1:
+		var best_hand_array = hands[1][0]
+		if hands[1].size() > 1:
 			for h in hands[1]:
-				if CardSorter.check_contain_rank(1, h):
-					best_hand = h
-					break
-				if h == best_hand:
+				if h[0] == best_hand_array:
 					continue
-				if best_hand[0].card.rank < h[0].card.rank:
-					best_hand = h
+				best_hand_array = [CardSorter.get_best_hand(h[0][0], best_hand_array[0], true)]
+				if best_hand_array[0].card.rank < h[0][0].card.rank:
+					best_hand_array = h[0]
+		for a in best_hand_array:
+			best_hand.append(a[0])
 
 	# Pairing Checks
 	if hands[0].size() > 0:
@@ -156,8 +158,7 @@ static func get_hand_value(hands):
 				best_hand = groups[0]
 				if groups.size() > 1:
 					for g in groups:
-						if g[0] > best_hand[0]:
-							best_hand = g
+						best_hand = CardSorter.get_best_hand(g, best_hand)
 
 			elif hand_value == 6:
 				while i < n:
@@ -167,8 +168,7 @@ static func get_hand_value(hands):
 				best_hand = groups[0]
 				if groups.size() > 1:
 					for g in groups:
-						if g[0] > best_hand[0]:
-							best_hand = g
+						best_hand = CardSorter.get_best_hand(g, best_hand)
 
 				i = 1
 				groups.clear()
@@ -179,8 +179,7 @@ static func get_hand_value(hands):
 				next_hand = groups[0]
 				if groups.size() > 1:
 					for g in groups:
-						if g[0] > next_hand[0]:
-							next_hand = g
+						next_hand = CardSorter.get_best_hand(g, next_hand)
 
 				best_hand.append_array(next_hand)
 
@@ -192,8 +191,7 @@ static func get_hand_value(hands):
 				best_hand = groups[0]
 				if groups.size() > 1:
 					for g in groups:
-						if g[0] > best_hand[0]:
-							best_hand = g
+						best_hand = CardSorter.get_best_hand(g, best_hand)
 
 			elif hand_value == 2:
 				while i < n:
@@ -204,11 +202,13 @@ static func get_hand_value(hands):
 				next_hand = groups[1]
 				if groups.size() > 2:
 					for g in groups:
-						if g[0] > best_hand[0]:
-							best_hand = g
-						elif g[0] > next_hand[0]:
-							next_hand = g
-				best_hand.append_array(next_hand)
+						best_hand = CardSorter.get_best_hand(g, best_hand)
+						if g != best_hand:
+							next_hand = CardSorter.get_best_hand(g, next_hand)
+				if CardSorter.get_best_hand(best_hand, next_hand) == best_hand:
+					best_hand.append_array(next_hand)
+				else:
+					best_hand.insert(0, next_hand)
 
 			elif hand_value == 1:
 				while i < n:
@@ -218,8 +218,7 @@ static func get_hand_value(hands):
 				best_hand = groups[0]
 				if groups.size() > 1:
 					for g in groups:
-						if g[0] > best_hand[0]:
-							best_hand = g
+						best_hand = CardSorter.get_best_hand(g, best_hand)
 
 			elif hand_value == 0:
 				best_hand = hands[0][1]
@@ -228,7 +227,7 @@ static func get_hand_value(hands):
 							
 				
 static func royal_flush_check(hand, jokers):
-	return (hand[0].card.rank == 1 || hand[0].card.rank + jokers > 13)
+	return (hand[0].card.rank == 14 || (hand[0].card.rank == 0 && CardSorter.check_contain_rank(14 - jokers, hand)))
 
 
 static func pair_check(cards):
@@ -264,35 +263,25 @@ static func pair_check(cards):
 	if jokers > 0:
 		var j = CardSorter.get_joker(cards)
 		for _i in range(jokers):
-			var groups = []
+			var group = []
 			if threes > 0:
 				for g in indiv_number_arrays:
 					if g.size() == 3:
-						groups.append(g)
-				if groups[-1][0].card.rank == 1:
-					groups[-1].append(j)
-				else:
-					groups[0].append(j)
+						group = g
+						break
+				group.append(j)
 				fours += 1
 				threes -= 1
 			elif pairs > 0:
 				for g in indiv_number_arrays:
 					if g.size() == 2:
-						groups.append(g)
-				if groups[-1][0].card.rank == 1:
-					groups[-1].append(j)
-				else:
-					groups[0].append(j)
+						group = g
+						break
+				group.append(j)
 				threes += 1
 				pairs -= 1
 			else:
-				if number_array.has(1):
-					for c in cards:
-						if c.card.rank == 1:
-							indiv_number_arrays.append([c, j])
-							break
-				else:
-					indiv_number_arrays.append([cards[0], j])
+				indiv_number_arrays.append([cards[0], j])
 				pairs += 1
 
 
@@ -309,20 +298,13 @@ static func pair_check(cards):
 		else:
 			indiv_number_arrays.insert(0, 2)
 	else:
-		indiv_number_arrays = [1]
-		if CardSorter.check_contain_rank(1, cards):
-			indiv_number_arrays.append(CardSorter.get_matching_rank(1, cards))
-		else:
-			indiv_number_arrays.append([cards[0]])
-
+		indiv_number_arrays = [1, [cards[0]]]
 
 	return indiv_number_arrays
 	
 static func straight_check(cards):
-	var old_cards = cards.duplicate()
-	cards = CardSorter.remove_jokers(old_cards)
-	var jokers = old_cards.size() - cards.size()
-	var straight_length = 5 - jokers
+	var jokers = CardSorter.count_jokers(cards)
+	var straight_length = 5
 
 	var straight_hands = []
 
@@ -331,27 +313,40 @@ static func straight_check(cards):
 	var i = 0
 	while i < count:
 		var n = cards[i].card.rank
-		var chain_ranks = [cards[i]]
+		var chain_ranks = [CardSorter.get_matching_rank(n, cards)]
 		var chain = true
+		var usable_jokers = jokers
 
-		var aces = CardSorter.get_matching_rank(1, cards)
-		if (n == 13 && aces.size() > 0):
-			chain_ranks.insert(0, aces)
-			i += aces.size()
-
-		while chain:
+		while chain && n >= 2:
 			var next_rank = CardSorter.get_matching_rank(n-1, cards)
 			if (next_rank.size() > 0):
 				n -= 1
 				chain_ranks.append(next_rank)
 				i += next_rank.size()
+			# checks if can use a low ace
+			elif n == 2 && CardSorter.check_contain_rank(14, cards):
+				chain_ranks.append(CardSorter.get_matching_rank(14, cards))
+				i = count
+				chain = false
+			elif usable_jokers > 0 && chain_ranks.size() < straight_length - usable_jokers:
+				usable_jokers -= 1
+				n -= 1
+				chain_ranks.append([CardSorter.get_joker(cards)])
+				i += 1
 			else:
 				chain = false
 
-		if chain_ranks.size() >= straight_length:
-			for _i in range(jokers):
-				chain_ranks.insert(0, CardSorter.get_joker(cards))
+		if chain_ranks.size() >= straight_length - usable_jokers:
+			var j = 0
+			var biggest = chain_ranks[0][0].card.rank
+			var joker_card = CardSorter.get_joker(cards)
+			for _i in range(usable_jokers):
+				if biggest < 14 - j:
+					chain_ranks.insert(0, joker_card)
+				else:
+					chain_ranks.append(joker_card)
 				i += 1
+				j += 1
 			straight_hands.append(chain_ranks)
 		i += 1
 
@@ -383,11 +378,11 @@ static func flush_check(cards):
 
 	if hearts.size() >= flush_length:
 		flush_hands.append(hearts)
-	elif diamonds.size() >= flush_length:
+	if diamonds.size() >= flush_length:
 		flush_hands.append(diamonds)
-	elif spades.size() >= flush_length:
+	if spades.size() >= flush_length:
 		flush_hands.append(spades)
-	elif clubs.size() >= flush_length:
+	if clubs.size() >= flush_length:
 		flush_hands.append(clubs)
 
 	if jokers.size() > 0 && flush_hands.size() > 0:

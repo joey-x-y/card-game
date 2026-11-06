@@ -1,5 +1,7 @@
 extends Node
 
+var title_scene_path : String = "res://Scenes/Main.tscn"
+
 @export var player: Node
 @export var ally: Node
 @export var op1: Node
@@ -10,7 +12,11 @@ extends Node
 @export var river: Node
 var river_cards : Array[Card] = []
 
-@export var handSize: int
+@export var handSize: int = 4
+@export var wins_needed: int = 3
+
+var team1_wins: int = 0
+var team2_wins: int = 0
 
 @export var proceed_button: Button
 
@@ -74,8 +80,8 @@ func trade_round():
 	player.enable_hand()
 	ally.enable_hand()
 
-	find_hands(player,[river_cards[0]])
-	find_hands(ally,[river_cards[0]])
+	find_hands(player, [river_cards[0]])
+	find_hands(ally, [river_cards[0]])
 
 	proceed_button.show()
 
@@ -99,17 +105,25 @@ func do_trades():
 
 	if ally.state == n:
 		last_winner = ally
+		team1_wins += 1
 	elif op1.state == n:
 		last_winner = op1
+		team2_wins += 1
 	elif op2.state == n:
 		last_winner = op2
+		team2_wins += 1
 	else:
 		last_winner = player
+		team1_wins += 1
 
 	print("Player ", n, ": wins!")
 	print(HandFinder.Hands[best_hand[1][0]])
 	for i in best_hand[1][1]:
 		print(i.card.id)
+	print("Team 1 Wins: ", team1_wins)
+	print("Team 2 Wins: ", team2_wins)
+
+	end_round()
 
 func trade_cards(p_cards, a_cards):
 	for i in range(p_cards.size()):
@@ -122,20 +136,38 @@ func find_best_hand():
 	return best_hand
 
 func find_hands(p, rcards: Array[Card] = river_cards):
-	print(p.get_state_name())
 	var cards = p.get_hand().duplicate()
 	cards.append_array(rcards)
-	# print(cards)
 	HandFinder.get_possible_hands(cards)
 
 
 func end_round():
 	next_card_index = 0
 
-	river.reset()
-	river_cards.clear()
+	if team1_wins >= wins_needed:
+		print("Team 1 won it all!")
+		await get_tree().create_timer(5).timeout
+		end_game(true)
+	elif team2_wins >= wins_needed:
+		print("Team 2 won it all!")
+		await get_tree().create_timer(5).timeout
+		end_game(false)
+	else:
+		print("Next round pending...")
+		await get_tree().create_timer(5).timeout
+		player.wipe_hand()
+		ally.wipe_hand()
+		op1.wipe_hand()
+		op2.wipe_hand()
+		river.reset()
+		river_cards.clear()
+		print("Go!")
+		start_round()
 
-	start_round()
+func end_game(win: bool):
+	# for now winning just returns to title
+	get_tree().change_scene_to_file(title_scene_path)
+
 
 func get_next_card():
 	var c = deck.draw_card(next_card_index)

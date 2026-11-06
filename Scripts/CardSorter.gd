@@ -43,6 +43,27 @@ static func extract_ranks(cards):
 
 	return ranks
 
+static func check_all_same_suit(cards):
+	# will be false if joker first
+	var suit = cards[0].card.suit
+	var i = 1
+	while i < cards.size():
+		if cards[i].card.suit != suit && cards[i].card.suit != 4:
+			return false
+
+	return true
+
+static func check_all_same_rank(cards):
+	# will be false if joker first
+	var rank = cards[0].card.rank
+	var i = 1
+	while i < cards.size():
+		if cards[i].card.rank != rank && cards[i].card.rank != 0:
+			return false
+
+	return true
+
+
 
 static func check_contain_rank(rank, cards):
 	for card in cards:
@@ -81,13 +102,71 @@ static func count_jokers(cards):
 			c += 1
 	return c
 
-static func count_jokers_by_id(cards: Array[String]):
-	return cards.count("JOKER_NONE")
-
 static func remove_jokers(cards):
-	for i in range(cards.size()):
-		if cards[i].card.rank == 0:
-			cards.remove_at(i)
-			i -= 1
+	var new_array = []
+	for c in cards:
+		if c.card.rank != 0:
+			new_array.append(c)
 
-	return cards
+	return new_array
+
+static func get_best_hand(a, b, straight = false):
+	var hand = min(a.size(), 5)
+	for i in range(hand):
+		var an = a[i].card.rank
+		var bn = b[i].card.rank
+		# Joker Check
+		if an == 0:
+			an = find_expected_joker_rank(a, straight)
+		if bn  == 0:
+			bn = find_expected_joker_rank(b, straight)
+		
+		# normal check
+		if an > bn:
+			return a
+		elif an < bn:
+			return b
+
+	# for now, hand a wins ties until i implement pushes
+	return a
+
+static func find_expected_joker_rank(cards, straight):
+	# questoinable with multiple jokers, may need to pass in variable, for 1st, 2nd, etc
+	if count_jokers(cards) == 0:
+		return 0
+	if straight:
+		if cards[0].card.rank == 0:
+			if cards[1].card.rank == 0:
+				var i = 2
+				while i < cards.size():
+					if cards[i].card.rank == 0:
+						i += 1
+					else:
+						return cards[i].card.rank + i
+			else:
+				return cards[1].card.rank + 1
+
+		else:
+			var i = 1
+			while i < cards.size():
+				if cards[i].card.rank == 0:
+					return cards[0].card.rank - i
+				else:
+					i += 1
+
+	elif CardSorter.check_all_same_suit(cards):
+		var i = 14
+		while i > 0:
+			if CardSorter.check_contain_rank(i, cards):
+				i -= 1
+			else:
+				return i
+	
+		return cards[0].card.rank
+	else:
+		if cards.size() == 5:
+			if cards[4].card.rank == 0:
+				return cards[2].card.rank
+		return cards[0].card.rank
+
+	return 0

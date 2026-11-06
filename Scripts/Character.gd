@@ -25,7 +25,7 @@ func set_op2():
 
 func give_card(card):
 	hand.add(card)
-	print(State[state], " ", CardData.Suit.find_key(card.card.suit), " ", card.card.Ranks[card.card.rank])
+	# print(State[state], " ", CardData.Suit.find_key(card.card.suit), " ", card.card.Ranks[card.card.rank])
 
 func get_state_name():
 	return State[state]
@@ -42,3 +42,11 @@ func get_hand():
 func pick_discard():
 	#TODO: Implement discard picking
 	return [hand.hand[0], hand.hand[1]]
+
+func set_hand(cards):
+	wipe_hand()
+	for c in cards:
+		give_card(c)
+
+func wipe_hand():
+	hand.clear()

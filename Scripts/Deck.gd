@@ -4,7 +4,6 @@ extends Node
 var cards: Array[Card] = []
 
 func _ready():
-	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 1)))
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 2)))
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 3)))
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 4)))
@@ -17,7 +16,7 @@ func _ready():
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 11)))
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 12)))
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 13)))
-	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 1)))
+	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 14)))
 	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 2)))
 	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 3)))
 	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 4)))
@@ -30,7 +29,7 @@ func _ready():
 	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 11)))
 	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 12)))
 	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 13)))
-	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 1)))
+	cards.append(Card.new(CardData.new(CardData.Suit.HEARTS, 14)))
 	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 2)))
 	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 3)))
 	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 4)))
@@ -43,7 +42,7 @@ func _ready():
 	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 11)))
 	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 12)))
 	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 13)))
-	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 1)))
+	cards.append(Card.new(CardData.new(CardData.Suit.DIAMONDS, 14)))
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 2)))
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 3)))
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 4)))
@@ -56,6 +55,7 @@ func _ready():
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 11)))
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 12)))
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 13)))
+	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 14)))
 	cards.append(Card.new(CardData.new(CardData.Suit.NONE, 0)))
 
 func shuffle():

@@ -36,7 +36,7 @@ func get_river_size():
 
 func set_card(index, card):
 	card_slot[index].set_card(card)
-	print("River ", index, " ", CardData.Suit.find_key(card.card.suit), " ", card.card.Ranks[card.card.rank])
+	# print("River ", index, " ", CardData.Suit.find_key(card.card.suit), " ", card.card.Ranks[card.card.rank])
 
 func flip_card(index):
 	card_slot[index].flip_front()

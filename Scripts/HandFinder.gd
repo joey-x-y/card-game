@@ -35,7 +35,7 @@ static func get_best_hand(hands, river_cards):
 	var best_hand_list = []
 	var hands_dict = {}
 	for i in range(hands.size()):
-		var hand = hands[i]
+		var hand = hands[i].duplicate()
 		hand.append_array(river_cards)
 		hands_dict[i] = get_possible_hands(hand)
 
@@ -145,7 +145,7 @@ static func get_hand_value(hands):
 				
 static func royal_flush_check(hand, jokers):
 	# only returns accurately if hand is a straight flush
-	return (hand[0].card.rank == 14 || (hand[0].card.rank == 0 && CardSorter.check_contain_rank(14 - jokers, hand)))
+	return (hand[0].card.rank == 14 || (hand[0].is_joker() && CardSorter.check_contain_rank(14 - jokers, hand)))
 
 
 static func pair_check(cards):
@@ -207,11 +207,11 @@ static func pair_check(cards):
 			if g.size() == 3:
 				best_array = [3, g]
 				break
-		if pairs > 0:
+		if pairs > 0 || threes > 1:
 			best_array[0] = 32
 			for g in indiv_number_arrays:
-				if g.size() == 2:
-					best_array[1].append_array(g)
+				if g.size() >= 2 && g != best_array[1]:
+					best_array[1].append_array(g.slice(0, 2))
 					break
 					
 	elif pairs > 0:
@@ -241,55 +241,88 @@ static func pair_check(cards):
 	return best_array
 	
 static func straight_check(cards):
-	var jokers = CardSorter.count_jokers(cards)
 	var straight_hands = []
-	var count = cards.size() - 4
+	var straight_possibilities = all_straight_possibilies(cards)
+
+	for h in straight_possibilities:
+		if h.size() >= hand_length:
+			h.resize(hand_length)
+			straight_hands.append(h)
+	
+	return straight_hands
+
+static func all_straight_possibilies(cards: Array):
+	var straight_hands = []
+	var count = cards.size() - (hand_length - 1)
 
 	var i = 0
 	while i < count:
-		var n = cards[i].card.rank
-		var chain_ranks = [CardSorter.get_matching_rank(n, cards)]
-		var chain = true
-		var usable_jokers = jokers
-
-		while chain && n >= 2:
-			var next_rank = CardSorter.get_matching_rank(n-1, cards)
-			if (next_rank.size() > 0):
-				n -= 1
-				chain_ranks.append(next_rank)
-				i += next_rank.size()
-			# checks if can use a low ace
-			elif n == 2 && CardSorter.check_contain_rank(14, cards):
-				chain_ranks.append(CardSorter.get_matching_rank(14, cards))
-				i = count
-				chain = false
-			elif usable_jokers > 0 && chain_ranks.size() < hand_length - usable_jokers:
-				usable_jokers -= 1
-				n -= 1
-				chain_ranks.append([CardSorter.get_joker(cards)])
+		var jokers = CardSorter.get_matching_rank(0, cards)
+		var chain_ranks = first_straight(cards.slice(i), jokers)
+		for pair in chain_ranks:
+			for c in pair:
 				i += 1
-			else:
-				chain = false
+				if c.is_joker():
+					jokers.pop_back()
 
-		if chain_ranks.size() >= hand_length - usable_jokers:
-			if usable_jokers > 0:
-				var j = 0
-				var biggest = chain_ranks[0][0].card.rank
-				var joker_card = [CardSorter.get_joker(cards)]
-				for _i in range(usable_jokers):
-					if biggest < 14 - j:
-						chain_ranks.insert(0, joker_card)
-					else:
-						chain_ranks.append(joker_card)
-					i += 1
-					j += 1
-			chain_ranks.resize(hand_length)
-			straight_hands.append(chain_ranks)
+		if jokers.size() > 0:
+			var biggest = chain_ranks[0][0].card.rank
+			var j_count = 0
+			for j in jokers:
+				if biggest < 14 - j_count:
+					chain_ranks.push_front([j])
+				else:
+					chain_ranks.append([j])
+				i += 1
+				j_count += 1
+
+		straight_hands.append(chain_ranks)
 		i += 1
 
 	return straight_hands
+
+static func first_straight(cards: Array, jokers: Array = []):
+	var n = cards[0].card.rank
+	var chain_ranks = [CardSorter.get_matching_rank(n, cards)]
+
+	while n >= 2:
+		var next_rank = CardSorter.get_matching_rank(n-1, cards)
+		if (next_rank.size() > 0):
+			n -= 1
+			chain_ranks.append(next_rank)
+		# checks if can use a low ace
+		elif n == 2 && CardSorter.check_contain_rank(14, cards):
+			chain_ranks.append(CardSorter.get_matching_rank(14, cards))
+			break
+		elif jokers.size() > 0 && chain_ranks.size() < hand_length - jokers.size():
+			n -= 1
+			chain_ranks.append([jokers.pop_back()])
+		else:
+			break
+
+	return chain_ranks
 	
 static func flush_check(cards):
+	var flush_hands = []
+	var needed_cards = hand_length - CardSorter.count_jokers(cards)
+
+	var pairings = all_possible_flushes(cards)
+
+	for p in pairings:
+		if p.size() >= needed_cards && not p[0].is_joker():
+			flush_hands.append(p)
+
+	if hand_length != needed_cards && flush_hands.size() > 0:
+		for h in flush_hands:
+			for j in pairings[4]:
+				h.append(j)
+
+	for h in flush_hands:
+		h.resize(5)
+
+	return flush_hands
+
+static func all_possible_flushes(cards):
 	var hearts = []
 	var diamonds = []
 	var spades = []
@@ -311,27 +344,7 @@ static func flush_check(cards):
 		elif s == 4:
 			jokers.append(card)
 
-	var flush_hands = []
-	var needed_cards = hand_length - jokers.size()
-
-	if hearts.size() >= needed_cards:
-		flush_hands.append(hearts)
-	if diamonds.size() >= needed_cards:
-		flush_hands.append(diamonds)
-	if spades.size() >= needed_cards:
-		flush_hands.append(spades)
-	if clubs.size() >= needed_cards:
-		flush_hands.append(clubs)
-
-	if hand_length != needed_cards && flush_hands.size() > 0:
-		for h in flush_hands:
-			for j in jokers:
-				h.append(j)
-
-	for h in flush_hands:
-		h.resize(5)
-
-	return flush_hands
+	return [hearts, diamonds, spades, clubs, jokers]
 
 static func straight_flush_check(straight, flush):
 	var needed = straight.size()

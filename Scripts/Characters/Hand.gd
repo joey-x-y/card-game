@@ -89,6 +89,13 @@ func use_selected_cards():
 	selected_cards.clear()
 	return c
 
+func get_card_by_index(indexes: Array[int]):
+	var cards = []
+	for i in indexes:
+		cards.append(hand[i])
+
+	return cards
+
 func on_card_pressed(cardSlot: TextureButton):
 	if activeCardSlots.has(cardSlot):
 		var card = cardSlot.card

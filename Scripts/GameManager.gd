@@ -63,9 +63,9 @@ func discard_round():
 	var cards = player.hand.use_selected_cards()
 	discard(player, cards)
 	player.hand.show_cards()
-	discard(ally, ally.pick_discard())
-	discard(op1, op1.pick_discard())
-	discard(op2, op2.pick_discard())
+	discard(ally, ally.pick_discard([river_cards[0]], 1))
+	discard(op1, op1.pick_discard([river_cards[0]], 1))
+	discard(op2, op2.pick_discard([river_cards[0]], 1))
 
 	trade_round()
 
@@ -90,7 +90,10 @@ func do_trades():
 	ally.enable_hand(false)
 	var p_cards = player.hand.use_selected_cards()
 	var a_cards = ally.hand.use_selected_cards()
-	trade_cards(p_cards, a_cards)
+	trade_cards(player, ally, p_cards, a_cards)
+
+	var opp_cards = op1.pick_trade(op2.get_hand(), [river_cards[0]], 1)
+	trade_cards(op1, op2, opp_cards[0], opp_cards[1])
 
 	player.hand.show_cards()
 	ally.hand.show_cards()
@@ -116,6 +119,7 @@ func do_trades():
 		last_winner = player
 		team1_wins += 1
 
+	print("River: ", HandFinder.print_hand(river_cards))
 	print("Player ", n, ": wins!")
 	print(HandFinder.Hands[best_hand[1][0]])
 	for i in best_hand[1][1]:
@@ -125,10 +129,10 @@ func do_trades():
 
 	end_round()
 
-func trade_cards(p_cards, a_cards):
-	for i in range(p_cards.size()):
-		player.swap_card(p_cards[i], a_cards[i])
-		ally.swap_card(a_cards[i], p_cards[i])
+func trade_cards(char1, char2, c1_cards, c2_cards):
+	for i in range(c1_cards.size()):
+		char1.swap_card(c1_cards[i], c2_cards[i])
+		char2.swap_card(c2_cards[i], c1_cards[i])
 
 func find_best_hand():
 	var hands = [player.get_hand(), ally.get_hand(), op1.get_hand(), op2.get_hand()]

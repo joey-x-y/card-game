@@ -48,7 +48,7 @@ static func check_all_same_suit(cards):
 	var suit = cards[0].card.suit
 	var i = 1
 	while i < cards.size():
-		if cards[i].card.suit != suit && cards[i].card.suit != 4:
+		if cards[i].card.suit != suit && not cards[i].is_joker():
 			return false
 
 	return true
@@ -58,7 +58,7 @@ static func check_all_same_rank(cards):
 	var rank = cards[0].card.rank
 	var i = 1
 	while i < cards.size():
-		if cards[i].card.rank != rank && cards[i].card.rank != 0:
+		if cards[i].card.rank != rank && not cards[i].is_joker():
 			return false
 
 	return true
@@ -80,6 +80,14 @@ static func get_matching_rank(rank: int, cards):
 
 	return matching
 
+static func count_matching_rank(rank: int, cards):
+	var n = 0
+	for card in cards:
+		if card.card.rank == rank:
+			n += 1
+
+	return n
+
 static func get_matching_suit(suit: int, cards):
 	var matching = []
 	for card in cards:
@@ -88,24 +96,28 @@ static func get_matching_suit(suit: int, cards):
 
 	return matching
 
+static func count_matching_suit(suit: int, cards):
+	var n = 0
+	for card in cards:
+		if card.card.suit == suit:
+			n += 1
+
+	return n
+
 static func get_joker(cards):
 	for card in cards:
-		if card.card.rank == 0:
+		if card.is_joker():
 			return card
 
 	return ""
 
 static func count_jokers(cards):
-	var c = 0
-	for card in cards:
-		if card.card.rank == 0:
-			c += 1
-	return c
+	return count_matching_rank(0, cards)
 
 static func remove_jokers(cards):
 	var new_array = []
 	for c in cards:
-		if c.card.rank != 0:
+		if not c.is_joker():
 			new_array.append(c)
 
 	return new_array
@@ -135,11 +147,11 @@ static func find_expected_joker_rank(cards, straight):
 	if count_jokers(cards) == 0:
 		return 0
 	if straight:
-		if cards[0].card.rank == 0:
-			if cards[1].card.rank == 0:
+		if cards[0].is_joker():
+			if cards[1].is_joker():
 				var i = 2
 				while i < cards.size():
-					if cards[i].card.rank == 0:
+					if cards[i].is_joker():
 						i += 1
 					else:
 						return cards[i].card.rank + i
@@ -149,7 +161,7 @@ static func find_expected_joker_rank(cards, straight):
 		else:
 			var i = 1
 			while i < cards.size():
-				if cards[i].card.rank == 0:
+				if cards[i].is_joker():
 					return cards[0].card.rank - i
 				else:
 					i += 1
@@ -165,7 +177,7 @@ static func find_expected_joker_rank(cards, straight):
 		return cards[0].card.rank
 	else:
 		if cards.size() == 5:
-			if cards[4].card.rank == 0:
+			if cards[4].is_joker():
 				return cards[2].card.rank
 		return cards[0].card.rank
 

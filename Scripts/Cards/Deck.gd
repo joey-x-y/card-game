@@ -67,14 +67,6 @@ func draw_card(index = 0):
 	else:
 		return cards[0]
 
-func find_index(suit, rank):
-	var i = 0
-	for card in cards:
-		if (card.card.suit == suit && card.card.rank == rank):
-			return i
-		i+=1
-	return 0
-
 func swap(i1, i2):
 	if (check_legal_index(i1) && check_legal_index(i2)):
 		var c = cards[i1]

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://c3l44wwtneh0g"]
 
+[ext_resource type="Texture2D" uid="uid://76mdtujqwf6o" path="res://Art/Poker cards/Card Button Effects/Hover.png" id="1_ikclm"]
 [ext_resource type="Script" uid="uid://lpsx8olqlbvy" path="res://Scripts/CardSlot.gd" id="1_k67mw"]
+[ext_resource type="Texture2D" uid="uid://cqftfocnqftkh" path="res://Art/Poker cards/Card Button Effects/Clicked.png" id="2_vdo3l"]
 
 [node name="CardSlot" type="TextureRect" unique_id=1164414194]
 visible = false
@@ -14,6 +16,9 @@ grow_horizontal = 2
 grow_vertical = 2
 disabled = true
 toggle_mode = true
+texture_pressed = ExtResource("2_vdo3l")
+texture_hover = ExtResource("1_ikclm")
+ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("1_k67mw")
 card_image = NodePath("..")

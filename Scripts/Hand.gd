@@ -53,6 +53,7 @@ func hide_cards():
 func enable_hand(enable):
 	for slot in activeCardSlots:
 		slot.disabled = !enable
+		slot.undo_press()
 
 func swap_card(old, new):
 	var index = hand.find(old)

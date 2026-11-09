@@ -11,6 +11,9 @@ func set_card(c):
 func replace_card(c):
 	card = c
 
+func undo_press():
+	button_pressed = false
+
 func flip_front():
 	card_image.texture = card.card.front_texture
 

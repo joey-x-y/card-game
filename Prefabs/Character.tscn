@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://k43qhs7syl5y"]
 
-[ext_resource type="Script" uid="uid://c425yegbhmvfq" path="res://Scripts/Character.gd" id="1_2evft"]
-[ext_resource type="Script" uid="uid://nf135lryid6b" path="res://Scripts/Hand.gd" id="2_n3ll4"]
+[ext_resource type="Script" uid="uid://c425yegbhmvfq" path="res://Scripts/Characters/Character.gd" id="1_2evft"]
+[ext_resource type="Script" uid="uid://nf135lryid6b" path="res://Scripts/Characters/Hand.gd" id="2_n3ll4"]
 [ext_resource type="PackedScene" uid="uid://c3l44wwtneh0g" path="res://Prefabs/CardSlot.tscn" id="3_n3ll4"]
 
 [node name="Character" type="Control" unique_id=963857516 node_paths=PackedStringArray("hand")]

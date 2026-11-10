@@ -10,18 +10,22 @@ var State = {
 
 var state = 0
 @export var hand: Node
+@export var difficulty: int = 1
 
 func set_player():
 	state = 0
 
 func set_ally():
 	state = 1
+	difficulty = GlobalTrackers.difficulty
 
 func set_op1():
 	state = 2
+	difficulty = GlobalTrackers.difficulty
 
 func set_op2():
 	state = 3
+	difficulty = GlobalTrackers.difficulty
 
 func give_card(card):
 	hand.add(card)
@@ -40,6 +44,11 @@ func get_hand():
 	return hand.get_cards()
 
 func pick_discard(current_river: Array, hidden_river_cards: int):
+	## 0 is easiest difficulty, 3 is hardest
+	var rand = randi_range(1, 3)
+	if difficulty < rand:
+		return []
+
 	# var unrevealed = river_length - current_river.size()
 	var full_hand = hand.hand.duplicate()
 	full_hand.append_array(current_river)
@@ -80,6 +89,11 @@ func pick_discard(current_river: Array, hidden_river_cards: int):
 	return discard_cards
 
 func pick_trade(ally_hand: Array, current_river: Array, hidden_river_cards: int):
+	## 0 is easiest difficulty, 3 is hardest
+	var rand = randi_range(1, 3)
+	if difficulty < rand:
+		return [[], []]
+
 	var self_trade = []
 	var ally_trade = []
 

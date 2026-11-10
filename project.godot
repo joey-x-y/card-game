@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 MusicManager="*uid://c5xeekxjpvcwg"
 Events="*uid://difsd0ry8bg4x"
+GlobalTrackers="*uid://bbf4haanue7ep"
 
 [physics]
 

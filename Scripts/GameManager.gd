@@ -19,15 +19,21 @@ var team1_wins: int = 0
 var team2_wins: int = 0
 
 @export var proceed_button: Button
+@export var quit_button: Button
 
 var next_card_index: int = 0
 
 var draw: bool = false
 var trade: bool = false
+var round_ended: bool = false
+var complete: bool = false
 
 var last_winner = null
 
 func _ready():
+	quit_button.pressed.connect(return_to_title)
+	proceed_button.hide()
+
 	player.set_player()
 	ally.set_ally()
 	op1.set_op1()
@@ -56,6 +62,7 @@ func draw_round():
 
 	find_hands(player, [river_cards[0]])
 
+	proceed_button.text = "Discard"
 	proceed_button.show()
 
 func discard_round():
@@ -83,6 +90,7 @@ func trade_round():
 	find_hands(player, [river_cards[0]])
 	find_hands(ally, [river_cards[0]])
 
+	proceed_button.text = "Trade"
 	proceed_button.show()
 
 func do_trades():
@@ -150,26 +158,38 @@ func end_round():
 
 	if team1_wins >= wins_needed:
 		print("Team 1 won it all!")
-		await get_tree().create_timer(5).timeout
+		GlobalTrackers.win()
 		end_game(true)
 	elif team2_wins >= wins_needed:
 		print("Team 2 won it all!")
-		await get_tree().create_timer(5).timeout
+		GlobalTrackers.lose()
 		end_game(false)
 	else:
 		print("Next round pending...")
-		await get_tree().create_timer(5).timeout
-		player.wipe_hand()
-		ally.wipe_hand()
-		op1.wipe_hand()
-		op2.wipe_hand()
-		river.reset()
-		river_cards.clear()
-		print("Go!")
-		start_round()
+		round_ended = true
+		proceed_button.text = "Next Hand"
+		proceed_button.show()
 
 func end_game(win: bool):
+
+	GlobalTrackers.save_game()
 	# for now winning just returns to title
+	complete = true
+	proceed_button.text = "Restart"
+	proceed_button.show()
+
+func restart_round():
+	player.wipe_hand()
+	ally.wipe_hand()
+	op1.wipe_hand()
+	op2.wipe_hand()
+	river.reset()
+	river_cards.clear()
+
+	start_round()
+
+
+func return_to_title():
 	get_tree().change_scene_to_file(title_scene_path)
 
 
@@ -203,3 +223,17 @@ func _on_button_pressed():
 			do_trades()
 		else:
 			print("Invalid trade")
+	elif complete:
+		print("Restarting")
+		proceed_button.hide()
+		complete = false
+		round_ended = false
+		last_winner = null
+		team1_wins = 0
+		team2_wins = 0
+		restart_round()
+	elif round_ended:
+		print("Next Round")
+		proceed_button.hide()
+		round_ended = false
+		restart_round()

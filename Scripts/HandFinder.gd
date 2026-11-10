@@ -315,7 +315,7 @@ static func flush_check(cards):
 	if hand_length != needed_cards && flush_hands.size() > 0:
 		for h in flush_hands:
 			for j in pairings[4]:
-				h.append(j)
+				h.push_front(j)
 
 	for h in flush_hands:
 		h.resize(5)

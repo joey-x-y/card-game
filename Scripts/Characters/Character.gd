@@ -10,22 +10,31 @@ var State = {
 
 var state = 0
 @export var hand: Node
-@export var difficulty: int = 1
+@export var display_data: RichTextLabel
+## difficulty will probably be skill's implementation for free play
+@export var difficulty: int = 0
 
 func set_player():
 	state = 0
+	set_display_data("Player 1: Team 1")
 
 func set_ally():
 	state = 1
 	difficulty = GlobalTrackers.difficulty
+	set_display_data("Player 2: Team 1")
 
 func set_op1():
 	state = 2
 	difficulty = GlobalTrackers.difficulty
+	set_display_data("Player 3: Team 2")
 
 func set_op2():
 	state = 3
 	difficulty = GlobalTrackers.difficulty
+	set_display_data("Player 4: Team 2")
+
+func set_display_data(s: String):
+	display_data.text = s
 
 func give_card(card):
 	hand.add(card)
@@ -44,8 +53,8 @@ func get_hand():
 	return hand.get_cards()
 
 func pick_discard(current_river: Array, hidden_river_cards: int):
-	## 0 is easiest difficulty, 3 is hardest
-	var rand = randi_range(1, 3)
+	## 0 is easiest difficulty, 2 is hardest
+	var rand = randi_range(0, 2)
 	if difficulty < rand:
 		return []
 
@@ -89,8 +98,8 @@ func pick_discard(current_river: Array, hidden_river_cards: int):
 	return discard_cards
 
 func pick_trade(ally_hand: Array, current_river: Array, hidden_river_cards: int):
-	## 0 is easiest difficulty, 3 is hardest
-	var rand = randi_range(1, 3)
+	## 0 is easiest difficulty, 2 is hardest
+	var rand = randi_range(0, 2)
 	if difficulty < rand:
 		return [[], []]
 

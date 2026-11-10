@@ -61,7 +61,7 @@ static func strongest_hand_group(possible_hands):
 				break
 			elif next[0] == hand_values[n][1][0]:
 				var s = false
-				if next[0] == 4:
+				if next[0] == 4 || next[0] >= 8:
 					s = true
 				var better = CardSorter.get_best_hand(next[1], hand_values[n][1][1], s)
 				if better == next[1]:
@@ -82,8 +82,8 @@ static func get_hand_value(hands):
 		if hands[1].size() > 0:
 			var s_flush = straight_flush_check(hands[1], hands[2])
 			if s_flush.size() > 0:
-				var jokers = CardSorter.count_jokers(s_flush[0])
 				best_hand = s_flush[0]
+				var jokers = CardSorter.count_jokers(best_hand)
 				if royal_flush_check(best_hand, jokers):
 					hand_value = 9
 					return [hand_value, best_hand]
@@ -144,8 +144,8 @@ static func get_hand_value(hands):
 							
 				
 static func royal_flush_check(hand, jokers):
-	# only returns accurately if hand is a straight flush
-	return (hand[0].card.rank == 14 || (hand[0].is_joker() && CardSorter.check_contain_rank(14 - jokers, hand)))
+	# only returns accurately if hand is a straight
+	return (hand[0].card.rank == 14 || (hand[0].is_joker() && CardSorter.check_contain_rank(14 - jokers, hand)) && CardSorter.check_all_same_suit(hand))
 
 
 static func pair_check(cards):
@@ -346,21 +346,21 @@ static func all_possible_flushes(cards):
 
 	return [hearts, diamonds, spades, clubs, jokers]
 
-static func straight_flush_check(straight, flush):
-	var needed = straight.size()
+static func straight_flush_check(straight_possibilities, flush_possibilies):
 	var matches = []
 
-	for s in straight:
-		for f in flush:
-			var m = []
-			for num in s:
-				for card in num:
-					for fcard in f:
+	for straight in straight_possibilities:
+		for flush in flush_possibilies:
+			var hand = []
+			for num_array in straight:
+				for card in num_array:
+					for fcard in flush:
 						if card.card.id == fcard.card.id:
-							m.append(card)
+							hand.append(card)
 							break
-			if m.size() >= needed:
-				matches.append(m)
+			if hand.size() >= hand_length:
+				hand.resize(hand_length)
+				matches.append(hand)
 
 	return matches
 

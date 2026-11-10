@@ -5,10 +5,10 @@ var activeCardSlots: Array[TextureButton] = []
 @export var cardSlots: Array[TextureRect]
 var selected_cards: Array[Card] = []
 
-@export var slot_width: float = 48
-var slot_height: float
 var hand_width : float
 @export var card_gap: float = 5.0
+
+var showing = false
 
 func _ready():
 	Events.card_pressed.connect(on_card_pressed)
@@ -29,6 +29,7 @@ func remove(i):
 	activeCardSlots.remove_at(i)
 
 func clear():
+	showing = false
 	hand.clear()
 	activeCardSlots.clear()
 	for slot in cardSlots:
@@ -45,10 +46,12 @@ func select(card):
 func show_cards():
 	for slot in activeCardSlots:
 		slot.flip_front()
+	showing = true
 
 func hide_cards():
 	for slot in activeCardSlots:
 		slot.flip_back()
+	showing = false
 
 func enable_hand(enable):
 	for slot in activeCardSlots:
@@ -65,16 +68,17 @@ func swap_cards(old, new):
 		swap_card(old[i], new[i])
 
 func layout_slots():
-	slot_height = slot_width * (4.0/3.0)
 	var count = cardSlots.size()
-	hand_width = count * slot_width + (card_gap * (count - 1))
-	var start_x = (size.x - hand_width) / 2.0
+	# use width of container 
+	var slot_width = (size.x - card_gap * (count - 1)) / count
+	var slot_height = slot_width * (4.0/3.0)
+	
 	var y = (size.y - slot_height) / 2.0
 
 	for i in count:
 		var slot = cardSlots[i]
 		var slot_rect = Rect2(
-			start_x + i * (slot_width + card_gap),
+			i * (slot_width + card_gap),
 			y,
 			slot_width,
 			slot_height

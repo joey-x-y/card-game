@@ -2,12 +2,14 @@ extends Node
 
 var save_path = "user://save_data.save"
 
-var wins = 0
-var losses = 0
-var games_played = 0
+var wins: int = 0
+var losses: int = 0
+var games_played: int = 0
 
-var difficulty = 1
-var best_win_difficulty = 0
+var difficulty: int = 0
+var best_win_difficulty: int = 0
+
+var preferred_hand_sort: int = 0
 
 func win():
 	wins += 1
@@ -27,6 +29,7 @@ func save_game():
 		"games_played": games_played,
 		"best_win_difficulty": best_win_difficulty,
 		"difficulty": difficulty,
+		"preferred_hand_sort": preferred_hand_sort,	
 	}
 
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
@@ -50,7 +53,8 @@ func load_game() -> bool:
 	losses = data.get("losses", 0)
 	games_played = data.get("games_played", 0)
 	best_win_difficulty = data.get("best_win_difficulty", 0)
-	difficulty = data.get("difficulty", 1)
+	difficulty = data.get("difficulty", 0)
+	preferred_hand_sort = data.get("preferred_hand_sort", 0)
 
 	return true
 
@@ -59,5 +63,6 @@ func wipe_data():
 	losses = 0
 	games_played = 0
 	best_win_difficulty = 0
-	difficulty = 2
+	difficulty = 0
+	preferred_hand_sort = 0
 	save_game()

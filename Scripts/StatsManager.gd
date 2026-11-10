@@ -20,14 +20,17 @@ func set_menu():
 	losses.text = "Losses: " + str(GlobalTrackers.losses)
 	games_played.text = "Games Played: " + str(GlobalTrackers.games_played)
 	
-	if GlobalTrackers.best_win_difficulty > 0:
+	if GlobalTrackers.wins > 0:
 		var best_win_string: String
-		if GlobalTrackers.best_win_difficulty == 1:
+		if GlobalTrackers.best_win_difficulty == 0:
 			best_win_string = "Easy"
-		elif GlobalTrackers.best_win_difficulty == 2:
+		if GlobalTrackers.best_win_difficulty == 1:
 			best_win_string = "Medium"
-		else:
+		elif GlobalTrackers.best_win_difficulty == 2:
 			best_win_string = "Hard"
+		else:
+			best_win_string = "This is bugged..."
+			
 
 		best_win_difficulty.text = "Highest Difficulty Won: " + best_win_string
 

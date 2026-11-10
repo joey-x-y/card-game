@@ -18,6 +18,10 @@ var river_cards : Array[Card] = []
 var team1_wins: int = 0
 var team2_wins: int = 0
 
+@export var instruction_text: RichTextLabel
+@export var hand_sorter_button: OptionButton
+@export var scoreboard: RichTextLabel
+
 @export var proceed_button: Button
 @export var quit_button: Button
 
@@ -33,6 +37,8 @@ var last_winner = null
 func _ready():
 	quit_button.pressed.connect(return_to_title)
 	proceed_button.hide()
+	hand_sorter_button.item_selected.connect(set_hand_sort)
+	hand_sorter_button.select(GlobalTrackers.preferred_hand_sort)
 
 	player.set_player()
 	ally.set_ally()
@@ -42,9 +48,13 @@ func _ready():
 	start_round()
 
 func start_round():
+	scoreboard_update()
 	deck.shuffle()
 
+	instruction_text.text = "Dealing..."
+
 	deal_hand(player)
+	sort_hand()
 	deal_hand(ally)
 	deal_hand(op1)
 	deal_hand(op2)
@@ -60,16 +70,20 @@ func draw_round():
 	draw = true
 	player.enable_hand()
 
-	find_hands(player, [river_cards[0]])
+	instruction_text.text = "Pick which cards you'd like to discard."
+
+	# find_hands(player, [river_cards[0]])
 
 	proceed_button.text = "Discard"
 	proceed_button.show()
 
 func discard_round():
+	instruction_text.text = "Replacing Cards..."
 	player.enable_hand(false)
 	var cards = player.hand.use_selected_cards()
 	discard(player, cards)
 	player.hand.show_cards()
+	sort_hand()
 	discard(ally, ally.pick_discard([river_cards[0]], 1))
 	discard(op1, op1.pick_discard([river_cards[0]], 1))
 	discard(op2, op2.pick_discard([river_cards[0]], 1))
@@ -83,9 +97,12 @@ func discard(p, cards):
 
 func trade_round():
 	trade = true
+	sort_hand()
 	ally.hand.show_cards()
 	player.enable_hand()
 	ally.enable_hand()
+
+	instruction_text.text = "Pick which cards you'd like to trade away and the cards you'd like to trade for. Must trade the same amount."
 
 	find_hands(player, [river_cards[0]])
 	find_hands(ally, [river_cards[0]])
@@ -94,11 +111,14 @@ func trade_round():
 	proceed_button.show()
 
 func do_trades():
+	instruction_text.text = "Trading..."
 	player.enable_hand(false)
 	ally.enable_hand(false)
 	var p_cards = player.hand.use_selected_cards()
 	var a_cards = ally.hand.use_selected_cards()
 	trade_cards(player, ally, p_cards, a_cards)
+
+	sort_hand()
 
 	var opp_cards = op1.pick_trade(op2.get_hand(), [river_cards[0]], 1)
 	trade_cards(op1, op2, opp_cards[0], opp_cards[1])
@@ -128,8 +148,8 @@ func do_trades():
 		team1_wins += 1
 
 	print("River: ", HandFinder.print_hand(river_cards))
-	print("Player ", n, ": wins!")
-	print(HandFinder.Hands[best_hand[1][0]])
+	scoreboard_update()
+	instruction_text.text = "Player " + str(n) + ": wins!\n" + str(HandFinder.Hands[best_hand[1][0]])
 	for i in best_hand[1][1]:
 		print(i.card.id)
 	print("Team 1 Wins: ", team1_wins)
@@ -208,6 +228,34 @@ func set_river():
 		river_cards.append(c)
 		river.set_card(i, c)
 
+func sort_hand():
+	var p_show = player.hand.showing
+	var a_show = ally.hand.showing
+	match GlobalTrackers.preferred_hand_sort:
+		0:
+			return
+		1:
+			player.set_hand(CardSorter.sort_high_to_low(player.get_hand()))
+			ally.set_hand(CardSorter.sort_high_to_low(ally.get_hand()))
+		2:
+			player.set_hand(CardSorter.sort_low_to_high(player.get_hand()))
+			ally.set_hand(CardSorter.sort_low_to_high(ally.get_hand()))
+		3:
+			player.set_hand(CardSorter.group_by_suit(player.get_hand()))
+			ally.set_hand(CardSorter.group_by_suit(ally.get_hand()))
+
+
+	if p_show:
+		player.hand.show_cards()
+	if a_show:
+		ally.hand.show_cards()
+
+func set_hand_sort(i: int):
+	GlobalTrackers.preferred_hand_sort = i
+	sort_hand()
+
+func scoreboard_update():
+	scoreboard.text = "First team to win " + str(wins_needed) + " hands is the winner!\n\nTeam 1 wins: " + str(team1_wins) + "\nTeam 2 wins: " + str(team2_wins)
 
 func _on_button_pressed():
 	if draw:
@@ -231,6 +279,7 @@ func _on_button_pressed():
 		last_winner = null
 		team1_wins = 0
 		team2_wins = 0
+		scoreboard_update()
 		restart_round()
 	elif round_ended:
 		print("Next Round")

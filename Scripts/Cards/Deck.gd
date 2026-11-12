@@ -2,8 +2,13 @@ class_name Deck
 extends Node
 
 var cards: Array[Card] = []
+var joker_amount: int = 1
 
-func _ready():
+func fill_deck():
+	set_joker_amount(GlobalTrackers.jokers)
+
+	cards.clear()
+
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 2)))
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 3)))
 	cards.append(Card.new(CardData.new(CardData.Suit.SPADES, 4)))
@@ -56,9 +61,12 @@ func _ready():
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 12)))
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 13)))
 	cards.append(Card.new(CardData.new(CardData.Suit.CLUBS, 14)))
-	cards.append(Card.new(CardData.new(CardData.Suit.NONE, 0)))
+
+	for i in range(joker_amount):
+		cards.append(Card.new(CardData.new(CardData.Suit.NONE, 0)))
 
 func shuffle():
+	fill_deck()
 	cards.shuffle()
 
 func draw_card(index = 0):
@@ -77,3 +85,6 @@ func swap(i1, i2):
 
 func check_legal_index(i):
 	return i < cards.size()
+
+func set_joker_amount(i: int):
+	joker_amount = i

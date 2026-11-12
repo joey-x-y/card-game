@@ -5,8 +5,9 @@
 [ext_resource type="Script" uid="uid://chnw2euv35ilk" path="res://Scripts/Cards/Deck.gd" id="3_b2bpf"]
 [ext_resource type="Script" uid="uid://bw1meq4xitqif" path="res://Scripts/Cards/River.gd" id="4_kldst"]
 [ext_resource type="PackedScene" uid="uid://c3l44wwtneh0g" path="res://Prefabs/CardSlot.tscn" id="5_b2bpf"]
+[ext_resource type="Script" uid="uid://bvlul11tk01qo" path="res://Scripts/HandDisplay.gd" id="6_7lihs"]
 
-[node name="Game" type="Control" unique_id=2074097226 node_paths=PackedStringArray("player", "ally", "op1", "op2", "deck", "river", "instruction_text", "hand_sorter_button", "scoreboard", "proceed_button", "quit_button")]
+[node name="Game" type="Control" unique_id=2074097226 node_paths=PackedStringArray("player", "ally", "op1", "op2", "deck", "river", "instruction_text", "hand_sorter_button", "scoreboard", "hand_display", "proceed_button", "quit_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +24,7 @@ river = NodePath("UI/River")
 instruction_text = NodePath("UI/InstructionText")
 hand_sorter_button = NodePath("UI/HandSorts")
 scoreboard = NodePath("UI/Scoreboard")
+hand_display = NodePath("UI/HandHelp")
 proceed_button = NodePath("UI/Next")
 quit_button = NodePath("UI/Quit")
 
@@ -54,14 +56,27 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0.2611708, 0.0060971794, 1)
 
+[node name="ColorRect2" type="ColorRect" parent="UI" unique_id=1733465501]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 642.99994
+offset_right = -20.0
+offset_bottom = 680.99994
+grow_horizontal = 2
+rotation = -0.5064553
+scale = Vector2(1.2330526, 0.44238842)
+color = Color(0.6745098, 0.49803922, 0, 1)
+
 [node name="River" type="Container" parent="UI" unique_id=811713047 node_paths=PackedStringArray("card_slot")]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.35200003
 anchor_right = 1.0
 anchor_bottom = 0.55700004
-offset_top = -0.09602356
-offset_bottom = 0.063964844
+offset_top = 22.903976
+offset_bottom = 23.063965
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_kldst")
@@ -118,9 +133,9 @@ anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 385.0
-offset_top = 16.0
+offset_top = 31.0
 offset_right = 745.0
-offset_bottom = 166.0
+offset_bottom = 181.0
 grow_horizontal = 1
 grow_vertical = 1
 
@@ -145,19 +160,19 @@ text = "Quit"
 [node name="InstructionText" type="RichTextLabel" parent="UI" unique_id=357002125]
 layout_mode = 0
 offset_left = 315.0
-offset_top = 406.0
+offset_top = 393.0
 offset_right = 779.0
-offset_bottom = 519.0
+offset_bottom = 506.0
 mouse_filter = 2
 scroll_active = false
 horizontal_alignment = 1
 
 [node name="HandSorts" type="OptionButton" parent="UI" unique_id=627764900]
 layout_mode = 0
-offset_left = 215.0
-offset_top = 450.0
-offset_right = 361.0
-offset_bottom = 522.0
+offset_left = 223.0
+offset_top = 488.0
+offset_right = 369.0
+offset_bottom = 560.0
 item_count = 4
 popup/item_0/text = "None"
 popup/item_0/id = 0
@@ -168,6 +183,17 @@ popup/item_2/id = 2
 popup/item_3/text = "Suits"
 popup/item_3/id = 3
 
+[node name="RichTextLabel" type="RichTextLabel" parent="UI" unique_id=26330015]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 465.0
+offset_right = 359.0
+offset_bottom = 494.0
+mouse_filter = 2
+text = "Sort Hand"
+scroll_active = false
+horizontal_alignment = 1
+
 [node name="Scoreboard" type="RichTextLabel" parent="UI" unique_id=1788841116]
 layout_mode = 0
 offset_left = 748.0
@@ -176,22 +202,78 @@ offset_right = 1093.0
 offset_bottom = 170.0
 horizontal_alignment = 1
 
-[node name="HandHelp" type="Control" parent="UI" unique_id=661748925]
+[node name="HandHelp" type="Control" parent="UI" unique_id=661748925 node_paths=PackedStringArray("card_slots", "hand_name_display")]
 anchors_preset = 0
 offset_left = 71.0
 offset_top = 57.0
 offset_right = 348.0
 offset_bottom = 184.0
+script = ExtResource("6_7lihs")
+card_slots = [NodePath("HBoxContainer/TextureRect"), NodePath("HBoxContainer/TextureRect2"), NodePath("HBoxContainer/TextureRect3"), NodePath("HBoxContainer/TextureRect4"), NodePath("HBoxContainer/TextureRect5")]
+hand_name_display = NodePath("HandName")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI" unique_id=26330015]
-layout_mode = 0
-offset_left = 180.0
-offset_top = 427.0
-offset_right = 326.0
-offset_bottom = 456.0
-mouse_filter = 2
-text = "Sort"
+[node name="TextureRect" type="ColorRect" parent="UI/HandHelp" unique_id=1173366339]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14117648, 0.21568628, 0.14117648, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/HandHelp" unique_id=1262068280]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.31500003
+offset_bottom = -4.005005
+text = "Your Best Hand:"
 scroll_active = false
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HandName" type="RichTextLabel" parent="UI/HandHelp" unique_id=1934506353]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.31500003
+offset_top = 25.0
+offset_bottom = 20.994995
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HandHelp" unique_id=1680572671]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.09
+anchor_top = 0.48800004
+anchor_right = 0.91
+anchor_bottom = 0.95300007
+offset_left = 0.069999695
+offset_top = 0.023994446
+offset_right = -0.070007324
+offset_bottom = -0.03100586
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/HandHelp/HBoxContainer" unique_id=621746707]
+layout_mode = 2
+expand_mode = 3
+
+[node name="TextureRect2" type="TextureRect" parent="UI/HandHelp/HBoxContainer" unique_id=2114512287]
+layout_mode = 2
+expand_mode = 3
+
+[node name="TextureRect3" type="TextureRect" parent="UI/HandHelp/HBoxContainer" unique_id=396581538]
+layout_mode = 2
+expand_mode = 3
+
+[node name="TextureRect4" type="TextureRect" parent="UI/HandHelp/HBoxContainer" unique_id=871985728]
+layout_mode = 2
+expand_mode = 3
+
+[node name="TextureRect5" type="TextureRect" parent="UI/HandHelp/HBoxContainer" unique_id=275020180]
+layout_mode = 2
+expand_mode = 3
 
 [connection signal="pressed" from="UI/Next" to="." method="_on_button_pressed"]

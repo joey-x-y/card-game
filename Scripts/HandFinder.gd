@@ -30,17 +30,19 @@ static func get_possible_hands(cards):
 
 	return [pairings, straight, flush]
 
-static func get_best_hand(hands, river_cards):
-	var best_hand = null
-	var best_hand_list = []
+static func get_best_hand_individual(hand, river_cards = null):
+	var new_hand = hand.duplicate()
+	if river_cards != null:
+		new_hand.append_array(river_cards)
+	return get_hand_value(get_possible_hands(new_hand))
+
+static func get_best_hand(hands):
 	var hands_dict = {}
 	for i in range(hands.size()):
-		var hand = hands[i].duplicate()
-		hand.append_array(river_cards)
-		hands_dict[i] = get_possible_hands(hand)
-
-	best_hand_list = strongest_hand_group(hands_dict)
-	best_hand = best_hand_list[0]
+		hands_dict[i] = hands[i].duplicate()
+ 
+	var best_hand_list = strongest_hand_group(hands_dict)
+	var best_hand = best_hand_list[0]
 
 	for i in range(best_hand_list.size()):
 		print("Rank ", i, "! Player ", best_hand_list[i][0], ": ", print_hand(best_hand_list[i][1][1]), " Hand Type: ", Hands[best_hand_list[i][1][0]])
@@ -48,12 +50,12 @@ static func get_best_hand(hands, river_cards):
 	return best_hand
 
 static func strongest_hand_group(possible_hands):
-	var hand_values = [[0, get_hand_value(possible_hands[0])]]
+	var hand_values = [[0, possible_hands[0]]]
 
 	for i in possible_hands:
 		if i == 0:
 			continue
-		var next = get_hand_value(possible_hands[i])
+		var next = possible_hands[i]
 		var n = 0
 		while n < hand_values.size():
 			if next[0] > hand_values[n][1][0]:

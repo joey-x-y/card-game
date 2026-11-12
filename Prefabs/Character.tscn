@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://nf135lryid6b" path="res://Scripts/Characters/Hand.gd" id="2_n3ll4"]
 [ext_resource type="PackedScene" uid="uid://c3l44wwtneh0g" path="res://Prefabs/CardSlot.tscn" id="3_n3ll4"]
 
-[node name="Character" type="Control" unique_id=963857516 node_paths=PackedStringArray("hand", "display_data")]
+[node name="Character" type="Control" unique_id=963857516 node_paths=PackedStringArray("hand", "display_data", "display_data_hand")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,7 @@ grow_vertical = 2
 script = ExtResource("1_2evft")
 hand = NodePath("Hand")
 display_data = NodePath("CharacterDisplayData/DisplayData")
+display_data_hand = NodePath("CharacterDisplayData/DisplayDataHand")
 
 [node name="Hand" type="Container" parent="." unique_id=1362151626 node_paths=PackedStringArray("cardSlots")]
 propagate_maximum_size = false
@@ -40,20 +41,41 @@ layout_mode = 2
 [node name="CardSlot4" parent="Hand" unique_id=1249891058 instance=ExtResource("3_n3ll4")]
 layout_mode = 2
 
-[node name="CharacterDisplayData" type="Control" parent="." unique_id=41028716]
+[node name="CharacterDisplayData" type="Control" parent="." unique_id=302509664]
 layout_mode = 1
 anchor_right = 1.0
-anchor_bottom = 0.19800001
-offset_bottom = -0.3040161
+anchor_bottom = 0.147
+offset_bottom = -0.2559967
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="DisplayData" type="RichTextLabel" parent="CharacterDisplayData" unique_id=357012142]
+clip_contents = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = -1
+anchor_left = 0.030000001
+anchor_right = 0.49600002
 anchor_bottom = 1.0
-grow_horizontal = 2
+offset_left = -0.5600014
+offset_right = -0.3920288
 grow_vertical = 2
+fit_content = true
 scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="DisplayDataHand" type="RichTextLabel" parent="CharacterDisplayData" unique_id=793846655]
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.48200002
+anchor_right = 0.97300005
+anchor_bottom = 1.0
+offset_left = -0.2640381
+offset_right = 0.104003906
+grow_horizontal = 0
+grow_vertical = 2
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 horizontal_alignment = 1

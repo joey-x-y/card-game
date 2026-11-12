@@ -11,6 +11,7 @@ var title_scene_path : String = "res://Scenes/Main.tscn"
 
 @export var river: Node
 var river_cards : Array[Card] = []
+var river_cards_active : Array[Card] = []
 
 @export var handSize: int = 4
 @export var wins_needed: int = 3
@@ -21,6 +22,7 @@ var team2_wins: int = 0
 @export var instruction_text: RichTextLabel
 @export var hand_sorter_button: OptionButton
 @export var scoreboard: RichTextLabel
+@export var hand_display: Node
 
 @export var proceed_button: Button
 @export var quit_button: Button
@@ -48,6 +50,7 @@ func _ready():
 	start_round()
 
 func start_round():
+	clear_hand_displays()
 	scoreboard_update()
 	deck.shuffle()
 
@@ -62,6 +65,7 @@ func start_round():
 	set_river()
 
 	river.flip_card(0)
+	river_cards_active.append(river_cards[0])
 	player.hand.show_cards()
 
 	draw_round()
@@ -72,7 +76,7 @@ func draw_round():
 
 	instruction_text.text = "Pick which cards you'd like to discard."
 
-	# find_hands(player, [river_cards[0]])
+	set_hand_helper()
 
 	proceed_button.text = "Discard"
 	proceed_button.show()
@@ -83,6 +87,7 @@ func discard_round():
 	var cards = player.hand.use_selected_cards()
 	discard(player, cards)
 	player.hand.show_cards()
+	set_hand_helper()
 	sort_hand()
 	discard(ally, ally.pick_discard([river_cards[0]], 1))
 	discard(op1, op1.pick_discard([river_cards[0]], 1))
@@ -104,9 +109,6 @@ func trade_round():
 
 	instruction_text.text = "Pick which cards you'd like to trade away and the cards you'd like to trade for. Must trade the same amount."
 
-	find_hands(player, [river_cards[0]])
-	find_hands(ally, [river_cards[0]])
-
 	proceed_button.text = "Trade"
 	proceed_button.show()
 
@@ -118,6 +120,7 @@ func do_trades():
 	var a_cards = ally.hand.use_selected_cards()
 	trade_cards(player, ally, p_cards, a_cards)
 
+	set_hand_helper()
 	sort_hand()
 
 	var opp_cards = op1.pick_trade(op2.get_hand(), [river_cards[0]], 1)
@@ -130,8 +133,9 @@ func do_trades():
 	op2.hand.show_cards()
 
 	river.flip_card(1)
+	river_cards_active.append(river_cards[1])
 
-	var best_hand = find_best_hand()
+	var best_hand = find_best_hand_overall(get_and_show_hands())
 	var n = best_hand[0]
 
 	if ally.state == n:
@@ -149,7 +153,7 @@ func do_trades():
 
 	print("River: ", HandFinder.print_hand(river_cards))
 	scoreboard_update()
-	instruction_text.text = "Player " + str(n) + ": wins!\n" + str(HandFinder.Hands[best_hand[1][0]])
+	instruction_text.text = "Player " + str(n + 1) + ": wins!\n" + str(HandFinder.Hands[best_hand[1][0]])
 	for i in best_hand[1][1]:
 		print(i.card.id)
 	print("Team 1 Wins: ", team1_wins)
@@ -162,15 +166,44 @@ func trade_cards(char1, char2, c1_cards, c2_cards):
 		char1.swap_card(c1_cards[i], c2_cards[i])
 		char2.swap_card(c2_cards[i], c1_cards[i])
 
-func find_best_hand():
-	var hands = [player.get_hand(), ally.get_hand(), op1.get_hand(), op2.get_hand()]
-	var best_hand = HandFinder.get_best_hand(hands, river_cards)
-	return best_hand
+func find_best_hand(hand: Array):
+	return HandFinder.get_best_hand_individual(hand, river_cards_active)
+
+func find_best_hand_overall(hands):
+	return HandFinder.get_best_hand(hands)
+
+func set_hand_helper():
+	var h = find_best_hand(player.get_hand())
+	hand_display.set_hand(h[1], HandFinder.Hands[h[0]])
+
+	return h
+
+func get_and_show_hands():
+	var h = set_hand_helper()
+	player.set_display_data_hand(HandFinder.Hands[h[0]])
+
+	var a = find_best_hand(ally.get_hand())
+	ally.set_display_data_hand(HandFinder.Hands[a[0]])
+
+	var b = find_best_hand(op1.get_hand())
+	op1.set_display_data_hand(HandFinder.Hands[b[0]])
+
+	var c = find_best_hand(op2.get_hand())
+	op2.set_display_data_hand(HandFinder.Hands[c[0]])
+
+	return [h, a, b, c]
 
 func find_hands(p, rcards: Array[Card] = river_cards):
 	var cards = p.get_hand().duplicate()
 	cards.append_array(rcards)
 	HandFinder.get_possible_hands(cards)
+
+func clear_hand_displays():
+	hand_display.hide_hand()
+	player.clear_display_data_hand()
+	ally.clear_display_data_hand()
+	op1.clear_display_data_hand()
+	op2.clear_display_data_hand()
 
 
 func end_round():
@@ -205,6 +238,7 @@ func restart_round():
 	op2.wipe_hand()
 	river.reset()
 	river_cards.clear()
+	river_cards_active.clear()
 
 	start_round()
 

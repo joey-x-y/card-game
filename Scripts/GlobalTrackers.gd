@@ -9,6 +9,7 @@ var games_played: int = 0
 var difficulty: int = 0
 var best_win_difficulty: int = 0
 
+var jokers: int = 1
 var preferred_hand_sort: int = 0
 
 func win():

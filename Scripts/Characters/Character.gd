@@ -11,6 +11,7 @@ var State = {
 var state = 0
 @export var hand: Node
 @export var display_data: RichTextLabel
+@export var display_data_hand: RichTextLabel
 ## difficulty will probably be skill's implementation for free play
 @export var difficulty: int = 0
 
@@ -35,6 +36,12 @@ func set_op2():
 
 func set_display_data(s: String):
 	display_data.text = s
+
+func set_display_data_hand(s : String):
+	display_data_hand.text = s
+
+func clear_display_data_hand():
+	display_data_hand.text = ""
 
 func give_card(card):
 	hand.add(card)

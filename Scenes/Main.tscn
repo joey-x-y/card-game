@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b23vdoc23nvmq" path="res://Scripts/Title.gd" id="1_r150o"]
 
-[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "stats_button", "difficulty_button")]
+[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "stats_button", "difficulty_button", "joker_choice")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,6 +13,7 @@ script = ExtResource("1_r150o")
 continue_button = NodePath("Button")
 stats_button = NodePath("StatsButton")
 difficulty_button = NodePath("DifficultyButton")
+joker_choice = NodePath("CheckBox")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1505161334]
 layout_mode = 1
@@ -75,3 +76,12 @@ offset_top = 423.0
 offset_right = 989.0
 offset_bottom = 541.0
 text = "Stats"
+
+[node name="CheckBox" type="CheckBox" parent="." unique_id=303505758]
+layout_mode = 0
+offset_left = 293.0
+offset_top = 440.0
+offset_right = 449.0
+offset_bottom = 505.0
+button_pressed = true
+text = "Play with a joker"

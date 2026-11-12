@@ -21,6 +21,11 @@ MusicManager="*uid://c5xeekxjpvcwg"
 Events="*uid://difsd0ry8bg4x"
 GlobalTrackers="*uid://bbf4haanue7ep"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

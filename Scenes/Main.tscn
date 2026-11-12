@@ -37,19 +37,24 @@ horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Button" type="Button" parent="." unique_id=875452009]
-layout_mode = 0
-offset_left = 470.0
-offset_top = 259.0
-offset_right = 690.0
-offset_bottom = 377.0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.033
+anchor_bottom = 0.029000001
+offset_right = -0.47999573
+offset_bottom = -0.3200016
 text = "Play"
 
 [node name="DifficultyLabel" type="RichTextLabel" parent="." unique_id=401616328]
-layout_mode = 0
-offset_left = 485.0
-offset_top = 433.0
-offset_right = 669.0
-offset_bottom = 459.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25300002
+anchor_top = 0.425
+anchor_right = 0.34800002
+anchor_bottom = 0.425
+offset_left = -0.7600403
+offset_top = -26.0
+offset_right = 0.8399658
 text = "Difficulty:"
 horizontal_alignment = 1
 
@@ -71,10 +76,10 @@ popup/item_2/id = 2
 
 [node name="StatsButton" type="Button" parent="." unique_id=748745043]
 layout_mode = 0
-offset_left = 769.0
-offset_top = 423.0
-offset_right = 989.0
-offset_bottom = 541.0
+offset_left = 774.0
+offset_top = 412.0
+offset_right = 994.0
+offset_bottom = 530.0
 text = "Stats"
 
 [node name="CheckBox" type="CheckBox" parent="." unique_id=303505758]

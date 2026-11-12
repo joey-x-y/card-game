@@ -2,10 +2,10 @@ extends Node
 
 var title_scene_path : String = "res://Scenes/Main.tscn"
 
-@export var player: Node
-@export var ally: Node
-@export var op1: Node
-@export var op2: Node
+@export var player: Character
+@export var ally: Character
+@export var op1: Character
+@export var op2: Character
 
 @export var deck: Node
 
@@ -151,13 +151,11 @@ func do_trades():
 		last_winner = player
 		team1_wins += 1
 
-	print("River: ", HandFinder.print_hand(river_cards))
+	glow_hand(best_hand[1][1], last_winner)
 	scoreboard_update()
 	instruction_text.text = "Player " + str(n + 1) + ": wins!\n" + str(HandFinder.Hands[best_hand[1][0]])
 	for i in best_hand[1][1]:
 		print(i.card.id)
-	print("Team 1 Wins: ", team1_wins)
-	print("Team 2 Wins: ", team2_wins)
 
 	end_round()
 
@@ -171,6 +169,12 @@ func find_best_hand(hand: Array):
 
 func find_best_hand_overall(hands):
 	return HandFinder.get_best_hand(hands)
+
+func glow_hand(cards: Array, winner: Character):
+	for c in cards:
+		if not winner.set_card_effect(c):
+			river.set_card_effect(c)
+
 
 func set_hand_helper():
 	var h = find_best_hand(player.get_hand())
@@ -224,9 +228,7 @@ func end_round():
 		proceed_button.show()
 
 func end_game(win: bool):
-
 	GlobalTrackers.save_game()
-	# for now winning just returns to title
 	complete = true
 	proceed_button.text = "Restart"
 	proceed_button.show()

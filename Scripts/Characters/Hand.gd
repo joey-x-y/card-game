@@ -1,24 +1,20 @@
-extends Container
+extends Node
 
 var hand: Array[Card] = []
-var activeCardSlots: Array[TextureButton] = []
+var activeCardSlots: Array[TextureRect] = []
 @export var cardSlots: Array[TextureRect]
 var selected_cards: Array[Card] = []
-
-var hand_width : float
-@export var card_gap: float = 5.0
 
 var showing = false
 
 func _ready():
 	Events.card_pressed.connect(on_card_pressed)
-	layout_slots()
 	clear()
 
 func add(card):
 	var current_slot = cardSlots[hand.size()]
-	activeCardSlots.append(current_slot.get_child(0))
-	current_slot.get_child(0).set_card(card)
+	activeCardSlots.append(current_slot)
+	current_slot.set_card(card)
 
 	hand.append(card)
 	current_slot.visible=true
@@ -34,6 +30,7 @@ func clear():
 	activeCardSlots.clear()
 	for slot in cardSlots:
 		slot.visible = false
+		slot.set_effect(false)
 
 func select(card):
 	if selected_cards.has(card):
@@ -51,11 +48,12 @@ func show_cards():
 func hide_cards():
 	for slot in activeCardSlots:
 		slot.flip_back()
+		slot.undo_press()
 	showing = false
 
 func enable_hand(enable):
 	for slot in activeCardSlots:
-		slot.disabled = !enable
+		slot.set_enable(!enable)
 		slot.undo_press()
 
 func swap_card(old, new):
@@ -66,24 +64,6 @@ func swap_card(old, new):
 func swap_cards(old, new):
 	for i in range(old.count()):
 		swap_card(old[i], new[i])
-
-func layout_slots():
-	var count = cardSlots.size()
-	# use width of container 
-	var slot_width = (size.x - card_gap * (count - 1)) / count
-	var slot_height = slot_width * (4.0/3.0)
-	
-	var y = (size.y - slot_height) / 2.0
-
-	for i in count:
-		var slot = cardSlots[i]
-		var slot_rect = Rect2(
-			i * (slot_width + card_gap),
-			y,
-			slot_width,
-			slot_height
-		)
-		fit_child_in_rect(slot, slot_rect)
 
 func get_cards():
 	return hand
@@ -100,7 +80,7 @@ func get_card_by_index(indexes: Array[int]):
 
 	return cards
 
-func on_card_pressed(cardSlot: TextureButton):
+func on_card_pressed(cardSlot: TextureRect):
 	if activeCardSlots.has(cardSlot):
 		var card = cardSlot.card
 		select(card)

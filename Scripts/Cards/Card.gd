@@ -3,8 +3,8 @@ extends Node
 
 var card: CardData
 
-func _init(card: CardData = CardData.new()):
-	self.card = card
+func _init(c: CardData = CardData.new()):
+	card = c
 
 func is_joker():
 	return card.rank == 0

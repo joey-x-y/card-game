@@ -40,9 +40,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Labels" type="VBoxContainer" parent="." unique_id=1664155319]
 layout_mode = 0
-offset_left = 190.0
-offset_top = 178.0
-offset_right = 937.0
+offset_left = 414.0
+offset_top = 226.0
+offset_right = 1006.0
 offset_bottom = 460.0
 
 [node name="Wins" type="Label" parent="Labels" unique_id=1823631780]

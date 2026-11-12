@@ -1,3 +1,3 @@
 extends Node
 
-signal card_pressed(cardSlot: TextureButton)
+signal card_pressed(cardSlot: TextureRect)

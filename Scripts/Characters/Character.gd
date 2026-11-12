@@ -47,6 +47,13 @@ func give_card(card):
 	hand.add(card)
 	# print(State[state], " ", CardData.Suit.find_key(card.card.suit), " ", card.card.Ranks[card.card.rank])
 
+func set_card_effect(card):
+	for i in range(hand.hand.size()):
+		if hand.hand[i] == card:
+			hand.activeCardSlots[i].set_effect(true)
+			return true
+	return false
+
 func get_state_name():
 	return State[state]
 

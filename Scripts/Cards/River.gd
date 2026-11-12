@@ -1,41 +1,25 @@
-extends Container
+extends Node
 
 @export var card_slot: Array[TextureRect]
-
-@export var slot_width: float = 90.0
-@export var card_gap: float = 8.0
-
-func _ready():
-	layout_slots()
-
-func layout_slots():
-	var count = get_river_size()
-	var slot_height = slot_width * (4.0/3.0)
-
-	var river_width = slot_width * count + card_gap * (count - 1)
-	var start_x = (size.x - river_width) / 2.0
-	var y = (size.y - slot_height) / 2.0
-
-	for i in count:
-		var slot = card_slot[i]
-		var slot_rect = Rect2(
-			start_x + i * (slot_width + card_gap),
-			y,
-			slot_width,
-			slot_height
-		)
-		fit_child_in_rect(slot, slot_rect)
 
 func get_river_size():
 	return card_slot.size()
 
 func set_card(index, card):
-	card_slot[index].get_child(0).set_card(card)
+	card_slot[index].set_card(card)
 	# print("River ", index, " ", CardData.Suit.find_key(card.card.suit), " ", card.card.Ranks[card.card.rank])
 
 func flip_card(index):
-	card_slot[index].get_child(0).flip_front()
+	card_slot[index].flip_front()
 
 func reset():
 	for slot in card_slot:
-		slot.get_child(0).flip_back()
+		slot.flip_back()
+		slot.set_effect(false)
+
+func set_card_effect(card):
+	for slot in card_slot:
+		if slot.card == card:
+			slot.set_effect(true)
+			return true
+	return false

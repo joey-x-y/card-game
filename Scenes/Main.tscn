@@ -2,6 +2,18 @@
 
 [ext_resource type="Script" uid="uid://b23vdoc23nvmq" path="res://Scripts/Title.gd" id="1_r150o"]
 
+[sub_resource type="Theme" id="Theme_idj7w"]
+default_font_size = 40
+
+[sub_resource type="Theme" id="Theme_3ql4n"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_hn1qh"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_ehi7n"]
+default_font_size = 40
+
 [node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "stats_button", "difficulty_button", "joker_choice")]
 layout_mode = 3
 anchors_preset = 15
@@ -9,6 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_idj7w")
 script = ExtResource("1_r150o")
 continue_button = NodePath("Button")
 stats_button = NodePath("StatsButton")
@@ -39,31 +52,38 @@ metadata/_edit_use_anchors_ = true
 [node name="Button" type="Button" parent="." unique_id=875452009]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.033
-anchor_bottom = 0.029000001
+anchor_left = 0.48697916
+anchor_top = 0.35833332
+anchor_right = 0.68879163
+anchor_bottom = 0.49751848
 offset_right = -0.47999573
 offset_bottom = -0.3200016
 text = "Play"
+metadata/_edit_use_anchors_ = true
 
 [node name="DifficultyLabel" type="RichTextLabel" parent="." unique_id=401616328]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.25300002
-anchor_top = 0.425
-anchor_right = 0.34800002
-anchor_bottom = 0.425
-offset_left = -0.7600403
-offset_top = -26.0
-offset_right = 0.8399658
+anchor_left = 0.2734375
+anchor_top = 0.28703704
+anchor_right = 0.41666666
+anchor_bottom = 0.36882716
+theme = SubResource("Theme_3ql4n")
 text = "Difficulty:"
+scroll_active = false
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="DifficultyButton" type="OptionButton" parent="." unique_id=1880415645]
-layout_mode = 0
-offset_left = 482.0
-offset_top = 458.0
-offset_right = 678.0
-offset_bottom = 507.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2703125
+anchor_top = 0.36944443
+anchor_right = 0.42604166
+anchor_bottom = 0.46944445
+offset_left = -3.0517578e-05
+offset_bottom = -1.0
+theme = SubResource("Theme_hn1qh")
 alignment = 1
 selected = 0
 item_count = 3
@@ -73,20 +93,27 @@ popup/item_1/text = "Medium"
 popup/item_1/id = 1
 popup/item_2/text = "Hard"
 popup/item_2/id = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="StatsButton" type="Button" parent="." unique_id=748745043]
-layout_mode = 0
-offset_left = 774.0
-offset_top = 412.0
-offset_right = 994.0
-offset_bottom = 530.0
-text = "Stats"
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4875
+anchor_top = 0.53518516
+anchor_right = 0.68645835
+anchor_bottom = 0.68703705
+offset_right = -6.1035156e-05
+theme = SubResource("Theme_ehi7n")
+text = "Check Stats"
+metadata/_edit_use_anchors_ = true
 
 [node name="CheckBox" type="CheckBox" parent="." unique_id=303505758]
-layout_mode = 0
-offset_left = 293.0
-offset_top = 440.0
-offset_right = 449.0
-offset_bottom = 505.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.171875
+anchor_top = 0.57098764
+anchor_right = 0.4722222
+anchor_bottom = 0.7117284
 button_pressed = true
 text = "Play with a joker"
+metadata/_edit_use_anchors_ = true

@@ -18,21 +18,25 @@ func _ready():
 func set_menu():
 	wins.text = "Wins: " + str(GlobalTrackers.wins)
 	losses.text = "Losses: " + str(GlobalTrackers.losses)
-	games_played.text = "Games Played: " + str(GlobalTrackers.games_played)
-	
-	if GlobalTrackers.wins > 0:
-		var best_win_string: String
-		if GlobalTrackers.best_win_difficulty == 0:
-			best_win_string = "Easy"
-		if GlobalTrackers.best_win_difficulty == 1:
-			best_win_string = "Medium"
-		elif GlobalTrackers.best_win_difficulty == 2:
-			best_win_string = "Hard"
-		else:
-			best_win_string = "This is bugged..."
-			
+	# games_played.text = "Games Played: " + str(GlobalTrackers.games_played)
 
-		best_win_difficulty.text = "Highest Difficulty Won: " + best_win_string
+	
+	best_win_difficulty.text = "Highest Difficulty Won: "
+	if GlobalTrackers.wins > 0:
+		if GlobalTrackers.best_win_difficulty == 0:
+			best_win_difficulty.text += "Easy"
+		if GlobalTrackers.best_win_difficulty == 1:
+			best_win_difficulty.text += "Medium"
+		elif GlobalTrackers.best_win_difficulty == 2:
+			best_win_difficulty.text += "Hard"
+		else:
+			best_win_difficulty.text += "This is bugged..."
+
+	else:
+		if GlobalTrackers.losses > 0:
+			best_win_difficulty.text += "None. You're bad."
+		else:
+			best_win_difficulty.text += "None. Go play the game."
 
 func main_menu():
 	get_tree().change_scene_to_file(main_menu_string)

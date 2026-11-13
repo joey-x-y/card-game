@@ -16,6 +16,7 @@ func reset():
 	for slot in card_slot:
 		slot.flip_back()
 		slot.set_effect(false)
+		slot.self_modulate.a = 0
 
 func set_card_effect(card):
 	for slot in card_slot:
@@ -23,3 +24,6 @@ func set_card_effect(card):
 			slot.set_effect(true)
 			return true
 	return false
+
+func get_slot(index):
+	return card_slot[index]

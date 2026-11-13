@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://cqftfocnqftkh" path="res://Art/Poker cards/Card Button Effects/Clicked.png" id="2_vdo3l"]
 
 [node name="CardSlot" type="TextureRect" unique_id=1164414194 node_paths=PackedStringArray("button", "effect")]
-visible = false
 texture_filter = 1
 stretch_mode = 5
 script = ExtResource("1_k67mw")

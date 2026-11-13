@@ -2,6 +2,8 @@ extends Node
 
 var title_scene_path : String = "res://Scenes/Main.tscn"
 
+@export var animator: CardAnimator
+
 @export var player: Character
 @export var ally: Character
 @export var op1: Character
@@ -23,6 +25,9 @@ var team2_wins: int = 0
 @export var hand_sorter_button: OptionButton
 @export var scoreboard: RichTextLabel
 @export var hand_display: Node
+@export var rules_button: Button
+@export var rules_close_button: Button
+@export var rules_menu: Node
 
 @export var proceed_button: Button
 @export var quit_button: Button
@@ -38,9 +43,12 @@ var last_winner = null
 
 func _ready():
 	quit_button.pressed.connect(return_to_title)
-	proceed_button.hide()
+	proceed_button.disabled = true
 	hand_sorter_button.item_selected.connect(set_hand_sort)
 	hand_sorter_button.select(GlobalTrackers.preferred_hand_sort)
+	rules_button.pressed.connect(rules_menu.show)
+	rules_close_button.pressed.connect(rules_menu.hide)
+	rules_menu.hide()
 
 	player.set_player()
 	ally.set_ally()
@@ -57,12 +65,13 @@ func start_round():
 	instruction_text.text = "Dealing..."
 
 	deal_hand(player)
-	sort_hand()
 	deal_hand(ally)
 	deal_hand(op1)
-	deal_hand(op2)
+	await deal_hand(op2)
 
-	set_river()
+	sort_hand()
+
+	await set_river()
 
 	river.flip_card(0)
 	river_cards_active.append(river_cards[0])
@@ -79,26 +88,48 @@ func draw_round():
 	set_hand_helper()
 
 	proceed_button.text = "Discard"
-	proceed_button.show()
+	proceed_button.disabled = false
 
 func discard_round():
 	instruction_text.text = "Replacing Cards..."
 	player.enable_hand(false)
 	var cards = player.hand.use_selected_cards()
-	discard(player, cards)
+	await discard(player, cards)
 	player.hand.show_cards()
 	set_hand_helper()
 	sort_hand()
-	discard(ally, ally.pick_discard([river_cards[0]], 1))
-	discard(op1, op1.pick_discard([river_cards[0]], 1))
-	discard(op2, op2.pick_discard([river_cards[0]], 1))
+	await discard_opponents()
 
 	trade_round()
 
 
 func discard(p, cards):
 	for card in cards:
-		p.swap_card(card, get_next_card())
+		var slot = p.hand.get_slot(card)
+		var tex = slot.texture
+		var new_card = get_next_card()
+		p.swap_card(card, new_card)
+
+		slot.self_modulate.a = 0
+		animator.fly(tex, slot, deck)
+		await animator.fly(new_card.card.back_texture, deck, slot)
+		
+		slot.refresh(p.hand.showing)
+		slot.self_modulate.a = 1
+
+func discard_opponents():
+	var discards = [
+		[ally, ally.pick_discard([river_cards[0]], 1)],
+		[op1, op1.pick_discard([river_cards[0]], 1)],
+		[op2, op2.pick_discard([river_cards[0]], 1)],
+	]
+	discards.sort_custom(func(a, b): return a[1].size() < b[1].size())
+
+	discard(discards[0][0], discards[0][1])
+	discard(discards[1][0], discards[1][1])
+	await discard(discards[2][0], discards[2][1])
+
+	
 
 func trade_round():
 	trade = true
@@ -110,7 +141,7 @@ func trade_round():
 	instruction_text.text = "Pick which cards you'd like to trade away and the cards you'd like to trade for. Must trade the same amount."
 
 	proceed_button.text = "Trade"
-	proceed_button.show()
+	proceed_button.disabled = false
 
 func do_trades():
 	instruction_text.text = "Trading..."
@@ -118,13 +149,13 @@ func do_trades():
 	ally.enable_hand(false)
 	var p_cards = player.hand.use_selected_cards()
 	var a_cards = ally.hand.use_selected_cards()
-	trade_cards(player, ally, p_cards, a_cards)
+	await trade_cards(player, ally, p_cards, a_cards)
 
 	set_hand_helper()
 	sort_hand()
 
 	var opp_cards = op1.pick_trade(op2.get_hand(), [river_cards[0]], 1)
-	trade_cards(op1, op2, opp_cards[0], opp_cards[1])
+	await trade_cards(op1, op2, opp_cards[0], opp_cards[1])
 
 	player.hand.show_cards()
 	ally.hand.show_cards()
@@ -161,8 +192,24 @@ func do_trades():
 
 func trade_cards(char1, char2, c1_cards, c2_cards):
 	for i in range(c1_cards.size()):
+		var slot1 = char1.hand.get_slot(c1_cards[i])
+		var slot2 = char2.hand.get_slot(c2_cards[i])
+		var tex1 = slot1.texture
+		var tex2 = slot2.texture
+
 		char1.swap_card(c1_cards[i], c2_cards[i])
 		char2.swap_card(c2_cards[i], c1_cards[i])
+
+		slot1.self_modulate.a = 0
+		slot2.self_modulate.a = 0
+
+		animator.fly(tex1, slot1, slot2)
+		await animator.fly(tex2, slot2, slot1)
+
+		slot1.refresh(char1.hand.showing)
+		slot2.refresh(char2.hand.showing)
+		slot1.self_modulate.a = 1
+		slot2.self_modulate.a = 1
 
 func find_best_hand(hand: Array):
 	return HandFinder.get_best_hand_individual(hand, river_cards_active)
@@ -214,24 +261,23 @@ func end_round():
 	next_card_index = 0
 
 	if team1_wins >= wins_needed:
-		print("Team 1 won it all!")
+		instruction_text.text = "Team 1 won it all! Now play again."
 		GlobalTrackers.win()
 		end_game(true)
 	elif team2_wins >= wins_needed:
-		print("Team 2 won it all!")
+		instruction_text.text = "Team 2 won it all! Unfortunately, you are not on team 2."
 		GlobalTrackers.lose()
 		end_game(false)
 	else:
-		print("Next round pending...")
 		round_ended = true
 		proceed_button.text = "Next Hand"
-		proceed_button.show()
+		proceed_button.disabled = false
 
 func end_game(win: bool):
 	GlobalTrackers.save_game()
 	complete = true
 	proceed_button.text = "Restart"
-	proceed_button.show()
+	proceed_button.disabled = false
 
 func restart_round():
 	player.wipe_hand()
@@ -246,6 +292,7 @@ func restart_round():
 
 
 func return_to_title():
+	GlobalTrackers.save_game()
 	get_tree().change_scene_to_file(title_scene_path)
 
 
@@ -256,7 +303,16 @@ func get_next_card():
 
 func deal_hand(p):
 	for i in range(handSize):
-		p.give_card(get_next_card())
+
+		var c = get_next_card()
+		p.give_card(c)
+		var slot = p.hand.get_slot(c)
+
+		slot.self_modulate.a = 0
+		await animator.fly(c.card.back_texture, deck, slot)
+		slot.self_modulate.a = 1
+		slot.refresh(p.hand.showing)
+
 
 func set_river():
 	for i in range(river.get_river_size()):
@@ -264,21 +320,29 @@ func set_river():
 		river_cards.append(c)
 		river.set_card(i, c)
 
+		var slot = river.get_slot(i)
+		slot.self_modulate.a = 0
+		await animator.fly(c.card.back_texture, deck, slot)
+		slot.self_modulate.a = 1
+		slot.refresh(false)
+
+
+
 func sort_hand():
 	var p_show = player.hand.showing
 	var a_show = ally.hand.showing
 	match GlobalTrackers.preferred_hand_sort:
 		0:
-			return
-		1:
 			player.set_hand(CardSorter.sort_high_to_low(player.get_hand()))
 			ally.set_hand(CardSorter.sort_high_to_low(ally.get_hand()))
-		2:
+		1:
 			player.set_hand(CardSorter.sort_low_to_high(player.get_hand()))
 			ally.set_hand(CardSorter.sort_low_to_high(ally.get_hand()))
-		3:
+		2:
 			player.set_hand(CardSorter.group_by_suit(player.get_hand()))
 			ally.set_hand(CardSorter.group_by_suit(ally.get_hand()))
+		_:
+			return
 
 
 	if p_show:
@@ -296,20 +360,20 @@ func scoreboard_update():
 func _on_button_pressed():
 	if draw:
 		print("Discarding and Redrawing")
-		proceed_button.hide()
+		proceed_button.disabled = true
 		draw = false
 		discard_round()
 	elif trade:
 		if player.hand.selected_cards.size() == ally.hand.selected_cards.size():
 			print("Trading")
-			proceed_button.hide()
+			proceed_button.disabled = true
 			trade = false
 			do_trades()
 		else:
 			print("Invalid trade")
 	elif complete:
 		print("Restarting")
-		proceed_button.hide()
+		proceed_button.disabled = true
 		complete = false
 		round_ended = false
 		last_winner = null
@@ -319,6 +383,6 @@ func _on_button_pressed():
 		restart_round()
 	elif round_ended:
 		print("Next Round")
-		proceed_button.hide()
+		proceed_button.disabled = true
 		round_ended = false
 		restart_round()

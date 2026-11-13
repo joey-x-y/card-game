@@ -1,7 +1,6 @@
 extends Node
 
 var hand: Array[Card] = []
-var activeCardSlots: Array[TextureRect] = []
 @export var cardSlots: Array[TextureRect]
 var selected_cards: Array[Card] = []
 
@@ -13,23 +12,20 @@ func _ready():
 
 func add(card):
 	var current_slot = cardSlots[hand.size()]
-	activeCardSlots.append(current_slot)
 	current_slot.set_card(card)
 
 	hand.append(card)
-	current_slot.visible=true
+	current_slot.self_modulate.a = 1
 
 func remove(i):
 	hand.remove_at(i)
-	activeCardSlots[i].visible = false
-	activeCardSlots.remove_at(i)
+	cardSlots[i].self_modulate.a = 0
 
 func clear():
 	showing = false
 	hand.clear()
-	activeCardSlots.clear()
 	for slot in cardSlots:
-		slot.visible = false
+		slot.self_modulate.a = 0
 		slot.set_effect(false)
 
 func select(card):
@@ -41,28 +37,30 @@ func select(card):
 		print("Selected ", card.card.id)
 
 func show_cards():
-	for slot in activeCardSlots:
+	for slot in cardSlots:
 		slot.flip_front()
 	showing = true
 
 func hide_cards():
-	for slot in activeCardSlots:
+	for slot in cardSlots:
 		slot.flip_back()
 		slot.undo_press()
 	showing = false
 
 func enable_hand(enable):
-	for slot in activeCardSlots:
+	for slot in cardSlots:
 		slot.set_enable(!enable)
 		slot.undo_press()
 
 func swap_card(old, new):
 	var index = hand.find(old)
+	if index == -1:
+		return
 	hand[index] = new
-	activeCardSlots[index].replace_card(new)
+	cardSlots[index].replace_card(new)
 
 func swap_cards(old, new):
-	for i in range(old.count()):
+	for i in range(old.size()):
 		swap_card(old[i], new[i])
 
 func get_cards():
@@ -73,14 +71,9 @@ func use_selected_cards():
 	selected_cards.clear()
 	return c
 
-func get_card_by_index(indexes: Array[int]):
-	var cards = []
-	for i in indexes:
-		cards.append(hand[i])
-
-	return cards
+func get_slot(card):
+	return cardSlots[hand.find(card)]
 
 func on_card_pressed(cardSlot: TextureRect):
-	if activeCardSlots.has(cardSlot):
-		var card = cardSlot.card
-		select(card)
+	if cardSlots.has(cardSlot) && cardSlot.card != null:
+		select(cardSlot.card)

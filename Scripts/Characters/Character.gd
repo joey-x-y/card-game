@@ -50,7 +50,7 @@ func give_card(card):
 func set_card_effect(card):
 	for i in range(hand.hand.size()):
 		if hand.hand[i] == card:
-			hand.activeCardSlots[i].set_effect(true)
+			hand.cardSlots[i].set_effect(true)
 			return true
 	return false
 

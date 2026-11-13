@@ -14,7 +14,7 @@ default_font_size = 30
 [sub_resource type="Theme" id="Theme_ehi7n"]
 default_font_size = 40
 
-[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "stats_button", "difficulty_button", "joker_choice")]
+[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "stats_button", "difficulty_button", "joker_choice", "rules_menu", "rules_open", "rules_close")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,10 +23,13 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_idj7w")
 script = ExtResource("1_r150o")
-continue_button = NodePath("Button")
+continue_button = NodePath("Play")
 stats_button = NodePath("StatsButton")
 difficulty_button = NodePath("DifficultyButton")
 joker_choice = NodePath("CheckBox")
+rules_menu = NodePath("ColorRect2")
+rules_open = NodePath("RulesButton")
+rules_close = NodePath("ColorRect2/Button")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1505161334]
 layout_mode = 1
@@ -49,7 +52,7 @@ text = "2v2 POKER"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Button" type="Button" parent="." unique_id=875452009]
+[node name="Play" type="Button" parent="." unique_id=875452009]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.48697916
@@ -116,4 +119,57 @@ anchor_right = 0.4722222
 anchor_bottom = 0.7117284
 button_pressed = true
 text = "Play with a joker"
+metadata/_edit_use_anchors_ = true
+
+[node name="RulesButton" type="Button" parent="." unique_id=1228444217]
+layout_mode = 0
+offset_left = 559.0
+offset_top = 483.0
+offset_right = 802.0
+offset_bottom = 571.0
+text = "Rules"
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=1176994513]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.73333335)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect2" unique_id=353785121]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 80
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect2/MarginContainer" unique_id=901328311]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 34
+text = "This is a 4-person game of poker with 2 teams. The player with the best hand gets a win for their team.
+
+Each player gets 4 cards, and there are 2 river cards in the center. 1 is revealed immediately, 2 is revealed at the end of the round.
+
+Hands are calculated based off of your personal cards and the river cards combined.
+
+There are two phases. 1. Discard phase. You choose cards that you want to discard and replace with a new card from the deck. 2. Trading phase. You choose cards in your own hand and your teammate's hand to swap. You must swap an equal amount. After the swap, the 2nd river card is revealed and the winner is decided."
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="ColorRect2" unique_id=1702904439]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.021701388
+anchor_top = 0.8132716
+anchor_right = 0.108909726
+anchor_bottom = 0.94703704
+offset_right = -0.46400452
+offset_bottom = 0.31999207
+text = "Close"
 metadata/_edit_use_anchors_ = true

@@ -23,10 +23,18 @@ func set_enable(enable):
 	button.disabled = enable
 
 func flip_front():
-	texture = card.card.front_texture
+	if card != null:
+		texture = card.card.front_texture
 
 func flip_back():
-	texture = card.card.back_texture
+	if card != null:
+		texture = card.card.back_texture
+
+func refresh(showing: bool):
+	if showing:
+		flip_front()
+	else:
+		flip_back()
 
 func on_pressed():
 	Events.card_pressed.emit(self)

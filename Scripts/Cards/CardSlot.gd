@@ -6,6 +6,7 @@ var card: Card
 
 func _ready():
 	button.pressed.connect(on_pressed)
+	button.mouse_entered.connect(on_mouse_entered)
 	effect.visible = false
 
 func set_card(c):
@@ -37,7 +38,12 @@ func refresh(showing: bool):
 		flip_back()
 
 func on_pressed():
+	MusicManager.play_sfx("mouse_click")
 	Events.card_pressed.emit(self)
+
+func on_mouse_entered():
+	if not button.disabled:
+		MusicManager.play_sfx("mouse_hover")
 
 func set_effect(enable):
 	effect.visible = enable

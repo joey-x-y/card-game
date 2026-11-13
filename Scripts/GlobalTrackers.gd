@@ -12,6 +12,9 @@ var best_win_difficulty: int = 0
 var jokers: int = 1
 var preferred_hand_sort: int = 0
 
+var mute: bool = false
+var skip_animations: bool = false
+
 func win():
 	wins += 1
 	if difficulty > best_win_difficulty:
@@ -28,9 +31,12 @@ func save_game():
 		"wins": wins,
 		"losses": losses,
 		"games_played": games_played,
-		"best_win_difficulty": best_win_difficulty,
 		"difficulty": difficulty,
+		"best_win_difficulty": best_win_difficulty,
 		"preferred_hand_sort": preferred_hand_sort,	
+		"jokers": jokers,
+		"mute": mute,
+		"skip_animations": skip_animations,
 	}
 
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
@@ -53,17 +59,22 @@ func load_game() -> bool:
 	wins = data.get("wins", 0)
 	losses = data.get("losses", 0)
 	games_played = data.get("games_played", 0)
-	best_win_difficulty = data.get("best_win_difficulty", 0)
 	difficulty = data.get("difficulty", 0)
+	best_win_difficulty = data.get("best_win_difficulty", 0)
 	preferred_hand_sort = data.get("preferred_hand_sort", 0)
-
+	jokers = data.get("jokers", 1)
+	mute = data.get("mute", false)
+	skip_animations = data.get("skip_animations", false)
 	return true
 
 func wipe_data():
 	wins = 0
 	losses = 0
 	games_played = 0
-	best_win_difficulty = 0
 	difficulty = 0
+	best_win_difficulty = 0
 	preferred_hand_sort = 0
+	jokers = 1
+	mute = false
+	skip_animations = false
 	save_game()

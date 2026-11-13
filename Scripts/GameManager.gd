@@ -110,6 +110,8 @@ func discard(p, cards):
 		var new_card = get_next_card()
 		p.swap_card(card, new_card)
 
+		if not GlobalTrackers.skip_animations:
+			MusicManager.play_sfx("card_flip")
 		slot.self_modulate.a = 0
 		animator.fly(tex, slot, deck)
 		await animator.fly(new_card.card.back_texture, deck, slot)
@@ -172,19 +174,23 @@ func do_trades():
 	if ally.state == n:
 		last_winner = ally
 		team1_wins += 1
+		MusicManager.play_sfx("win")
 	elif op1.state == n:
 		last_winner = op1
 		team2_wins += 1
+		MusicManager.play_sfx("lose")
 	elif op2.state == n:
 		last_winner = op2
 		team2_wins += 1
+		MusicManager.play_sfx("lose")
 	else:
 		last_winner = player
 		team1_wins += 1
+		MusicManager.play_sfx("win")
 
-	glow_hand(best_hand[1][1], last_winner)
+	glow_hand(best_hand[1], last_winner)
 	scoreboard_update()
-	instruction_text.text = "Player " + str(n + 1) + ": wins!\n" + str(HandFinder.Hands[best_hand[1][0]])
+	instruction_text.text = "Team " + str((2 + n)/2) + ": wins!\n" + str(HandFinder.Hands[best_hand[1][0]] + " " + HandFinder.get_hand_description(best_hand[1][1], best_hand[1][0]))
 	for i in best_hand[1][1]:
 		print(i.card.id)
 
@@ -203,6 +209,8 @@ func trade_cards(char1, char2, c1_cards, c2_cards):
 		slot1.self_modulate.a = 0
 		slot2.self_modulate.a = 0
 
+		MusicManager.play_sfx("card_flip")
+
 		animator.fly(tex1, slot1, slot2)
 		await animator.fly(tex2, slot2, slot1)
 
@@ -218,29 +226,29 @@ func find_best_hand_overall(hands):
 	return HandFinder.get_best_hand(hands)
 
 func glow_hand(cards: Array, winner: Character):
-	for c in cards:
+	for i in range(HandFinder.get_hand_length(cards[0])):
+		var c = cards[1][i]
 		if not winner.set_card_effect(c):
 			river.set_card_effect(c)
 
-
 func set_hand_helper():
 	var h = find_best_hand(player.get_hand())
-	hand_display.set_hand(h[1], HandFinder.Hands[h[0]])
+	hand_display.set_hand(h[1], h[0])
 
 	return h
 
 func get_and_show_hands():
 	var h = set_hand_helper()
-	player.set_display_data_hand(HandFinder.Hands[h[0]])
+	player.set_display_data_hand(HandFinder.Hands[h[0]] + " " + HandFinder.get_hand_description(h[1], h[0]))
 
 	var a = find_best_hand(ally.get_hand())
-	ally.set_display_data_hand(HandFinder.Hands[a[0]])
+	ally.set_display_data_hand(HandFinder.Hands[a[0]] + " " + HandFinder.get_hand_description(a[1], a[0]))
 
 	var b = find_best_hand(op1.get_hand())
-	op1.set_display_data_hand(HandFinder.Hands[b[0]])
+	op1.set_display_data_hand(HandFinder.Hands[b[0]] + " " + HandFinder.get_hand_description(b[1], b[0]))
 
 	var c = find_best_hand(op2.get_hand())
-	op2.set_display_data_hand(HandFinder.Hands[c[0]])
+	op2.set_display_data_hand(HandFinder.Hands[c[0]] + " " + HandFinder.get_hand_description(c[1], c[0]))
 
 	return [h, a, b, c]
 
@@ -261,12 +269,12 @@ func end_round():
 	next_card_index = 0
 
 	if team1_wins >= wins_needed:
-		instruction_text.text = "Team 1 won it all! Now play again."
 		GlobalTrackers.win()
+		instruction_text.text = "Team 1 won it all! Now play again."
 		end_game(true)
 	elif team2_wins >= wins_needed:
-		instruction_text.text = "Team 2 won it all! Unfortunately, you are not on team 2."
 		GlobalTrackers.lose()
+		instruction_text.text = "Team 2 won it all! You are not on team 2."
 		end_game(false)
 	else:
 		round_ended = true
@@ -308,6 +316,8 @@ func deal_hand(p):
 		p.give_card(c)
 		var slot = p.hand.get_slot(c)
 
+		if not GlobalTrackers.skip_animations:
+			MusicManager.play_sfx("card_flip")
 		slot.self_modulate.a = 0
 		await animator.fly(c.card.back_texture, deck, slot)
 		slot.self_modulate.a = 1
@@ -322,11 +332,11 @@ func set_river():
 
 		var slot = river.get_slot(i)
 		slot.self_modulate.a = 0
+		if not GlobalTrackers.skip_animations:
+			MusicManager.play_sfx("card_flip")
 		await animator.fly(c.card.back_texture, deck, slot)
 		slot.self_modulate.a = 1
 		slot.refresh(false)
-
-
 
 func sort_hand():
 	var p_show = player.hand.showing
@@ -343,7 +353,6 @@ func sort_hand():
 			ally.set_hand(CardSorter.group_by_suit(ally.get_hand()))
 		_:
 			return
-
 
 	if p_show:
 		player.hand.show_cards()

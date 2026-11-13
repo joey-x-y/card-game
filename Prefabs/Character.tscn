@@ -23,6 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
 [node name="CharacterDisplayData" type="Control" parent="VBoxContainer" unique_id=302509664]
 layout_mode = 2
@@ -58,7 +59,6 @@ grow_horizontal = 0
 grow_vertical = 2
 fit_content = true
 scroll_active = false
-autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 2
 
@@ -71,21 +71,17 @@ script = ExtResource("2_n3ll4")
 cardSlots = [NodePath("CardSlot"), NodePath("CardSlot2"), NodePath("CardSlot3"), NodePath("CardSlot4")]
 
 [node name="CardSlot" parent="VBoxContainer/Hand" unique_id=1526643365 instance=ExtResource("3_n3ll4")]
-visible = true
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="CardSlot2" parent="VBoxContainer/Hand" unique_id=330197802 instance=ExtResource("3_n3ll4")]
-visible = true
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="CardSlot3" parent="VBoxContainer/Hand" unique_id=469674720 instance=ExtResource("3_n3ll4")]
-visible = true
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="CardSlot4" parent="VBoxContainer/Hand" unique_id=1249891058 instance=ExtResource("3_n3ll4")]
-visible = true
 layout_mode = 2
 size_flags_horizontal = 3

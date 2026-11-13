@@ -88,9 +88,11 @@ func pick_discard(current_river: Array, hidden_river_cards: int):
 	var ranks = CardSorter.extract_ranks(hand.hand)
 	var river_ranks = CardSorter.extract_ranks(current_river)
 	var strong_pairing = false
+	var pairing = false
 
 	for r in ranks:
 		if not (ranks.count(r) > 1 || river_ranks.has(r) || r == 0):
+			pairing = true
 			if ranks.count(r) + river_ranks.count(r) >= 3 || discard_cards.size() > 1:
 				strong_pairing = true
 			discard_cards.append(CardSorter.get_matching_rank(r, hand.hand)[0])
@@ -101,12 +103,17 @@ func pick_discard(current_river: Array, hidden_river_cards: int):
 
 	## Flush Check
 	for card in current_river:
-		if CardSorter.count_matching_suit(card.card.suit, hand.hand) + CardSorter.count_jokers(hand.hand) >= 3:
+		var suit_count = CardSorter.count_matching_suit(card.card.suit, hand.hand)
+		if suit_count + CardSorter.count_jokers(hand.hand) >= 3:
 			discard_cards.clear()
 			for c in hand.hand:
 				if not (c.card.suit == card.card.suit || c.is_joker()):
 					discard_cards.append(c)
 			break
+		elif suit_count > 0 and not pairing:
+			for c in discard_cards:
+				if c.card.suit == card.card.suit:
+					discard_cards.erase(c)
 
 	print(State[state], " discarding ", HandFinder.print_hand(discard_cards))
 	return discard_cards

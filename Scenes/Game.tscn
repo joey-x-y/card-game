@@ -80,12 +80,13 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 15
 
-[node name="HandHelp" type="Control" parent="UI/VBoxContainer/Top" unique_id=661748925 node_paths=PackedStringArray("card_slots", "hand_name_display")]
+[node name="HandHelp" type="Control" parent="UI/VBoxContainer/Top" unique_id=661748925 node_paths=PackedStringArray("card_slots", "hand_name_display", "hand_description_display")]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("6_7lihs")
 card_slots = [NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect2"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect3"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect4"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect5")]
 hand_name_display = NodePath("VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer/HandName")
+hand_description_display = NodePath("VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer/HandDescription")
 
 [node name="TextureRect" type="ColorRect" parent="UI/VBoxContainer/Top/HandHelp" unique_id=1173366339]
 layout_mode = 1
@@ -108,7 +109,9 @@ grow_vertical = 2
 [node name="MarginContainer2" type="MarginContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer" unique_id=309967294]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 2.39
+size_flags_stretch_ratio = 1.08
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2" unique_id=1528389169]
 layout_mode = 2
@@ -134,24 +137,31 @@ size_flags_horizontal = 3
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=1262068280]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Your Best Hand:"
+text = "Best Available 5-Card Hand:"
 scroll_active = false
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="HandName" type="RichTextLabel" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=1934506353]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.8
+size_flags_stretch_ratio = 1.39
+theme_override_font_sizes/normal_font_size = 21
 scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HandDescription" type="RichTextLabel" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=878381816]
+layout_mode = 2
+size_flags_vertical = 3
 horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer" unique_id=998571545]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_right = 10
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer" unique_id=1680572671]
 layout_mode = 2
@@ -335,7 +345,6 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 40
-text = "Continue"
 
 [node name="ColorRect3" type="ColorRect" parent="UI" unique_id=2019350844]
 visible = false

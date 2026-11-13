@@ -4,6 +4,8 @@ extends CanvasLayer
 @export var duration: float = 0.25
 
 func fly(texture: Texture2D, from: Control, to: Control) -> void:
+	if GlobalTrackers.skip_animations:
+		return
 	var ghost := TextureRect.new()
 	ghost.texture = texture
 	ghost.expand_mode = TextureRect.EXPAND_IGNORE_SIZE

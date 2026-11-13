@@ -5,16 +5,10 @@
 [sub_resource type="Theme" id="Theme_idj7w"]
 default_font_size = 40
 
-[sub_resource type="Theme" id="Theme_3ql4n"]
-default_font_size = 30
-
-[sub_resource type="Theme" id="Theme_hn1qh"]
-default_font_size = 30
-
 [sub_resource type="Theme" id="Theme_ehi7n"]
 default_font_size = 40
 
-[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "stats_button", "difficulty_button", "joker_choice", "rules_menu", "rules_open", "rules_close")]
+[node name="Control" type="Control" unique_id=1027401043 node_paths=PackedStringArray("continue_button", "stats_button", "difficulty_button", "joker_choice", "mute_button", "skip_animations", "rules_menu", "rules_open", "rules_close")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,10 +20,12 @@ script = ExtResource("1_r150o")
 continue_button = NodePath("Play")
 stats_button = NodePath("StatsButton")
 difficulty_button = NodePath("DifficultyButton")
-joker_choice = NodePath("CheckBox")
-rules_menu = NodePath("ColorRect2")
+joker_choice = NodePath("JokerChoice")
+mute_button = NodePath("MuteChoice")
+skip_animations = NodePath("AnimationChoice")
+rules_menu = NodePath("RulesMenu")
 rules_open = NodePath("RulesButton")
-rules_close = NodePath("ColorRect2/Button")
+rules_close = NodePath("RulesMenu/Button")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1505161334]
 layout_mode = 1
@@ -40,7 +36,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1.0468439e-06, 0.39389107, 1.4439226e-07, 1)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=2088003735]
+[node name="Title" type="RichTextLabel" parent="." unique_id=2088003735]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.0910494
@@ -59,19 +55,19 @@ anchor_left = 0.48697916
 anchor_top = 0.35833332
 anchor_right = 0.68879163
 anchor_bottom = 0.49751848
-offset_right = -0.47999573
-offset_bottom = -0.3200016
+offset_left = -95.0
+offset_top = -21.199997
+offset_right = -95.47998
+offset_bottom = -21.52002
 text = "Play"
-metadata/_edit_use_anchors_ = true
 
 [node name="DifficultyLabel" type="RichTextLabel" parent="." unique_id=401616328]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.2734375
-anchor_top = 0.28703704
-anchor_right = 0.41666666
-anchor_bottom = 0.36882716
-theme = SubResource("Theme_3ql4n")
+anchor_left = 0.6779514
+anchor_top = 0.5462963
+anchor_right = 0.875
+anchor_bottom = 0.6280864
 text = "Difficulty:"
 scroll_active = false
 horizontal_alignment = 1
@@ -80,13 +76,12 @@ metadata/_edit_use_anchors_ = true
 [node name="DifficultyButton" type="OptionButton" parent="." unique_id=1880415645]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.2703125
-anchor_top = 0.36944443
-anchor_right = 0.42604166
-anchor_bottom = 0.46944445
+anchor_left = 0.6762153
+anchor_top = 0.63796294
+anchor_right = 0.8802083
+anchor_bottom = 0.73796296
 offset_left = -3.0517578e-05
 offset_bottom = -1.0
-theme = SubResource("Theme_hn1qh")
 alignment = 1
 selected = 0
 item_count = 3
@@ -105,31 +100,62 @@ anchor_left = 0.4875
 anchor_top = 0.53518516
 anchor_right = 0.68645835
 anchor_bottom = 0.68703705
-offset_right = -6.1035156e-05
+offset_left = -95.0
+offset_top = -21.200012
+offset_right = -95.00006
+offset_bottom = -21.200012
 theme = SubResource("Theme_ehi7n")
-text = "Check Stats"
-metadata/_edit_use_anchors_ = true
+text = "Your Stats"
 
-[node name="CheckBox" type="CheckBox" parent="." unique_id=303505758]
+[node name="JokerChoice" type="CheckBox" parent="." unique_id=303505758]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.171875
-anchor_top = 0.57098764
-anchor_right = 0.4722222
-anchor_bottom = 0.7117284
+anchor_left = 0.078125
+anchor_top = 0.45061728
+anchor_right = 0.3784722
+anchor_bottom = 0.591358
 button_pressed = true
 text = "Play with a joker"
 metadata/_edit_use_anchors_ = true
 
+[node name="MuteChoice" type="CheckBox" parent="." unique_id=486644478]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.063690566
+anchor_top = 0.50145173
+anchor_right = 0.36403778
+anchor_bottom = 0.64219254
+offset_left = 24.628471
+offset_top = 53.059235
+offset_right = 24.628479
+offset_bottom = 53.059265
+text = "Mute"
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationChoice" type="CheckBox" parent="." unique_id=2065425855]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.056746118
+anchor_top = 0.6326246
+anchor_right = 0.35709333
+anchor_bottom = 0.77336544
+offset_left = 24.628471
+offset_top = 53.059235
+offset_right = 24.628479
+offset_bottom = 53.059265
+text = "Skip Animations"
+metadata/_edit_use_anchors_ = true
+
 [node name="RulesButton" type="Button" parent="." unique_id=1228444217]
 layout_mode = 0
-offset_left = 559.0
-offset_top = 483.0
-offset_right = 802.0
-offset_bottom = 571.0
+offset_left = 464.0
+offset_top = 461.8
+offset_right = 707.0
+offset_bottom = 549.8
 text = "Rules"
 
-[node name="ColorRect2" type="ColorRect" parent="." unique_id=1176994513]
+[node name="RulesMenu" type="ColorRect" parent="." unique_id=1176994513]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -138,7 +164,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.73333335)
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect2" unique_id=353785121]
+[node name="MarginContainer" type="MarginContainer" parent="RulesMenu" unique_id=353785121]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -150,7 +176,7 @@ theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 120
 theme_override_constants/margin_bottom = 80
 
-[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect2/MarginContainer" unique_id=901328311]
+[node name="RichTextLabel" type="RichTextLabel" parent="RulesMenu/MarginContainer" unique_id=901328311]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 34
 text = "This is a 4-person game of poker with 2 teams. The player with the best hand gets a win for their team.
@@ -162,7 +188,7 @@ Hands are calculated based off of your personal cards and the river cards combin
 There are two phases. 1. Discard phase. You choose cards that you want to discard and replace with a new card from the deck. 2. Trading phase. You choose cards in your own hand and your teammate's hand to swap. You must swap an equal amount. After the swap, the 2nd river card is revealed and the winner is decided."
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="ColorRect2" unique_id=1702904439]
+[node name="Button" type="Button" parent="RulesMenu" unique_id=1702904439]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.021701388

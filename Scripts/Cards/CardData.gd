@@ -9,7 +9,7 @@ enum Suit {
 	NONE = 4,
 }
 
-var Ranks = {  
+static var Ranks = {  
 	2: "TWO", 
 	3: "THREE", 
 	4: "FOUR", 
@@ -40,3 +40,6 @@ func _init(suit: Suit = Suit.SPADES, rank: int = 2):
 
 	front_texture = DeckTextureSplitter.get_card_texture(rank, suit)
 	back_texture = DeckTextureSplitter.get_back_texture()
+
+static func get_rank_string(rank: int):
+	return Ranks[rank].capitalize()

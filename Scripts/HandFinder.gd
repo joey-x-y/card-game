@@ -34,20 +34,15 @@ static func get_best_hand_individual(hand, river_cards = null):
 	var new_hand = hand.duplicate()
 	if river_cards != null:
 		new_hand.append_array(river_cards)
+
 	return get_hand_value(get_possible_hands(new_hand))
 
 static func get_best_hand(hands):
 	var hands_dict = {}
 	for i in range(hands.size()):
 		hands_dict[i] = hands[i].duplicate()
- 
-	var best_hand_list = strongest_hand_group(hands_dict)
-	var best_hand = best_hand_list[0]
 
-	for i in range(best_hand_list.size()):
-		print("Rank ", i, "! Player ", best_hand_list[i][0], ": ", print_hand(best_hand_list[i][1][1]), " Hand Type: ", Hands[best_hand_list[i][1][0]])
-
-	return best_hand
+	return strongest_hand_group(hands_dict)[0]
 
 static func strongest_hand_group(possible_hands):
 	var hand_values = [[0, possible_hands[0]]]
@@ -62,9 +57,7 @@ static func strongest_hand_group(possible_hands):
 				hand_values.insert(n, [i, next])
 				break
 			elif next[0] == hand_values[n][1][0]:
-				var s = false
-				if next[0] == 4 || next[0] >= 8:
-					s = true
+				var s = next[0] == 4 or next[0] >= 8
 				var better = CardSorter.get_best_hand(next[1], hand_values[n][1][1], s)
 				if better == next[1]:
 					hand_values.insert(n, [i, next])
@@ -255,17 +248,22 @@ static func straight_check(cards):
 
 static func all_straight_possibilies(cards: Array):
 	var straight_hands = []
-	var count = cards.size() - (hand_length - 1)
+	var aces = CardSorter.get_matching_rank(14, cards)
+	var ace_count = aces.size()
+	var count = cards.size() - (hand_length - 1) + ace_count
 
 	var i = 0
 	while i < count:
 		var jokers = CardSorter.get_matching_rank(0, cards)
-		var chain_ranks = first_straight(cards.slice(i), jokers)
+		var hand_chunks = cards.slice(i)
+		if hand_chunks[0].card.rank <= 5:
+			hand_chunks.append_array(aces)
+			i -= ace_count
+
+		var chain_ranks = first_straight(hand_chunks, jokers)
 		for pair in chain_ranks:
 			for c in pair:
 				i += 1
-				if c.is_joker():
-					jokers.pop_back()
 
 		if jokers.size() > 0:
 			var biggest = chain_ranks[0][0].card.rank
@@ -275,11 +273,11 @@ static func all_straight_possibilies(cards: Array):
 					chain_ranks.push_front([j])
 				else:
 					chain_ranks.append([j])
-				i += 1
 				j_count += 1
 
 		straight_hands.append(chain_ranks)
-		i += 1
+		if chain_ranks.size() == 0:
+			i += 1
 
 	return straight_hands
 
@@ -335,15 +333,15 @@ static func all_possible_flushes(cards):
 	for card in cards:
 		var s = card.card.suit
 		#TODO: eventually alter so suit name can be used instead of number
-		if s == 0:
+		if s == CardData.Suit.HEARTS:
 			hearts.append(card)
-		elif s == 1:
+		elif s == CardData.Suit.DIAMONDS:
 			diamonds.append(card)
-		elif s == 2:
+		elif s == CardData.Suit.SPADES:
 			spades.append(card)
-		elif s == 3:
+		elif s == CardData.Suit.CLUBS:
 			clubs.append(card)
-		elif s == 4:
+		elif s == CardData.Suit.NONE:
 			jokers.append(card)
 
 	return [hearts, diamonds, spades, clubs, jokers]
@@ -372,3 +370,34 @@ static func print_hand(cards):
 		printed.append(c.card.id)
 
 	return printed
+
+static func get_hand_description(hand, hand_value: int):
+	var description = ""
+
+	if hand_value == 8 or hand_value == 5 or hand_value == 4 or hand_value == 0:
+		if hand[0].is_joker():
+			description = CardData.get_rank_string(CardSorter.find_expected_joker_rank(hand, hand_value == 8 or hand_value == 4)) + " High (Joker converted)"
+		else:
+			description = CardData.get_rank_string(hand[0].card.rank) + " High"
+
+	elif hand_value == 7 or hand_value == 3 or hand_value == 1:
+		description = CardData.get_rank_string(hand[0].card.rank) + "s"
+
+	elif hand_value == 6:
+		description = CardData.get_rank_string(hand[0].card.rank) + "s Full of " + CardData.get_rank_string(hand[3].card.rank) + "s"
+
+	elif hand_value == 2:
+		description = CardData.get_rank_string(hand[0].card.rank) + "s and " + CardData.get_rank_string(hand[2].card.rank) + "s"
+
+	return description
+
+static func get_hand_length(hand_value: int):
+	if hand_value >= 8 or hand_value == 6 or hand_value == 5 or hand_value == 4:
+		return 5
+	elif hand_value == 7 or hand_value == 2:
+		return 4
+	elif hand_value == 3:
+		return 3
+	elif hand_value == 1:
+		return 2
+	return 1

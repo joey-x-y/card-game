@@ -1,0 +1,204 @@
+[gd_scene format=3 uid="uid://s6erljvqi7fy"]
+
+[ext_resource type="Texture2D" uid="uid://dea1by2km8ea2" path="res://Art/character placeholders/Tewi Hip.png" id="1_7065c"]
+
+[sub_resource type="Theme" id="Theme_04so6"]
+default_font_size = 25
+
+[node name="CharacterCard" type="Control" unique_id=179144030]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_04so6")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=219998199]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.5074897, 0.3751505, 0.16320705, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1100242305]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1471854621]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=667145855]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.96
+texture = ExtResource("1_7065c")
+expand_mode = 4
+stretch_mode = 6
+
+[node name="Info" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=432323888]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.6
+
+[node name="Name" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info" unique_id=1841387082]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.58
+theme_override_font_sizes/normal_font_size = 50
+text = "Tewi Inaba"
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Info" unique_id=786159539]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.68
+
+[node name="Header" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats" unique_id=2011571845]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+theme_override_font_sizes/normal_font_size = 40
+text = "Stats"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Info/Stats" unique_id=144942362]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Labels" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer" unique_id=935437851]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.25
+
+[node name="Skill" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Labels" unique_id=1530568570]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Skill"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Luck" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Labels" unique_id=2132151123]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Luck"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Helpfulness" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Labels" unique_id=1617575903]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Helpfulness"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Alcohol Tolerance" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Labels" unique_id=2044752407]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Alcohol Tolerance"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ability" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Labels" unique_id=134846112]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Ability Name"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ability Descriptoin" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Labels" unique_id=1892664500]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+text = "Ability   Description"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer" unique_id=2090368083]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.43
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Stats" unique_id=2001061920]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 3
+value = 30.0
+allow_greater = true
+editable = false
+scrollable = false
+
+[node name="HSlider2" type="HSlider" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Stats" unique_id=1203771285]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 3
+value = 120.0
+allow_greater = true
+allow_lesser = true
+editable = false
+scrollable = false
+
+[node name="HSlider3" type="HSlider" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Stats" unique_id=783312221]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 3
+allow_greater = true
+editable = false
+scrollable = false
+
+[node name="HSlider4" type="HSlider" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Stats" unique_id=157659308]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 3
+value = 50.0
+allow_greater = true
+editable = false
+scrollable = false
+
+[node name="Ability" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Stats" unique_id=994669666]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 33
+text = "Cheater"
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="Description" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Stats/HBoxContainer/Stats" unique_id=1738782608]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+text = "Guaranteed a Joker in her hand after the deal"
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+vertical_alignment = 1
+
+[node name="Description" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Info" unique_id=1291508326]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.75
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Info/Description" unique_id=777238865]
+layout_mode = 2
+size_flags_vertical = 3
+text = "The mastermind behind everything. She warped everyone there."
+horizontal_alignment = 1
+vertical_alignment = 1

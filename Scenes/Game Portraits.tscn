@@ -1,0 +1,381 @@
+[gd_scene format=3 uid="uid://sflmkolsifqx"]
+
+[ext_resource type="Script" uid="uid://buhwf8ra8y12j" path="res://Scripts/GameManager.gd" id="1_1j0wk"]
+[ext_resource type="Script" uid="uid://bvlul11tk01qo" path="res://Scripts/HandDisplay.gd" id="2_a1trm"]
+[ext_resource type="PackedScene" uid="uid://k43qhs7syl5y" path="res://Prefabs/Character.tscn" id="3_l5t4b"]
+[ext_resource type="Texture2D" uid="uid://b0tupjmak0okr" path="res://Art/Poker cards/Deck of cards.png" id="4_b4b1b"]
+[ext_resource type="Script" uid="uid://chnw2euv35ilk" path="res://Scripts/Cards/Deck.gd" id="5_xpoh6"]
+[ext_resource type="Script" uid="uid://bw1meq4xitqif" path="res://Scripts/Cards/River.gd" id="6_cx14u"]
+[ext_resource type="PackedScene" uid="uid://c3l44wwtneh0g" path="res://Prefabs/CardSlot.tscn" id="7_rue2x"]
+[ext_resource type="Texture2D" uid="uid://w06dwkbi86hm" path="res://Art/Poker cards/Poker_Kombinationen.jpg" id="8_sftde"]
+[ext_resource type="Script" uid="uid://bw1txujbe3kuu" path="res://Scripts/Cards/CardAnimator.gd" id="9_m85m2"]
+
+[node name="Game" type="Control" unique_id=2074097226 node_paths=PackedStringArray("animator", "player", "ally", "op1", "op2", "deck", "river", "instruction_text", "hand_sorter_button", "scoreboard", "hand_display", "rules_button", "rules_close_button", "rules_menu", "proceed_button", "quit_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1j0wk")
+animator = NodePath("CanvasLayer")
+player = NodePath("UI/VBoxContainer/Bottom/Character")
+ally = NodePath("UI/VBoxContainer/Middle/Character2")
+op1 = NodePath("UI/VBoxContainer/Middle/Character3")
+op2 = NodePath("UI/VBoxContainer/Top/Character4")
+deck = NodePath("UI/VBoxContainer/Top/HBoxContainer/Data/Deck")
+river = NodePath("UI/VBoxContainer/Middle/VBoxContainer/MarginContainer/River")
+instruction_text = NodePath("UI/VBoxContainer/Middle/VBoxContainer/InstructionText")
+hand_sorter_button = NodePath("UI/VBoxContainer/Bottom/VBoxContainer/HandSorts")
+scoreboard = NodePath("UI/VBoxContainer/Top/HBoxContainer/TextureRect/Scoreboard")
+hand_display = NodePath("UI/VBoxContainer/Top/HandHelp")
+rules_button = NodePath("UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer/ShowPokerHands")
+rules_close_button = NodePath("UI/HandGuide/Button")
+rules_menu = NodePath("UI/HandGuide")
+proceed_button = NodePath("UI/VBoxContainer/Bottom/Next")
+quit_button = NodePath("UI/VBoxContainer/Bottom/Quit")
+
+[node name="UI" type="Control" parent="." unique_id=185423197]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="UI" unique_id=2001701425]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.2611708, 0.0060971794, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="UI" unique_id=1733465501]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = 642.99994
+offset_right = -20.0
+offset_bottom = 680.99994
+grow_horizontal = 2
+rotation = -0.5064553
+scale = Vector2(1.2330526, 0.44238842)
+color = Color(0.6745098, 0.49803922, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI" unique_id=301699504]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0517578e-05
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Top" type="HBoxContainer" parent="UI/VBoxContainer" unique_id=1941751145]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="HandHelp" type="Control" parent="UI/VBoxContainer/Top" unique_id=661748925 node_paths=PackedStringArray("card_slots", "hand_name_display", "hand_description_display")]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_a1trm")
+card_slots = [NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect2"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect3"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect4"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect5")]
+hand_name_display = NodePath("VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer/HandName")
+hand_description_display = NodePath("VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer/HandDescription")
+
+[node name="TextureRect" type="ColorRect" parent="UI/VBoxContainer/Top/HandHelp" unique_id=1173366339]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+color = Color(0.103855856, 0.16449335, 0.10386669, 0.5058824)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/VBoxContainer/Top/HandHelp" unique_id=1990019790]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer" unique_id=309967294]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.08
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2" unique_id=1528389169]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer" unique_id=2073755996]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.46
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="ShowPokerHands" type="Button" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer" unique_id=524679292]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Hand Guide"
+autowrap_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer" unique_id=1581752788]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=1262068280]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Best Available 5-Card Hand:"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HandName" type="RichTextLabel" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=1934506353]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.39
+theme_override_font_sizes/normal_font_size = 21
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HandDescription" type="RichTextLabel" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=878381816]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer" unique_id=998571545]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer" unique_id=1680572671]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer/HBoxContainer" unique_id=621746707]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 4
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer/HBoxContainer" unique_id=2114512287]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 4
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer/HBoxContainer" unique_id=396581538]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 4
+stretch_mode = 4
+
+[node name="TextureRect4" type="TextureRect" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer/HBoxContainer" unique_id=871985728]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 4
+stretch_mode = 4
+
+[node name="TextureRect5" type="TextureRect" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer/HBoxContainer" unique_id=275020180]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 4
+stretch_mode = 4
+
+[node name="Character4" parent="UI/VBoxContainer/Top" unique_id=773766212 instance=ExtResource("3_l5t4b")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/Top" unique_id=1861893579]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="ColorRect" parent="UI/VBoxContainer/Top/HBoxContainer" unique_id=397925561]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.103855856, 0.16449335, 0.10386669, 0.5058824)
+
+[node name="Scoreboard" type="RichTextLabel" parent="UI/VBoxContainer/Top/HBoxContainer/TextureRect" unique_id=1788841116]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Data" type="MarginContainer" parent="UI/VBoxContainer/Top/HBoxContainer" unique_id=857942159]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.51
+theme_override_constants/margin_left = 13
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 18
+
+[node name="Deck" type="TextureRect" parent="UI/VBoxContainer/Top/HBoxContainer/Data" unique_id=652000131]
+layout_mode = 2
+texture = ExtResource("4_b4b1b")
+stretch_mode = 5
+script = ExtResource("5_xpoh6")
+
+[node name="Middle" type="HBoxContainer" parent="UI/VBoxContainer" unique_id=1850566288]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="Character3" parent="UI/VBoxContainer/Middle" unique_id=1860372534 instance=ExtResource("3_l5t4b")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/VBoxContainer/Middle" unique_id=964455717]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 18
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/VBoxContainer/Middle/VBoxContainer" unique_id=594869144]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.6
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 3
+
+[node name="River" type="HBoxContainer" parent="UI/VBoxContainer/Middle/VBoxContainer/MarginContainer" unique_id=892280010 node_paths=PackedStringArray("card_slot")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.58
+alignment = 2
+script = ExtResource("6_cx14u")
+card_slot = [NodePath("CardSlot"), NodePath("CardSlot2")]
+
+[node name="CardSlot" parent="UI/VBoxContainer/Middle/VBoxContainer/MarginContainer/River" unique_id=1526643365 instance=ExtResource("7_rue2x")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CardSlot2" parent="UI/VBoxContainer/Middle/VBoxContainer/MarginContainer/River" unique_id=1956895683 instance=ExtResource("7_rue2x")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InstructionText" type="RichTextLabel" parent="UI/VBoxContainer/Middle/VBoxContainer" unique_id=357002125]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 19
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Character2" parent="UI/VBoxContainer/Middle" unique_id=514162100 instance=ExtResource("3_l5t4b")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bottom" type="HBoxContainer" parent="UI/VBoxContainer" unique_id=392229794]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="Quit" type="Button" parent="UI/VBoxContainer/Bottom" unique_id=1153389815]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/VBoxContainer/Bottom" unique_id=192361686]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.38
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer/Bottom/VBoxContainer" unique_id=26330015]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+text = "Sort Hand"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HandSorts" type="OptionButton" parent="UI/VBoxContainer/Bottom/VBoxContainer" unique_id=627764900]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 4
+popup/item_0/text = "Descending"
+popup/item_0/id = 0
+popup/item_1/text = "Ascending"
+popup/item_1/id = 1
+popup/item_2/text = "Suits"
+popup/item_2/id = 2
+popup/item_3/text = "None"
+popup/item_3/id = 3
+
+[node name="HSeparator" type="Control" parent="UI/VBoxContainer/Bottom/VBoxContainer" unique_id=1655475148]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Character" parent="UI/VBoxContainer/Bottom" unique_id=963857516 instance=ExtResource("3_l5t4b")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Next" type="Button" parent="UI/VBoxContainer/Bottom" unique_id=1227552542]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+
+[node name="HandGuide" type="ColorRect" parent="UI" unique_id=2019350844]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.41568628)
+
+[node name="TextureRect" type="TextureRect" parent="UI/HandGuide" unique_id=558345136]
+layout_mode = 0
+offset_left = 371.0
+offset_top = -28.0
+offset_right = 885.0
+offset_bottom = 680.0
+texture = ExtResource("8_sftde")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="Button" type="Button" parent="UI/HandGuide" unique_id=902664221]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 23.0
+offset_right = 357.0
+offset_bottom = 144.0
+theme_override_font_sizes/font_size = 60
+text = "Close"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1008842098]
+script = ExtResource("9_m85m2")
+
+[connection signal="pressed" from="UI/VBoxContainer/Bottom/Next" to="." method="_on_button_pressed"]

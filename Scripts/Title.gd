@@ -11,7 +11,7 @@ extends Node
 @export var rules_open: Button
 @export var rules_close: Button
 
-var game_scene_path : String = "res://Scenes/Game.tscn"
+var game_scene_path : String = "res://Scenes/Game Portraits.tscn"
 var stats_scene_path : String = "res://Scenes/Stats.tscn"
 
 func _ready():

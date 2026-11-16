@@ -56,15 +56,15 @@ func load_game() -> bool:
 	if not data is Dictionary:
 		return false
 
-	wins = data.get("wins", 0)
-	losses = data.get("losses", 0)
-	games_played = data.get("games_played", 0)
-	difficulty = data.get("difficulty", 0)
-	best_win_difficulty = data.get("best_win_difficulty", 0)
-	preferred_hand_sort = data.get("preferred_hand_sort", 0)
-	jokers = data.get("jokers", 1)
-	mute = data.get("mute", false)
-	skip_animations = data.get("skip_animations", false)
+	wins = data.get("wins", wins)
+	losses = data.get("losses", losses)
+	games_played = data.get("games_played", games_played)
+	difficulty = data.get("difficulty", difficulty)
+	best_win_difficulty = data.get("best_win_difficulty", best_win_difficulty)
+	preferred_hand_sort = data.get("preferred_hand_sort", preferred_hand_sort)
+	jokers = data.get("jokers", jokers)
+	mute = data.get("mute", mute)
+	skip_animations = data.get("skip_animations", skip_animations)
 	return true
 
 func wipe_data():

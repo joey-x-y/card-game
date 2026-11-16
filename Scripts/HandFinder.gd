@@ -254,16 +254,21 @@ static func all_straight_possibilies(cards: Array):
 
 	var i = 0
 	while i < count:
-		var jokers = CardSorter.get_matching_rank(0, cards)
 		var hand_chunks = cards.slice(i)
-		if hand_chunks[0].card.rank <= 5:
-			hand_chunks.append_array(aces)
-			i -= ace_count
+		if hand_chunks[0].is_joker():
+			break
 
+		var jokers = CardSorter.get_matching_rank(0, cards)
+		var low_ace = hand_chunks[0].card.rank <= 5
+		if low_ace:
+			hand_chunks.append_array(aces)
+
+		var start = i
 		var chain_ranks = first_straight(hand_chunks, jokers)
 		for pair in chain_ranks:
 			for c in pair:
-				i += 1
+				if not (low_ace and c.card.rank == 14):
+					i += 1
 
 		if jokers.size() > 0:
 			var biggest = chain_ranks[0][0].card.rank
@@ -276,8 +281,7 @@ static func all_straight_possibilies(cards: Array):
 				j_count += 1
 
 		straight_hands.append(chain_ranks)
-		if chain_ranks.size() == 0:
-			i += 1
+		i = max(i, start + 1)
 
 	return straight_hands
 

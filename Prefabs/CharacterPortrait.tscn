@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://cft48kvnvxd57"]
+
+[node name="CharacterPortrait" type="Control" unique_id=277362339]
+layout_mode = 3
+anchor_right = 0.28645834
+anchor_bottom = 0.21604939
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1671842024]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.12156863)
+
+[node name="VBoxContainer" type="HBoxContainer" parent="." unique_id=526993499]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+
+[node name="Ability" type="Control" parent="VBoxContainer" unique_id=179557507]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Ability" unique_id=574910757]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Ability Info, Controls, Etc go here"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer" unique_id=1971785909]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="VBoxContainer" unique_id=1385378325]
+layout_mode = 2
+size_flags_horizontal = 3

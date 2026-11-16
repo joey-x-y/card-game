@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bw1meq4xitqif" path="res://Scripts/Cards/River.gd" id="6_cx14u"]
 [ext_resource type="PackedScene" uid="uid://c3l44wwtneh0g" path="res://Prefabs/CardSlot.tscn" id="7_rue2x"]
 [ext_resource type="Texture2D" uid="uid://w06dwkbi86hm" path="res://Art/Poker cards/Poker_Kombinationen.jpg" id="8_sftde"]
+[ext_resource type="PackedScene" uid="uid://cft48kvnvxd57" path="res://Prefabs/CharacterPortrait.tscn" id="9_a1trm"]
 [ext_resource type="Script" uid="uid://bw1txujbe3kuu" path="res://Scripts/Cards/CardAnimator.gd" id="9_m85m2"]
 
 [node name="Game" type="Control" unique_id=2074097226 node_paths=PackedStringArray("animator", "player", "ally", "op1", "op2", "deck", "river", "instruction_text", "hand_sorter_button", "scoreboard", "hand_display", "rules_button", "rules_close_button", "rules_menu", "proceed_button", "quit_button")]
@@ -24,9 +25,9 @@ ally = NodePath("UI/VBoxContainer/Middle/Character2")
 op1 = NodePath("UI/VBoxContainer/Middle/Character3")
 op2 = NodePath("UI/VBoxContainer/Top/Character4")
 deck = NodePath("UI/VBoxContainer/Top/HBoxContainer/Data/Deck")
-river = NodePath("UI/VBoxContainer/Middle/VBoxContainer/MarginContainer/River")
-instruction_text = NodePath("UI/VBoxContainer/Middle/VBoxContainer/InstructionText")
-hand_sorter_button = NodePath("UI/VBoxContainer/Bottom/VBoxContainer/HandSorts")
+river = NodePath("UI/VBoxContainer/Top/River")
+instruction_text = NodePath("UI/VBoxContainer/Middle/InstructionText")
+hand_sorter_button = NodePath("UI/VBoxContainer/Bottom/HandSort/HandSorts")
 scoreboard = NodePath("UI/VBoxContainer/Top/HBoxContainer/TextureRect/Scoreboard")
 hand_display = NodePath("UI/VBoxContainer/Top/HandHelp")
 rules_button = NodePath("UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer/ShowPokerHands")
@@ -66,7 +67,7 @@ rotation = -0.5064553
 scale = Vector2(1.2330526, 0.44238842)
 color = Color(0.6745098, 0.49803922, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI" unique_id=301699504]
+[node name="VBoxContainer" type="Control" parent="UI" unique_id=202926112]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,13 +76,16 @@ offset_left = -3.0517578e-05
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Top" type="HBoxContainer" parent="UI/VBoxContainer" unique_id=1941751145]
-layout_mode = 2
+[node name="Top" type="Control" parent="UI/VBoxContainer" unique_id=1310987922]
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 213.0
 size_flags_vertical = 3
-theme_override_constants/separation = 15
 
 [node name="HandHelp" type="Control" parent="UI/VBoxContainer/Top" unique_id=661748925 node_paths=PackedStringArray("card_slots", "hand_name_display", "hand_description_display")]
-layout_mode = 2
+anchors_preset = 0
+offset_right = 374.0
+offset_bottom = 166.0
 size_flags_horizontal = 3
 script = ExtResource("2_a1trm")
 card_slots = [NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect2"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect3"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect4"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/TextureRect5")]
@@ -110,8 +114,8 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.08
-theme_override_constants/margin_top = 9
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2" unique_id=1528389169]
 layout_mode = 2
@@ -120,9 +124,9 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.46
-theme_override_constants/margin_left = 9
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_bottom = 12
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_bottom = 9
 
 [node name="ShowPokerHands" type="Button" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer" unique_id=524679292]
 layout_mode = 2
@@ -133,6 +137,7 @@ autowrap_mode = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer" unique_id=1581752788]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.42
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=1262068280]
 layout_mode = 2
@@ -154,6 +159,7 @@ vertical_alignment = 1
 [node name="HandDescription" type="RichTextLabel" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer" unique_id=878381816]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 1.25
 horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/VBoxContainer/Top/HandHelp/VBoxContainer" unique_id=998571545]
@@ -203,11 +209,23 @@ expand_mode = 4
 stretch_mode = 4
 
 [node name="Character4" parent="UI/VBoxContainer/Top" unique_id=773766212 instance=ExtResource("3_l5t4b")]
-layout_mode = 2
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 391.00003
+offset_top = 119.0
+offset_right = 765.0
+offset_bottom = 332.0
+grow_horizontal = 1
+grow_vertical = 1
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/Top" unique_id=1861893579]
-layout_mode = 2
+layout_mode = 0
+offset_left = 778.0
+offset_right = 1152.0
+offset_bottom = 166.0
 size_flags_horizontal = 3
 
 [node name="TextureRect" type="ColorRect" parent="UI/VBoxContainer/Top/HBoxContainer" unique_id=397925561]
@@ -217,6 +235,7 @@ size_flags_vertical = 3
 color = Color(0.103855856, 0.16449335, 0.10386669, 0.5058824)
 
 [node name="Scoreboard" type="RichTextLabel" parent="UI/VBoxContainer/Top/HBoxContainer/TextureRect" unique_id=1788841116]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -242,30 +261,12 @@ texture = ExtResource("4_b4b1b")
 stretch_mode = 5
 script = ExtResource("5_xpoh6")
 
-[node name="Middle" type="HBoxContainer" parent="UI/VBoxContainer" unique_id=1850566288]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 15
-
-[node name="Character3" parent="UI/VBoxContainer/Middle" unique_id=1860372534 instance=ExtResource("3_l5t4b")]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/VBoxContainer/Middle" unique_id=964455717]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 18
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/VBoxContainer/Middle/VBoxContainer" unique_id=594869144]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.6
-theme_override_constants/margin_left = 80
-theme_override_constants/margin_right = 80
-theme_override_constants/margin_bottom = 3
-
-[node name="River" type="HBoxContainer" parent="UI/VBoxContainer/Middle/VBoxContainer/MarginContainer" unique_id=892280010 node_paths=PackedStringArray("card_slot")]
-layout_mode = 2
+[node name="River" type="HBoxContainer" parent="UI/VBoxContainer/Top" unique_id=892280010 node_paths=PackedStringArray("card_slot")]
+layout_mode = 0
+offset_left = 793.0
+offset_top = 26.0
+offset_right = 1006.0
+offset_bottom = 143.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.58
@@ -273,16 +274,40 @@ alignment = 2
 script = ExtResource("6_cx14u")
 card_slot = [NodePath("CardSlot"), NodePath("CardSlot2")]
 
-[node name="CardSlot" parent="UI/VBoxContainer/Middle/VBoxContainer/MarginContainer/River" unique_id=1526643365 instance=ExtResource("7_rue2x")]
+[node name="CardSlot" parent="UI/VBoxContainer/Top/River" unique_id=1526643365 instance=ExtResource("7_rue2x")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CardSlot2" parent="UI/VBoxContainer/Middle/VBoxContainer/MarginContainer/River" unique_id=1956895683 instance=ExtResource("7_rue2x")]
+[node name="CardSlot2" parent="UI/VBoxContainer/Top/River" unique_id=1956895683 instance=ExtResource("7_rue2x")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InstructionText" type="RichTextLabel" parent="UI/VBoxContainer/Middle/VBoxContainer" unique_id=357002125]
-layout_mode = 2
+[node name="Middle" type="Control" parent="UI/VBoxContainer" unique_id=1456945783]
+anchors_preset = 0
+offset_top = 217.0
+offset_right = 1152.0
+offset_bottom = 430.0
+size_flags_vertical = 3
+
+[node name="Character3" parent="UI/VBoxContainer/Middle" unique_id=1860372534 instance=ExtResource("3_l5t4b")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 68.0
+offset_right = 374.0
+offset_bottom = 281.0
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_horizontal = 3
+
+[node name="InstructionText" type="RichTextLabel" parent="UI/VBoxContainer/Middle" unique_id=357002125]
+visible = false
+layout_mode = 0
+offset_left = 759.0
+offset_top = -151.0
+offset_right = 1133.0
+offset_bottom = -76.0
 size_flags_vertical = 3
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 19
@@ -291,27 +316,57 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Character2" parent="UI/VBoxContainer/Middle" unique_id=514162100 instance=ExtResource("3_l5t4b")]
-layout_mode = 2
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 778.0
+offset_top = 68.0
+offset_right = 1152.0
+offset_bottom = 281.0
+grow_horizontal = 1
+grow_vertical = 1
 size_flags_horizontal = 3
 
-[node name="Bottom" type="HBoxContainer" parent="UI/VBoxContainer" unique_id=392229794]
-layout_mode = 2
+[node name="Dbox" type="RichTextLabel" parent="UI/VBoxContainer/Middle" unique_id=498529105]
+layout_mode = 0
+offset_left = 400.00003
+offset_top = 134.0
+offset_right = 753.0
+offset_bottom = 251.0
+theme_override_font_sizes/normal_font_size = 26
+text = "General Dialogue Box for Characters"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bottom" type="Control" parent="UI/VBoxContainer" unique_id=1222949775]
+anchors_preset = 0
+offset_top = 434.0
+offset_right = 1152.0
+offset_bottom = 648.0
 size_flags_vertical = 3
-theme_override_constants/separation = 15
 
 [node name="Quit" type="Button" parent="UI/VBoxContainer/Bottom" unique_id=1153389815]
-layout_mode = 2
+layout_mode = 0
+offset_top = 151.0
+offset_right = 92.0
+offset_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.6
 theme_override_font_sizes/font_size = 40
 text = "Quit"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/VBoxContainer/Bottom" unique_id=192361686]
-layout_mode = 2
+[node name="HandSort" type="VBoxContainer" parent="UI/VBoxContainer/Bottom" unique_id=192361686]
+layout_mode = 0
+offset_left = 774.0
+offset_top = 67.0
+offset_right = 919.0
+offset_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.38
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer/Bottom/VBoxContainer" unique_id=26330015]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/VBoxContainer/Bottom/HandSort" unique_id=26330015]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -320,7 +375,7 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="HandSorts" type="OptionButton" parent="UI/VBoxContainer/Bottom/VBoxContainer" unique_id=627764900]
+[node name="HandSorts" type="OptionButton" parent="UI/VBoxContainer/Bottom/HandSort" unique_id=627764900]
 layout_mode = 2
 size_flags_vertical = 3
 item_count = 4
@@ -333,16 +388,28 @@ popup/item_2/id = 2
 popup/item_3/text = "None"
 popup/item_3/id = 3
 
-[node name="HSeparator" type="Control" parent="UI/VBoxContainer/Bottom/VBoxContainer" unique_id=1655475148]
+[node name="HSeparator" type="Control" parent="UI/VBoxContainer/Bottom/HandSort" unique_id=1655475148]
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Character" parent="UI/VBoxContainer/Bottom" unique_id=963857516 instance=ExtResource("3_l5t4b")]
-layout_mode = 2
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 382.0
+offset_right = 765.0
+offset_bottom = 214.0
+grow_horizontal = 1
+grow_vertical = 1
 size_flags_horizontal = 3
 
 [node name="Next" type="Button" parent="UI/VBoxContainer/Bottom" unique_id=1227552542]
-layout_mode = 2
+layout_mode = 0
+offset_left = 923.0
+offset_top = 68.0
+offset_right = 1152.0
+offset_bottom = 214.0
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 40
 
@@ -374,6 +441,34 @@ offset_right = 357.0
 offset_bottom = 144.0
 theme_override_font_sizes/font_size = 60
 text = "Close"
+
+[node name="CharacterPortrait" parent="UI" unique_id=277362339 instance=ExtResource("9_a1trm")]
+layout_mode = 1
+anchor_left = 0.042534724
+anchor_top = 0.77469134
+anchor_right = 0.32899305
+anchor_bottom = 0.9907407
+
+[node name="CharacterPortrait2" parent="UI" unique_id=1712845770 instance=ExtResource("9_a1trm")]
+layout_mode = 1
+anchor_left = 0.6935764
+anchor_top = 0.29475307
+anchor_right = 0.9800347
+anchor_bottom = 0.51080245
+
+[node name="CharacterPortrait3" parent="UI" unique_id=2060314386 instance=ExtResource("9_a1trm")]
+layout_mode = 1
+anchor_left = 0.026041666
+anchor_top = 0.28549382
+anchor_right = 0.3125
+anchor_bottom = 0.5015432
+
+[node name="CharacterPortrait4" parent="UI" unique_id=662463746 instance=ExtResource("9_a1trm")]
+layout_mode = 1
+anchor_left = 0.36024305
+anchor_top = 0.023148147
+anchor_right = 0.6467014
+anchor_bottom = 0.23919754
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1008842098]
 script = ExtResource("9_m85m2")

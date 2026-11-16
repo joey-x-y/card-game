@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://cft48kvnvxd57"]
 
-[node name="CharacterPortrait" type="Control" unique_id=277362339]
+[ext_resource type="Script" uid="uid://cretg5gajb5fm" path="res://Scripts/PortraitPlacer.gd" id="1_gyutu"]
+
+[node name="CharacterPortrait" type="Control" unique_id=277362339 node_paths=PackedStringArray("texture")]
 layout_mode = 3
 anchor_right = 0.28645834
 anchor_bottom = 0.21604939
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_gyutu")
+texture = NodePath("VBoxContainer/Portrait")
 metadata/_edit_use_anchors_ = true
 
 [node name="Backdrop" type="ColorRect" parent="." unique_id=1671842024]
@@ -47,3 +51,5 @@ layout_mode = 2
 [node name="Portrait" type="TextureRect" parent="VBoxContainer" unique_id=1385378325]
 layout_mode = 2
 size_flags_horizontal = 3
+expand_mode = 2
+stretch_mode = 6

@@ -10,6 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://w06dwkbi86hm" path="res://Art/Poker cards/Poker_Kombinationen.jpg" id="8_sftde"]
 [ext_resource type="PackedScene" uid="uid://cft48kvnvxd57" path="res://Prefabs/CharacterPortrait.tscn" id="9_a1trm"]
 [ext_resource type="Script" uid="uid://bw1txujbe3kuu" path="res://Scripts/Cards/CardAnimator.gd" id="9_m85m2"]
+[ext_resource type="Texture2D" uid="uid://dnps2327xlrbj" path="res://Art/character placeholders/Sakuya.png" id="10_cx14u"]
+[ext_resource type="Texture2D" uid="uid://dlor1ie5ipqui" path="res://Art/character placeholders/Flandre.png" id="11_rue2x"]
+[ext_resource type="Texture2D" uid="uid://17572o3f8si4" path="res://Art/character placeholders/Tewi.png" id="12_cx14u"]
+[ext_resource type="Texture2D" uid="uid://bhhua7g8jt4b5" path="res://Art/character placeholders/SSiBreisen.webp" id="13_sftde"]
 
 [node name="Game" type="Control" unique_id=2074097226 node_paths=PackedStringArray("animator", "player", "ally", "op1", "op2", "deck", "river", "instruction_text", "hand_sorter_button", "scoreboard", "hand_display", "rules_button", "rules_close_button", "rules_menu", "proceed_button", "quit_button")]
 layout_mode = 3
@@ -19,7 +23,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1j0wk")
-animator = NodePath("CanvasLayer")
+animator = NodePath("UI/CanvasLayer")
 player = NodePath("UI/VBoxContainer/Bottom/Character")
 ally = NodePath("UI/VBoxContainer/Middle/Character2")
 op1 = NodePath("UI/VBoxContainer/Middle/Character3")
@@ -263,10 +267,10 @@ script = ExtResource("5_xpoh6")
 
 [node name="River" type="HBoxContainer" parent="UI/VBoxContainer/Top" unique_id=892280010 node_paths=PackedStringArray("card_slot")]
 layout_mode = 0
-offset_left = 793.0
-offset_top = 26.0
-offset_right = 1006.0
-offset_bottom = 143.0
+offset_left = 794.0
+offset_top = 36.0
+offset_right = 1007.0
+offset_bottom = 153.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.58
@@ -281,6 +285,15 @@ size_flags_horizontal = 3
 [node name="CardSlot2" parent="UI/VBoxContainer/Top/River" unique_id=1956895683 instance=ExtResource("7_rue2x")]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="River Label" type="RichTextLabel" parent="UI/VBoxContainer/Top" unique_id=650117719]
+layout_mode = 0
+offset_left = 782.0
+offset_top = 7.0
+offset_right = 1025.0
+offset_bottom = 89.0
+text = "River"
+horizontal_alignment = 1
 
 [node name="Middle" type="Control" parent="UI/VBoxContainer" unique_id=1456945783]
 anchors_preset = 0
@@ -328,12 +341,19 @@ grow_horizontal = 1
 grow_vertical = 1
 size_flags_horizontal = 3
 
-[node name="Dbox" type="RichTextLabel" parent="UI/VBoxContainer/Middle" unique_id=498529105]
+[node name="ColorRect" type="ColorRect" parent="UI/VBoxContainer/Middle" unique_id=647769515]
 layout_mode = 0
-offset_left = 400.00003
-offset_top = 134.0
+offset_left = 400.0
+offset_top = 115.0
 offset_right = 753.0
-offset_bottom = 251.0
+offset_bottom = 232.0
+color = Color(0, 0, 0, 0.29411766)
+
+[node name="Dbox" type="RichTextLabel" parent="UI/VBoxContainer/Middle/ColorRect" unique_id=498529105]
+layout_mode = 0
+offset_left = 3.0517578e-05
+offset_right = 353.0
+offset_bottom = 117.0
 theme_override_font_sizes/normal_font_size = 26
 text = "General Dialogue Box for Characters"
 scroll_active = false
@@ -349,19 +369,19 @@ size_flags_vertical = 3
 
 [node name="Quit" type="Button" parent="UI/VBoxContainer/Bottom" unique_id=1153389815]
 layout_mode = 0
-offset_top = 151.0
-offset_right = 92.0
+offset_top = 164.0
+offset_right = 71.0
 offset_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.6
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 30
 text = "Quit"
 
 [node name="HandSort" type="VBoxContainer" parent="UI/VBoxContainer/Bottom" unique_id=192361686]
 layout_mode = 0
-offset_left = 774.0
+offset_left = 830.0
 offset_top = 67.0
-offset_right = 919.0
+offset_right = 975.0
 offset_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.38
@@ -397,8 +417,8 @@ layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 382.0
-offset_right = 765.0
+offset_left = 437.99997
+offset_right = 821.0
 offset_bottom = 214.0
 grow_horizontal = 1
 grow_vertical = 1
@@ -406,12 +426,56 @@ size_flags_horizontal = 3
 
 [node name="Next" type="Button" parent="UI/VBoxContainer/Bottom" unique_id=1227552542]
 layout_mode = 0
-offset_left = 923.0
+offset_left = 1004.0
 offset_top = 68.0
 offset_right = 1152.0
 offset_bottom = 214.0
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 37
+autowrap_mode = 2
+
+[node name="CharacterPortrait" parent="UI" unique_id=277362339 instance=ExtResource("9_a1trm")]
+layout_mode = 1
+anchor_left = 0.030381944
+anchor_top = 0.720679
+anchor_right = 0.3168403
+anchor_bottom = 0.9367284
+offset_left = 56.0
+offset_top = 3.0517578e-05
+offset_right = 56.0
+offset_bottom = 40.0
+portrait = ExtResource("10_cx14u")
+
+[node name="CharacterPortrait2" parent="UI" unique_id=1712845770 instance=ExtResource("9_a1trm")]
+layout_mode = 1
+anchor_left = 0.6935764
+anchor_top = 0.2777778
+anchor_right = 0.9800347
+anchor_bottom = 0.4938273
+offset_top = -6.0000153
+offset_bottom = 33.99997
+portrait = ExtResource("11_rue2x")
+
+[node name="CharacterPortrait3" parent="UI" unique_id=2060314386 instance=ExtResource("9_a1trm")]
+layout_mode = 1
+anchor_left = 0.026041666
+anchor_top = 0.2685185
+anchor_right = 0.3125
+anchor_bottom = 0.4845679
+offset_bottom = 40.0
+portrait = ExtResource("12_cx14u")
+
+[node name="CharacterPortrait4" parent="UI" unique_id=662463746 instance=ExtResource("9_a1trm")]
+layout_mode = 1
+anchor_left = 0.36024305
+anchor_top = 0.006172838
+anchor_right = 0.6467014
+anchor_bottom = 0.22222222
+offset_bottom = 40.0
+portrait = ExtResource("13_sftde")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="UI" unique_id=1008842098]
+script = ExtResource("9_m85m2")
 
 [node name="HandGuide" type="ColorRect" parent="UI" unique_id=2019350844]
 visible = false
@@ -431,7 +495,6 @@ offset_right = 885.0
 offset_bottom = 680.0
 texture = ExtResource("8_sftde")
 expand_mode = 3
-stretch_mode = 4
 
 [node name="Button" type="Button" parent="UI/HandGuide" unique_id=902664221]
 layout_mode = 0
@@ -441,36 +504,5 @@ offset_right = 357.0
 offset_bottom = 144.0
 theme_override_font_sizes/font_size = 60
 text = "Close"
-
-[node name="CharacterPortrait" parent="UI" unique_id=277362339 instance=ExtResource("9_a1trm")]
-layout_mode = 1
-anchor_left = 0.042534724
-anchor_top = 0.77469134
-anchor_right = 0.32899305
-anchor_bottom = 0.9907407
-
-[node name="CharacterPortrait2" parent="UI" unique_id=1712845770 instance=ExtResource("9_a1trm")]
-layout_mode = 1
-anchor_left = 0.6935764
-anchor_top = 0.29475307
-anchor_right = 0.9800347
-anchor_bottom = 0.51080245
-
-[node name="CharacterPortrait3" parent="UI" unique_id=2060314386 instance=ExtResource("9_a1trm")]
-layout_mode = 1
-anchor_left = 0.026041666
-anchor_top = 0.28549382
-anchor_right = 0.3125
-anchor_bottom = 0.5015432
-
-[node name="CharacterPortrait4" parent="UI" unique_id=662463746 instance=ExtResource("9_a1trm")]
-layout_mode = 1
-anchor_left = 0.36024305
-anchor_top = 0.023148147
-anchor_right = 0.6467014
-anchor_bottom = 0.23919754
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1008842098]
-script = ExtResource("9_m85m2")
 
 [connection signal="pressed" from="UI/VBoxContainer/Bottom/Next" to="." method="_on_button_pressed"]

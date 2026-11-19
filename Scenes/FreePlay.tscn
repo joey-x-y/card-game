@@ -1,5 +1,14 @@
 [gd_scene format=3 uid="uid://de8g6gt0b31l3"]
 
+[ext_resource type="PackedScene" uid="uid://s6erljvqi7fy" path="res://Prefabs/Character Card.tscn" id="1_fyy1a"]
+[ext_resource type="Texture2D" uid="uid://dnps2327xlrbj" path="res://Art/character placeholders/Sakuya.png" id="2_oxoqk"]
+[ext_resource type="Texture2D" uid="uid://dlor1ie5ipqui" path="res://Art/character placeholders/Flandre.png" id="3_6hrrg"]
+[ext_resource type="Texture2D" uid="uid://17572o3f8si4" path="res://Art/character placeholders/Tewi.png" id="4_liunq"]
+[ext_resource type="Texture2D" uid="uid://bhhua7g8jt4b5" path="res://Art/character placeholders/SSiBreisen.webp" id="5_8sq5g"]
+
+[sub_resource type="Theme" id="Theme_04so6"]
+default_font_size = 30
+
 [node name="FreePlay" type="Control" unique_id=1465216366]
 layout_mode = 3
 anchors_preset = 15
@@ -7,11 +16,290 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_04so6")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=311247001]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1307529377]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.18072194, 0.18072197, 0.18072197, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=689778463]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_right = 1.0
+anchor_bottom = 0.75
+offset_right = 288.0
+offset_bottom = 162.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/normal_font_size = 70
+text = "Select Opponent 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CharacterCard" parent="RichTextLabel" unique_id=179144030 instance=ExtResource("1_fyy1a")]
+visible = false
+layout_mode = 1
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=742798633]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.8580247
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBox" unique_id=777121079]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 40
+text = "Setup"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBox" unique_id=325257099]
+layout_mode = 2
+
+[node name="Cont" type="Control" parent="VBox" unique_id=1925430301]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 8.0
+
+[node name="Grid Container" type="HBoxContainer" parent="VBox/Cont" unique_id=1164204362]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBox/Cont/Grid Container" unique_id=887787093]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="VBox/Cont/Grid Container/VBoxContainer" unique_id=526910170]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Player"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="VBox/Cont/Grid Container/VBoxContainer" unique_id=924882772]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Ally"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="VBox/Cont/Grid Container/VBoxContainer" unique_id=2067597356]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Op 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel6" type="RichTextLabel" parent="VBox/Cont/Grid Container/VBoxContainer" unique_id=1313708722]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Op 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBox/Cont/Grid Container/VBoxContainer" unique_id=1724994349]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Rounds"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="VBox/Cont/Grid Container/VBoxContainer" unique_id=1603304500]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Jokers	"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBox/Cont/Grid Container" unique_id=1524233539]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
+
+[node name="TextureRect2" type="TextureRect" parent="VBox/Cont/Grid Container/VBoxContainer2" unique_id=1389886488]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_oxoqk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect6" type="TextureRect" parent="VBox/Cont/Grid Container/VBoxContainer2" unique_id=1922468025]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("3_6hrrg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="VBox/Cont/Grid Container/VBoxContainer2" unique_id=1458136051]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect5" type="TextureRect" parent="VBox/Cont/Grid Container/VBoxContainer2" unique_id=40762731]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OptionButton" type="RichTextLabel" parent="VBox/Cont/Grid Container/VBoxContainer2" unique_id=2130337818]
+layout_mode = 2
+size_flags_vertical = 3
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionButton3" type="RichTextLabel" parent="VBox/Cont/Grid Container/VBoxContainer2" unique_id=1042503012]
+layout_mode = 2
+size_flags_vertical = 3
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bottom" type="Control" parent="." unique_id=1950378708]
+anchors_preset = 0
+anchor_top = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="Bottom" unique_id=1804313294]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.4382716
+anchor_right = 0.24913195
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+disabled = true
+text = "Play"
+metadata/_edit_use_anchors_ = true
+
+[node name="Control" type="Control" parent="Bottom" unique_id=1125026702]
+anchors_preset = 0
+offset_left = 291.0
+offset_right = 1152.0
+offset_bottom = 162.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="Grid Container" type="GridContainer" parent="Bottom/Control" unique_id=840353094]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 6
+
+[node name="TextureRect" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=1853018917]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=1597492683]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_oxoqk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect3" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=1758476099]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect4" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=968754667]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect5" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=241755772]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("5_8sq5g")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect6" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=351870052]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("3_6hrrg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect7" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=1391617431]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect8" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=1669478269]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect9" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=2047222735]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect10" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=578696607]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect11" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=1052968769]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect12" type="TextureRect" parent="Bottom/Control/Grid Container" unique_id=1429965621]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_liunq")
+expand_mode = 1
+stretch_mode = 5
